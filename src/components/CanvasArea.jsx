@@ -397,7 +397,7 @@ export default function CanvasArea({
                             borderBottomRightRadius: '0px',
                           }}
                         >
-                          {sc.imageSrc ? (
+                          {sc.imageSrc && typeof sc.imageSrc === 'string' && sc.imageSrc.trim() !== '' ? (
                             <img
                               src={sc.imageSrc}
                               alt="App Screenshot"
@@ -405,8 +405,11 @@ export default function CanvasArea({
                               style={{ transform: `scale(${scZoomScale})` }}
                             />
                           ) : (
-                            <div className="w-full h-full bg-zinc-900 text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
-                              <Upload className="w-5 h-5 text-white/50" />
+                            <div className="w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 text-white flex flex-col items-center justify-center text-center p-3 select-none border border-white/10">
+                              <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center mb-1.5 text-zinc-300">
+                                <Upload className="w-4 h-4" />
+                              </div>
+                              <span className="text-[11px] font-semibold text-zinc-300">Carregar print</span>
                             </div>
                           )}
                         </div>
@@ -462,7 +465,7 @@ export default function CanvasArea({
                     borderBottomRightRadius: '0px',
                   }}
                 >
-                  {screenState.imageSrc ? (
+                  {screenState.imageSrc && typeof screenState.imageSrc === 'string' && screenState.imageSrc.trim() !== '' ? (
                     <img
                       src={screenState.imageSrc}
                       alt="App Screenshot"
@@ -470,8 +473,10 @@ export default function CanvasArea({
                       style={{ transform: `scale(${imageZoomScale})`, transformOrigin: 'top center' }}
                     />
                   ) : (
-                    <div className="w-full h-full bg-zinc-900 text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
-                      <Upload className="w-6 h-6 text-white/50" />
+                    <div className="w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
+                      <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-white shadow-sm">
+                        <Upload className="w-6 h-6 text-white" />
+                      </div>
                     </div>
                   )}
                 </div>

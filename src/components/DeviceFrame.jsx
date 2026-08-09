@@ -3,7 +3,7 @@ import { Wifi, Battery, Signal, ImagePlus } from 'lucide-react';
 
 export default function DeviceFrame({
   deviceType = 'iphone-16-pro',
-  deviceColor: _deviceColor = 'titanium-natural',
+  deviceColor = 'titanium-natural',
   imageSrc,
   scale = 100,
   offsetY = 0,
