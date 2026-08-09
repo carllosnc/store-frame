@@ -143,14 +143,6 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           </div>
 
           <SliderRow
-            label="Zoom da Imagem Central"
-            value={currentScreen.imageZoom !== undefined ? currentScreen.imageZoom : 100}
-            unit="%"
-            min={80} max={160} step={2}
-            onValueChange={(v) => onUpdateScreenState('imageZoom', v)}
-          />
-
-          <SliderRow
             label="Arredondamento dos cantos"
             value={currentScreen.cornerRadius !== undefined ? currentScreen.cornerRadius : 36}
             unit="px"
