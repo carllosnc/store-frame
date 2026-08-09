@@ -328,7 +328,7 @@ export default function CanvasArea({
       >
         <div className={`flex items-center justify-center ${isPanning || isSpacePressed ? 'pointer-events-none' : 'pointer-events-auto'}`}>
           {/* VIEW MODE: OVERVIEW GRID (TODAS AS TELAS NO CANVAS INFINITO) */}
-          <div ref={gridRef} className="flex flex-nowrap items-center justify-start gap-x-10 overflow-x-auto p-4">
+          <div ref={gridRef} className="flex flex-nowrap items-center justify-start gap-x-10 overflow-x-auto no-scrollbar p-4">
             {screens.map((sc, idx) => {
               const isCurrentActive = activeScreenIndex === idx;
               const scCornerRadius = sc.cornerRadius !== undefined ? sc.cornerRadius : 36;
