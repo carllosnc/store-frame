@@ -1,0 +1,106 @@
+import React from 'react';
+import { 
+  Sparkles, 
+  Download, 
+  Archive, 
+  LayoutGrid, 
+  Maximize2, 
+  Copy, 
+  Wand2 
+} from 'lucide-react';
+import { Button } from './ui/button';
+
+export default function Header({
+  onExportSingle,
+  onExportZip,
+  isExporting,
+  screensCount = 1,
+  viewMode = 'single',
+  onToggleViewMode,
+  onDuplicateScreen,
+  onSyncStyles
+}) {
+  return (
+    <header className="h-14 bg-[#0E0F14] border-b border-[#1E2028] px-4 sm:px-6 flex items-center justify-between z-30 select-none">
+      {/* Logo */}
+      <div className="flex items-center gap-2.5 shrink-0">
+        <div className="w-8 h-8 rounded-lg bg-white text-zinc-950 flex items-center justify-center font-black text-sm shadow-md">
+          <Sparkles className="w-4 h-4 text-zinc-950" />
+        </div>
+        <span className="font-extrabold text-white text-base tracking-tight hidden sm:inline">StoreFrame</span>
+      </div>
+
+      {/* Studio Action Controls in Top Header */}
+      <div className="flex items-center gap-1 bg-[#14151C] p-1 rounded-xl border border-[#22242A]">
+        <Button
+          variant={viewMode === 'all' ? "default" : "ghost"}
+          size="sm"
+          onClick={() => onToggleViewMode(viewMode === 'single' ? 'all' : 'single')}
+          className="h-8 px-3 text-xs font-semibold gap-1.5"
+          title="Alternar entre tela única e visão geral de todas as telas"
+        >
+          {viewMode === 'all' ? (
+            <>
+              <Maximize2 className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Modo Foco</span>
+            </>
+          ) : (
+            <>
+              <LayoutGrid className="w-3.5 h-3.5 text-sky-400" />
+              <span className="hidden md:inline">Visão Geral ({screensCount})</span>
+            </>
+          )}
+        </Button>
+
+        <div className="w-[1px] h-4 bg-[#22242A]" />
+
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onDuplicateScreen}
+          className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white"
+          title="Duplicar tela atual"
+        >
+          <Copy className="w-3.5 h-3.5 text-zinc-400" />
+          <span className="hidden md:inline">Duplicar</span>
+        </Button>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onSyncStyles}
+          className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white"
+          title="Aplicar estilo de fundo e texto em todas as telas"
+        >
+          <Wand2 className="w-3.5 h-3.5 text-zinc-400" />
+          <span className="hidden md:inline">Aplicar Estilo em Todas</span>
+        </Button>
+      </div>
+
+      {/* Export Actions */}
+      <div className="flex items-center gap-2 shrink-0">
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={onExportSingle}
+          disabled={isExporting}
+          className="gap-1.5 text-xs font-semibold"
+        >
+          <Download className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Exportar PNG</span>
+        </Button>
+
+        <Button
+          variant="default"
+          size="sm"
+          onClick={onExportZip}
+          disabled={isExporting}
+          className="gap-1.5 text-xs font-semibold"
+        >
+          <Archive className="w-3.5 h-3.5" />
+          <span>ZIP ({screensCount})</span>
+        </Button>
+      </div>
+    </header>
+  );
+}
