@@ -366,7 +366,7 @@ export default function CanvasArea({
                   {/* Rendered Mockup Card */}
                   <div
                     className={`relative overflow-hidden flex flex-col transition-all ${
-                      isBottomText ? 'pt-4 px-3.5 pb-4' : isNoText ? 'pt-4 px-3.5 pb-0' : 'pt-4 px-3.5 pb-0'
+                      isBottomText ? 'pt-0 px-3.5 pb-4' : isNoText ? 'pt-0 px-3.5 pb-0' : 'pt-4 px-3.5 pb-0'
                     } ${
                       isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
                     }`}
@@ -472,7 +472,7 @@ export default function CanvasArea({
                 style={{
                   width: `${preset.width / 2.8}px`,
                   height: `${preset.height / 2.8}px`,
-                  paddingTop: '24px',
+                  paddingTop: isExpBottom ? '0px' : '24px',
                   paddingLeft: '20px',
                   paddingRight: '20px',
                   paddingBottom: isExpBottom ? '24px' : '0px',
