@@ -367,15 +367,15 @@ export default function CanvasArea({
                   <div className="relative">
                     {/* Active Selection Animated Dashed Ring Overlay */}
                     {isCurrentActive && (
-                      <div className="absolute -inset-[7px] pointer-events-none z-30">
+                      <div className="absolute -inset-[11px] pointer-events-none z-30">
                         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                           <rect
                             x="1.5"
                             y="1.5"
                             width="calc(100% - 3px)"
                             height="calc(100% - 3px)"
-                            rx="8"
-                            ry="8"
+                            rx="12"
+                            ry="12"
                             fill="none"
                             stroke="#FFFFFF"
                             strokeWidth="2"
