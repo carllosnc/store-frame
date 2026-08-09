@@ -18,9 +18,9 @@ export default function DeviceFrame({
       <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-3 text-slate-400 group-hover:text-white group-hover:scale-105 transition-all">
         <ImagePlus className="w-6 h-6" />
       </div>
-      <h3 className="text-xs font-semibold text-white tracking-tight">Carregar Imagem</h3>
+      <h3 className="text-xs font-semibold text-white tracking-tight">Upload Image</h3>
       <p className="text-[11px] text-slate-400 max-w-[180px] mt-1">
-        Clique ou solte a imagem aqui
+        Click or drop image here
       </p>
     </div>
   );

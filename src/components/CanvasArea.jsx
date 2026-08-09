@@ -230,7 +230,7 @@ export default function CanvasArea({
       {isDraggingOver && (
         <div className="absolute inset-6 rounded-3xl border-2 border-dashed border-white/50 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center gap-3 text-white pointer-events-none animate-fade-in">
           <Upload className="w-8 h-8 text-white animate-bounce" />
-          <span className="font-semibold text-sm">Solte a imagem aqui para carregar</span>
+          <span className="font-semibold text-sm">Drop image here to upload</span>
         </div>
       )}
 
@@ -241,10 +241,10 @@ export default function CanvasArea({
         <button
           onClick={onAddScreen}
           className="flex items-center gap-2 h-9 px-4 bg-emerald-500 text-white rounded-xl font-semibold text-xs hover:bg-emerald-400 hover:scale-105 active:scale-95 transition-all duration-150 shadow-md"
-          title="Nova Tela"
+          title="New Screen"
         >
           <Plus className="w-4 h-4" />
-          Nova Tela
+          New Screen
         </button>
 
         <div className="w-px h-5 bg-zinc-700" />
@@ -266,7 +266,7 @@ export default function CanvasArea({
         <button
           onClick={() => bulkInputRef.current?.click()}
           className="flex items-center gap-2 h-9 px-4 bg-zinc-800 border border-zinc-700 text-zinc-200 rounded-xl text-xs font-semibold hover:bg-zinc-700 hover:border-zinc-500 hover:text-white hover:scale-105 active:scale-95 transition-all duration-150"
-          title="Criar telas com vários prints"
+          title="Create screens from multiple images"
         >
           <Images className="w-4 h-4 text-blue-400" />
           Import Screenshots
