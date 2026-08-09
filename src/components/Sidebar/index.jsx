@@ -1,9 +1,9 @@
 import React from 'react';
-import { 
-  Upload, 
-  Palette, 
-  Type, 
-  Layout, 
+import {
+  Upload,
+  Palette,
+  Type,
+  Layout,
   Image as ImageIcon,
   AlignLeft,
   AlignCenter,
@@ -24,54 +24,81 @@ import {
   SelectValue,
 } from '../ui/select';
 
-export default function Sidebar({
-  activePreset,
-  onSelectPreset,
-  screenState,
-  onUpdateScreenState
-}) {
+function SectionHeader({ icon: Icon, label }) {
   return (
-    <aside className="w-full lg:w-96 bg-[#0E0F14] border-r border-[#1E202B] flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
-      <div className="flex-1 overflow-y-auto p-6 pb-12 space-y-8 sidebar-scrollbar-transparent">
+    <div className="flex items-center gap-2 pb-2.5 border-b border-[#1E202B]">
+      <Icon className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+      <h2 className="text-xs font-bold uppercase tracking-widest text-sky-300/80">{label}</h2>
+    </div>
+  );
+}
+
+function SliderRow({ label, value, unit, min, max, step, onValueChange }) {
+  return (
+    <div className="space-y-2">
+      <div className="flex justify-between items-center">
+        <span className="text-xs text-zinc-400">{label}</span>
+        <span className="font-mono text-[11px] text-zinc-500 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">
+          {value}{unit}
+        </span>
+      </div>
+      <Slider min={min} max={max} step={step} value={[value]} onValueChange={([v]) => onValueChange(v)} />
+    </div>
+  );
+}
+
+function ColorPicker({ value, onChange }) {
+  return (
+    <div className="relative h-8 bg-[#14151C] border border-[#222430] hover:border-zinc-600 rounded-lg px-2.5 flex items-center justify-between transition cursor-pointer group focus-within:ring-1 focus-within:ring-white/10">
+      <input
+        type="color"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
+      />
+      <div
+        className="w-4 h-4 rounded border border-white/20 shrink-0"
+        style={{ backgroundColor: value }}
+      />
+      <span className="text-[10px] font-mono text-zinc-500 uppercase">{value}</span>
+    </div>
+  );
+}
+
+export default function Sidebar({ activePreset, onSelectPreset, screenState, onUpdateScreenState }) {
+  return (
+    <aside className="w-64 bg-[#0E0F14] border-r border-[#1E202B] flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
+      <div className="flex-1 overflow-y-auto px-4 py-5 space-y-9 sidebar-scrollbar-transparent">
 
         {/* 1. FORMATO DA LOJA */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2.5 pb-2.5 border-b border-[#222430]">
-            <Layout className="w-4 h-4 text-sky-400 shrink-0" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-300/90">Formato da loja</h2>
-          </div>
-
-          <div className="pt-1">
-            <Select
-              value={activePreset.id}
-              onValueChange={(val) => {
-                const found = STORE_PRESETS.find(p => p.id === val);
-                if (found) onSelectPreset(found);
-              }}
-            >
-              <SelectTrigger className="w-full h-11 text-xs sm:text-sm border-[#222430] bg-[#14151C] text-zinc-300 font-normal focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
-                <SelectValue placeholder="Selecione o formato..." />
-              </SelectTrigger>
-              <SelectContent>
-                {STORE_PRESETS.map((p) => (
-                  <SelectItem key={p.id} value={p.id}>
-                    {p.store} — {p.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        <div className="space-y-3">
+          <SectionHeader icon={Layout} label="Formato da loja" />
+          <Select
+            value={activePreset.id}
+            onValueChange={(val) => {
+              const found = STORE_PRESETS.find(p => p.id === val);
+              if (found) onSelectPreset(found);
+            }}
+          >
+            <SelectTrigger className="w-full h-8 text-xs border-[#222430] bg-[#14151C] text-zinc-300 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
+              <SelectValue placeholder="Selecione..." />
+            </SelectTrigger>
+            <SelectContent>
+              {STORE_PRESETS.map((p) => (
+                <SelectItem key={p.id} value={p.id} className="text-xs">
+                  {p.store} — {p.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* 2. UPLOAD DA IMAGEM, ZOOM CENTRAL & CANTOS ARREDONDADOS */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2.5 pb-2.5 border-b border-[#222430]">
-            <ImageIcon className="w-4 h-4 text-sky-400 shrink-0" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-300/90">Imagem do aplicativo</h2>
-          </div>
+        {/* 2. IMAGEM DO APLICATIVO */}
+        <div className="space-y-3">
+          <SectionHeader icon={ImageIcon} label="Imagem do aplicativo" />
 
-          {/* Screenshot Upload Button */}
-          <div className="relative group pt-1">
+          {/* Upload */}
+          <div className="relative group">
             <input
               type="file"
               accept="image/*"
@@ -85,201 +112,127 @@ export default function Sidebar({
               }}
               className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
             />
-            <div className="p-3.5 rounded-xl border border-dashed border-[#2E3140] bg-[#14151C] group-hover:border-zinc-500 text-center transition flex items-center justify-center gap-2.5">
-              <Upload className="w-4 h-4 text-zinc-400 group-hover:text-white transition" />
-              <span className="text-xs sm:text-sm font-normal text-zinc-300 group-hover:text-white transition">
-                {screenState.imageSrc ? 'Trocar Imagem do App' : 'Upload Captura de Tela'}
+            <div className="h-8 rounded-lg border border-dashed border-[#2E3140] bg-[#14151C] group-hover:border-zinc-500 transition flex items-center justify-center gap-2">
+              <Upload className="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition" />
+              <span className="text-[11px] text-zinc-400 group-hover:text-white transition">
+                {screenState.imageSrc ? 'Trocar imagem' : 'Upload Captura de Tela'}
               </span>
             </div>
           </div>
 
-          {/* Image Zoom Slider */}
-          <div className="space-y-3 pt-2">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2 text-xs sm:text-sm font-normal text-zinc-300">
-                <ZoomIn className="w-4 h-4 text-zinc-400" />
-                <span>Zoom da Imagem Central</span>
-              </div>
-              <span className="font-mono text-xs font-medium text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
-                {screenState.imageZoom !== undefined ? screenState.imageZoom : 100}%
-              </span>
-            </div>
-            <Slider
-              min={80}
-              max={160}
-              step={2}
-              value={[screenState.imageZoom !== undefined ? screenState.imageZoom : 100]}
-              onValueChange={([val]) => onUpdateScreenState('imageZoom', val)}
-            />
-          </div>
+          <SliderRow
+            label="Zoom da Imagem Central"
+            value={screenState.imageZoom !== undefined ? screenState.imageZoom : 100}
+            unit="%"
+            min={80} max={160} step={2}
+            onValueChange={(v) => onUpdateScreenState('imageZoom', v)}
+          />
 
-          {/* Corner Radius Slider */}
-          <div className="space-y-3 pt-2">
-            <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm font-normal text-zinc-300">Arredondamento dos cantos</span>
-              <span className="font-mono text-xs font-medium text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
-                {screenState.cornerRadius !== undefined ? screenState.cornerRadius : 36}px
-              </span>
-            </div>
-            <Slider
-              min={12}
-              max={60}
-              step={2}
-              value={[screenState.cornerRadius !== undefined ? screenState.cornerRadius : 36]}
-              onValueChange={([val]) => onUpdateScreenState('cornerRadius', val)}
-            />
+          <SliderRow
+            label="Arredondamento dos cantos"
+            value={screenState.cornerRadius !== undefined ? screenState.cornerRadius : 36}
+            unit="px"
+            min={12} max={60} step={2}
+            onValueChange={(v) => onUpdateScreenState('cornerRadius', v)}
+          />
+        </div>
+
+        {/* 3. PLANO DE FUNDO */}
+        <div className="space-y-3">
+          <SectionHeader icon={Palette} label="Plano de fundo & listras" />
+
+          <ColorPicker
+            value={screenState.bgColor || '#44C0FE'}
+            onChange={(v) => onUpdateScreenState('bgColor', v)}
+          />
+
+          {/* Padrão de fundo */}
+          <div className="grid grid-cols-4 gap-1.5">
+            {[
+              { id: 'none', label: 'Sem Listras', icon: Ban },
+              { id: 'diagonal', label: 'Diagonal', icon: Rows },
+              { id: 'vertical', label: 'Vertical', icon: Columns },
+              { id: 'dots', label: 'Pontos', icon: Grid }
+            ].map((pattern) => {
+              const IconComponent = pattern.icon;
+              const isSelected = (screenState.bgPattern || 'none') === pattern.id;
+              return (
+                <button
+                  key={pattern.id}
+                  onClick={() => onUpdateScreenState('bgPattern', pattern.id)}
+                  title={pattern.label}
+                  className={`h-8 rounded-lg border transition flex items-center justify-center ${
+                    isSelected
+                      ? 'bg-zinc-100 text-zinc-950 border-zinc-100 shadow-sm'
+                      : 'bg-[#14151C] border-[#222430] text-zinc-500 hover:text-zinc-200 hover:border-zinc-600'
+                  }`}
+                >
+                  <IconComponent className="w-4 h-4" />
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* 3. PLANO DE FUNDO SÓLIDO & EFEITO DE LISTRAS */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2.5 pb-2.5 border-b border-[#222430]">
-            <Palette className="w-4 h-4 text-sky-400 shrink-0" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-300/90">Plano de fundo & listras</h2>
-          </div>
+        {/* 4. TEXTO DO TÍTULO */}
+        <div className="space-y-3">
+          <SectionHeader icon={Type} label="Texto do título" />
 
-          {/* Botão de Cor do Fundo Minimalista */}
-          <div className="pt-1">
-            <div className="relative h-11 w-full bg-[#14151C] border border-[#222430] hover:border-zinc-700 rounded-xl px-4 flex items-center justify-between transition cursor-pointer group focus-within:ring-1 focus-within:ring-white/10 focus-within:border-zinc-600">
-              <input
-                type="color"
-                value={screenState.bgColor || '#44C0FE'}
-                onChange={(e) => onUpdateScreenState('bgColor', e.target.value)}
-                className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
-              />
-              
-              {/* Amostra de cor limpa */}
-              <div 
-                className="w-6 h-6 rounded-lg border border-white/20 shadow-sm shrink-0 group-hover:scale-105 transition-transform"
-                style={{ backgroundColor: screenState.bgColor || '#44C0FE' }}
-              />
-
-              {/* Hex Code */}
-              <span className="text-xs font-mono text-zinc-400 uppercase font-medium bg-[#09090B] px-2.5 py-1 rounded-lg border border-[#222430]">
-                {screenState.bgColor || '#44C0FE'}
-              </span>
-            </div>
-          </div>
-
-          {/* Efeito de Listras no Fundo */}
-          <div className="space-y-3 pt-2">
-            <label className="text-xs sm:text-sm font-normal text-zinc-300 block">Efeito de listras no fundo</label>
-            <div className="grid grid-cols-4 gap-3">
-              {[
-                { id: 'none', label: 'Sem Listras', icon: Ban },
-                { id: 'diagonal', label: 'Listras Diagonais', icon: Rows },
-                { id: 'vertical', label: 'Listras Verticais', icon: Columns },
-                { id: 'dots', label: 'Grid de Pontos', icon: Grid }
-              ].map((pattern) => {
-                const IconComponent = pattern.icon;
-                const isSelected = (screenState.bgPattern || 'none') === pattern.id;
-                return (
-                  <button
-                    key={pattern.id}
-                    onClick={() => onUpdateScreenState('bgPattern', pattern.id)}
-                    title={pattern.label}
-                    className={`h-11 rounded-xl border transition flex items-center justify-center ${
-                      isSelected
-                        ? 'bg-zinc-100 text-zinc-950 border-zinc-100 shadow-md scale-105'
-                        : 'bg-[#14151C] border-[#222430] text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 hover:bg-[#1A1C26]'
-                    }`}
-                  >
-                    <IconComponent className="w-5 h-5" />
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* 4. TEXTO E TÍTULO & NOME DA TELA */}
-        <div className="space-y-4">
-          <div className="flex items-center gap-2.5 pb-2.5 border-b border-[#222430]">
-            <Type className="w-4 h-4 text-sky-400 shrink-0" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-sky-300/90">Texto do título</h2>
-          </div>
-
-          {/* Nome da Tela (Renomear Tela) */}
-          <div className="space-y-1.5 pt-1">
-            <label className="text-xs font-normal text-zinc-300">Nome da Tela</label>
+          <div className="space-y-1">
+            <label className="text-xs text-zinc-500">Nome da Tela</label>
             <input
               type="text"
               value={screenState.title || ''}
               onChange={(e) => onUpdateScreenState('title', e.target.value)}
               placeholder="Ex: Tela 1 — Início"
-              className="w-full bg-[#14151C] border border-[#222430] rounded-xl p-3 text-xs sm:text-sm font-normal text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition"
+              className="w-full bg-[#14151C] border border-[#222430] rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition"
             />
           </div>
 
-          {/* Texto Principal da Arte */}
-          <div className="space-y-1.5 pt-1">
-            <label className="text-xs font-normal text-zinc-300">Texto Principal da Arte</label>
+          <div className="space-y-1">
+            <label className="text-xs text-zinc-500">Texto Principal da Arte</label>
             <textarea
               rows={2}
               value={screenState.headline}
               onChange={(e) => onUpdateScreenState('headline', e.target.value)}
               placeholder="Ex: Conecte-se com amigos"
-              className="w-full bg-[#14151C] border border-[#222430] rounded-xl p-3.5 text-xs sm:text-sm font-normal text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
+              className="w-full bg-[#14151C] border border-[#222430] rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
             />
           </div>
 
-          {/* Text Size Slider */}
-          <div className="space-y-3 pt-2">
-            <div className="flex justify-between items-center">
-              <span className="text-xs sm:text-sm font-normal text-zinc-300">Tamanho do texto</span>
-              <span className="font-mono text-xs font-medium text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded border border-zinc-800">
-                {screenState.headlineSize || 48}px
-              </span>
-            </div>
-            <Slider
-              min={28}
-              max={68}
-              step={2}
-              value={[screenState.headlineSize || 48]}
-              onValueChange={([val]) => onUpdateScreenState('headlineSize', val)}
+          <SliderRow
+            label="Tamanho do texto"
+            value={screenState.headlineSize || 48}
+            unit="px"
+            min={28} max={68} step={2}
+            onValueChange={(v) => onUpdateScreenState('headlineSize', v)}
+          />
+
+          {/* Cor do texto + Alinhamento */}
+          <div className="grid grid-cols-2 gap-2">
+            <ColorPicker
+              value={screenState.headlineColor || '#000000'}
+              onChange={(v) => onUpdateScreenState('headlineColor', v)}
             />
-          </div>
 
-          {/* Text Color Picker & Alignment */}
-          <div className="grid grid-cols-2 gap-3 pt-2">
-            <div className="relative h-11 bg-[#14151C] border border-[#222430] hover:border-zinc-700 rounded-xl px-3 flex items-center justify-between transition cursor-pointer group focus-within:ring-1 focus-within:ring-white/10 focus-within:border-zinc-600">
-              <input
-                type="color"
-                value={screenState.headlineColor || '#000000'}
-                onChange={(e) => onUpdateScreenState('headlineColor', e.target.value)}
-                className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
-              />
-              
-              <div 
-                className="w-6 h-6 rounded-lg border border-white/20 shadow-sm shrink-0 group-hover:scale-105 transition-transform" 
-                style={{ backgroundColor: screenState.headlineColor || '#000000' }}
-              />
-
-              <span className="text-xs font-mono text-zinc-400 uppercase font-medium bg-[#09090B] px-2 py-0.5 rounded-md border border-[#222430]">
-                {screenState.headlineColor || '#000000'}
-              </span>
-            </div>
-
-            {/* Alignment Controls */}
-            <div className="h-11 flex items-center justify-between bg-[#14151C] px-1.5 rounded-xl border border-[#222430]">
+            <div className="h-8 flex items-center justify-between bg-[#14151C] px-1 rounded-lg border border-[#222430]">
               {[
                 { id: 'left', icon: AlignLeft },
                 { id: 'center', icon: AlignCenter },
                 { id: 'right', icon: AlignRight }
-              ].map((item) => {
-                const IconComp = item.icon;
-                const isSelected = (screenState.textAlign || 'center') === item.id;
+              ].map(({ id, icon: Icon }) => {
+                const isSelected = (screenState.textAlign || 'center') === id;
                 return (
                   <button
-                    key={item.id}
-                    onClick={() => onUpdateScreenState('textAlign', item.id)}
-                    className={`p-2 rounded-lg transition ${
+                    key={id}
+                    onClick={() => onUpdateScreenState('textAlign', id)}
+                    className={`p-1.5 rounded transition ${
                       isSelected
-                        ? 'bg-zinc-200 text-zinc-950 font-bold shadow-sm'
+                        ? 'bg-zinc-200 text-zinc-950 shadow-sm'
                         : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/40'
                     }`}
                   >
-                    <IconComp className="w-4 h-4" />
+                    <Icon className="w-3.5 h-3.5" />
                   </button>
                 );
               })}
