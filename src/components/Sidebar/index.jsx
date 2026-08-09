@@ -4,15 +4,7 @@ import {
   Palette,
   Type,
   Layout,
-  Image as ImageIcon,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  ZoomIn,
-  Grid,
-  Rows,
-  Columns,
-  Ban
+  Image as ImageIcon
 } from 'lucide-react';
 import { STORE_PRESETS } from '../../constants/dimensions';
 import { Slider } from '../ui/slider';

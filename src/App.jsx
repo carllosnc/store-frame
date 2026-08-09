@@ -8,7 +8,6 @@ import { downloadSingleScreen, downloadZipBundle, captureCanvasToPng } from './u
 
 export default function App() {
   const [activePreset, setActivePreset] = useState(STORE_PRESETS[0]);
-  const [zoom, setZoom] = useState(65);
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState('');
 
@@ -216,7 +215,6 @@ export default function App() {
           onSelectScreen={setActiveScreenIndex}
           onAddScreen={handleAddScreen}
           onDeleteScreen={handleDeleteScreen}
-          zoom={zoom}
           canvasRef={canvasRef}
           onImageDrop={handleImageDrop}
           onBulkImageUpload={handleBulkImageUpload}
