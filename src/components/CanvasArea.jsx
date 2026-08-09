@@ -53,12 +53,12 @@ export default function CanvasArea({
       setScale(1.15); // Auto zoom level for focused screen
     }
   }, [activeScreenIndex]);
-  // Keyboard Navigation & Spacebar Panning Listener
+  // Keyboard Navigation & Spacebar / Control Panning Listener
   useEffect(() => {
     const handleKeyDown = (e) => {
       const isEditingText = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
 
-      if (e.code === 'Space' && !isEditingText) {
+      if ((e.code === 'Space' || e.key === 'Control' || e.code === 'ControlLeft' || e.code === 'ControlRight') && !isEditingText) {
         e.preventDefault();
         if (document.activeElement && typeof document.activeElement.blur === 'function') {
           document.activeElement.blur();
@@ -81,7 +81,7 @@ export default function CanvasArea({
     };
 
     const handleKeyUp = (e) => {
-      if (e.code === 'Space') {
+      if (e.code === 'Space' || e.key === 'Control' || e.code === 'ControlLeft' || e.code === 'ControlRight') {
         setIsSpacePressed(false);
         setIsPanning(false);
       }
@@ -103,9 +103,9 @@ export default function CanvasArea({
     setScale(prevScale => Math.min(2.5, Math.max(0.15, prevScale * zoomFactor)));
   };
 
-  // Pan Start (Via Space + Drag, Middle Click, or Dragging direct background stage)
+  // Pan Start (Via Space/Ctrl + Drag, Middle Click, or Dragging direct background stage)
   const handleMouseDown = (e) => {
-    if (e.button === 1 || isSpacePressed || e.target === containerRef.current || e.target.classList.contains('infinite-stage')) {
+    if (e.button === 1 || isSpacePressed || e.ctrlKey || e.target === containerRef.current || e.target.classList.contains('infinite-stage')) {
       e.preventDefault();
       setIsPanning(true);
       setStartPan({ x: e.clientX - pan.x, y: e.clientY - pan.y });
@@ -315,7 +315,7 @@ export default function CanvasArea({
 
         <div className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-zinc-400 font-medium">
           <Move className="w-3 h-3 text-zinc-500" />
-          <span>Espaço + Arrastar</span>
+          <span>Espaço / Ctrl + Arrastar</span>
         </div>
       </div>
 
