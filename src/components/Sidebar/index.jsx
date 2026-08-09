@@ -97,7 +97,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
         <div className="space-y-3">
           <SectionHeader icon={ImageIcon} label="Imagem do aplicativo" />
 
-          {/* Upload */}
+          {/* Upload simples — tela ativa */}
           <div className="relative group">
             <input
               type="file"

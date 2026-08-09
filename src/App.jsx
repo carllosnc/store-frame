@@ -62,6 +62,26 @@ export default function App() {
     }
   };
 
+  const handleBulkImageUpload = (files) => {
+    if (!files || files.length === 0) return;
+    const fileArray = Array.from(files);
+    const currentStyle = screens[activeScreenIndex] || screens[0];
+
+    fileArray.forEach((file, i) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const newScreen = createInitialScreenState(
+          `Tela ${screens.length + i + 1}`,
+          `Título da Tela ${screens.length + i + 1}`,
+          currentStyle.bgColor || '#44C0FE'
+        );
+        newScreen.imageSrc = ev.target.result;
+        setScreens(prev => [...prev, newScreen]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleAddScreen = () => {
     const newIndex = screens.length + 1;
     const newScreen = createInitialScreenState(`Tela ${newIndex}`, `Título da Tela ${newIndex}`, '#2563EB');
@@ -185,6 +205,7 @@ export default function App() {
           onSelectPreset={setActivePreset}
           screenState={activeScreen}
           onUpdateScreenState={handleUpdateScreenState}
+          onBulkImageUpload={handleBulkImageUpload}
         />
 
         <CanvasArea
@@ -198,6 +219,7 @@ export default function App() {
           zoom={zoom}
           canvasRef={canvasRef}
           onImageDrop={handleImageDrop}
+          onBulkImageUpload={handleBulkImageUpload}
         />
       </div>
 

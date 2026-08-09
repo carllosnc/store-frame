@@ -6,7 +6,8 @@ import {
   RotateCcw,
   Move,
   Plus,
-  X
+  X,
+  Images
 } from 'lucide-react';
 
 export default function CanvasArea({
@@ -18,8 +19,10 @@ export default function CanvasArea({
   activeScreenIndex = 0,
   onSelectScreen,
   canvasRef,
-  onImageDrop
+  onImageDrop,
+  onBulkImageUpload
 }) {
+  const bulkInputRef = useRef(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   
   // Infinite Canvas Pan & Zoom State
@@ -118,18 +121,29 @@ export default function CanvasArea({
 
   const handleDragOver = (e) => {
     e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
     setIsDraggingOver(true);
   };
 
-  const handleDragLeave = () => {
-    setIsDraggingOver(false);
+  const handleDragLeave = (e) => {
+    // Only hide the overlay when truly leaving the canvas container
+    if (!containerRef.current?.contains(e.relatedTarget)) {
+      setIsDraggingOver(false);
+    }
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDraggingOver(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      onImageDrop(e.dataTransfer.files[0]);
+    const files = e.dataTransfer.files;
+    if (!files || files.length === 0) return;
+
+    if (files.length > 1) {
+      // Multiple files → create a new screen for each one
+      onBulkImageUpload(files);
+    } else {
+      // Single file → update the active screen's image
+      onImageDrop(files[0]);
     }
   };
 
@@ -204,14 +218,44 @@ export default function CanvasArea({
         </div>
       )}
 
-      {/* Floating Add Screen Button — top-left of canvas */}
-      <button
-        onClick={onAddScreen}
-        className="absolute top-4 left-4 z-30 flex items-center justify-center w-12 h-12 bg-[#ff6b6b] text-white rounded-full shadow-lg hover:bg-[#ff8a8a] hover:scale-110 active:scale-95 transition-all duration-150"
-        title="Nova Tela"
-      >
-        <Plus className="w-6 h-6" />
-      </button>
+      {/* Floating Footer Bar — bottom center of canvas */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-zinc-900/80 backdrop-blur-md border border-zinc-700/60 rounded-2xl px-3 py-2 shadow-2xl">
+
+        {/* Add single screen */}
+        <button
+          onClick={onAddScreen}
+          className="flex items-center gap-2 h-9 px-4 bg-emerald-500 text-white rounded-xl font-semibold text-xs hover:bg-emerald-400 hover:scale-105 active:scale-95 transition-all duration-150 shadow-md"
+          title="Nova Tela"
+        >
+          <Plus className="w-4 h-4" />
+          Nova Tela
+        </button>
+
+        <div className="w-px h-5 bg-zinc-700" />
+
+        {/* Bulk upload — create screens from multiple images */}
+        <input
+          ref={bulkInputRef}
+          type="file"
+          accept="image/*"
+          multiple
+          className="hidden"
+          onChange={(e) => {
+            if (e.target.files?.length > 0) {
+              onBulkImageUpload(e.target.files);
+              e.target.value = '';
+            }
+          }}
+        />
+        <button
+          onClick={() => bulkInputRef.current?.click()}
+          className="flex items-center gap-2 h-9 px-4 bg-zinc-800 border border-zinc-700 text-zinc-200 rounded-xl text-xs font-semibold hover:bg-zinc-700 hover:border-zinc-500 hover:text-white hover:scale-105 active:scale-95 transition-all duration-150"
+          title="Criar telas com vários prints"
+        >
+          <Images className="w-4 h-4 text-blue-400" />
+          Importar prints
+        </button>
+      </div>
 
       {/* Top Right Floating Resolution Badge */}
       <div className="absolute top-4 right-6 bg-zinc-900/90 backdrop-blur-md border border-zinc-800 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-zinc-300 font-semibold shadow-md z-20 flex items-center gap-2 pointer-events-none">
@@ -422,6 +466,6 @@ export default function CanvasArea({
           </div>
         </div>
       </div>
-    
+    </div>
   );
 }
