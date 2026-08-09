@@ -40,11 +40,11 @@ export default function Header({
             onToggleViewMode(viewMode === 'single' ? 'all' : 'single');
           }}
           className="h-8 px-3 text-xs font-semibold gap-1.5 focus:outline-none focus:ring-0"
-          title="Alternar entre tela única e visão geral de todas as telas"
+          title={viewMode === 'single' ? "Clique para alternar para a Visão Geral (Grid de Telas)" : "Clique para alternar para o Modo Foco (Tela Única)"}
         >
-          {viewMode === 'all' ? (
+          {viewMode === 'single' ? (
             <>
-              <Maximize2 className="w-3.5 h-3.5" />
+              <Maximize2 className="w-3.5 h-3.5 text-zinc-300" />
               <span className="hidden md:inline">Modo Foco</span>
             </>
           ) : (
