@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Upload, 
   ZoomIn, 
   ZoomOut, 
-  Maximize2, 
   RotateCcw,
   Move
 } from 'lucide-react';
@@ -26,32 +25,8 @@ export default function CanvasArea({
   const [scale, setScale] = useState(0.8);
   const [isPanning, setIsPanning] = useState(false);
   const [startPan, setStartPan] = useState({ x: 0, y: 0 });
-  const [isSpacePressed, setIsSpacePressed] = useState(false);
 
   const containerRef = useRef(null);
-
-  // Spacebar panning listener
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.code === 'Space' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
-        setIsSpacePressed(true);
-      }
-    };
-
-    const handleKeyUp = (e) => {
-      if (e.code === 'Space') {
-        setIsSpacePressed(false);
-        setIsPanning(false);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  }, []);
 
   // Mouse Wheel Zoom
   const handleWheel = (e) => {
@@ -61,10 +36,9 @@ export default function CanvasArea({
     setScale(prevScale => Math.min(2.5, Math.max(0.15, prevScale * zoomFactor)));
   };
 
-  // Pan Start
+  // Pan Start (Only via Middle Click or Dragging direct background stage)
   const handleMouseDown = (e) => {
-    // Start pan on middle mouse click (button 1), spacebar pressed, or clicking direct stage background
-    if (e.button === 1 || isSpacePressed || e.target === containerRef.current || e.target.classList.contains('infinite-stage')) {
+    if (e.button === 1 || e.target === containerRef.current || e.target.classList.contains('infinite-stage')) {
       e.preventDefault();
       setIsPanning(true);
       setStartPan({ x: e.clientX - pan.x, y: e.clientY - pan.y });
@@ -164,7 +138,7 @@ export default function CanvasArea({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={`flex-1 bg-[#07080B] flex items-center justify-center relative overflow-hidden select-none infinite-stage ${
-        isPanning ? 'cursor-grabbing' : isSpacePressed ? 'cursor-grab' : 'cursor-default'
+        isPanning ? 'cursor-grabbing' : 'cursor-default'
       }`}
       style={{
         backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.2px)`,
@@ -222,7 +196,7 @@ export default function CanvasArea({
 
         <div className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-zinc-400 font-medium">
           <Move className="w-3 h-3 text-zinc-500" />
-          <span>Espaço + Arrastar</span>
+          <span>Arrastar Fundo</span>
         </div>
       </div>
 
