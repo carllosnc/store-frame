@@ -397,17 +397,14 @@ export default function CanvasArea({
                     {/* Screenshot Container */}
                     <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isBottomText ? 'items-start' : 'items-end'}`}>
                       <div
-                        className="w-full h-full overflow-hidden transition-all bg-black flex items-center justify-center"
+                        className="w-full h-full overflow-hidden transition-all flex items-center justify-center"
                         style={{
-                          border: '5px solid #000',
                           ...(isBottomText ? {
-                            borderTop: 'none',
                             borderTopLeftRadius: '0px',
                             borderTopRightRadius: '0px',
                             borderBottomLeftRadius: `${scCornerRadius * 0.7}px`,
                             borderBottomRightRadius: `${scCornerRadius * 0.7}px`,
                           } : {
-                            borderBottom: 'none',
                             borderTopLeftRadius: `${scCornerRadius * 0.7}px`,
                             borderTopRightRadius: `${scCornerRadius * 0.7}px`,
                             borderBottomLeftRadius: '0px',
@@ -505,17 +502,14 @@ export default function CanvasArea({
                 {/* SCREENSHOT */}
                 <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isExpBottom ? 'items-start' : 'items-end'}`}>
                   <div
-                    className="w-full h-full overflow-hidden bg-black flex items-center justify-center"
+                    className="w-full h-full overflow-hidden flex items-center justify-center"
                     style={{
-                      border: '7px solid #000',
                       ...(isExpBottom ? {
-                        borderTop: 'none',
                         borderTopLeftRadius: '0px',
                         borderTopRightRadius: '0px',
                         borderBottomLeftRadius: `${imageCornerRadius * 1.05}px`,
                         borderBottomRightRadius: `${imageCornerRadius * 1.05}px`,
                       } : {
-                        borderBottom: 'none',
                         borderTopLeftRadius: `${imageCornerRadius * 1.05}px`,
                         borderTopRightRadius: `${imageCornerRadius * 1.05}px`,
                         borderBottomLeftRadius: '0px',
