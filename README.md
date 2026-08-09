@@ -10,6 +10,12 @@
 [![Bun](https://img.shields.io/badge/Bun-1.2-fbf0df.svg?logo=bun)](https://bun.sh/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+<br />
+
+<p align="center">
+  <img src="./public/screenshot.png" alt="StoreFrame Studio Interface" width="100%" />
+</p>
+
 </div>
 
 ---

@@ -73,7 +73,7 @@ export default function Header({
           className="gap-1.5 text-xs font-semibold focus:outline-none focus:ring-0"
         >
           <Download className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Exportar PNG</span>
+          <span className="hidden sm:inline">Export PNG</span>
         </Button>
 
         <Button
