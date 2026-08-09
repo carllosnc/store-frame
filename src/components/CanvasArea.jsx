@@ -337,7 +337,7 @@ export default function CanvasArea({
               const textPos = sc.textPosition || 'top';
               const isBottomText = textPos === 'bottom';
               const isNoText = textPos === 'none';
-              const scImageFit = sc.imageFit || 'contain';
+              const scImageFit = sc.imageFit || 'cover';
 
               return (
                 <div
@@ -365,8 +365,8 @@ export default function CanvasArea({
 
                   {/* Rendered Mockup Card */}
                   <div
-                    className={`relative overflow-hidden flex flex-col justify-between transition-all ${
-                      isBottomText ? 'pt-4 px-3 pb-3' : isNoText ? 'pt-4 px-3 pb-0' : 'pt-4 px-3 pb-0'
+                    className={`relative overflow-hidden flex flex-col transition-all ${
+                      isBottomText ? 'pt-4 px-3.5 pb-4' : isNoText ? 'pt-4 px-3.5 pb-0' : 'pt-4 px-3.5 pb-0'
                     } ${
                       isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
                     }`}
@@ -377,9 +377,9 @@ export default function CanvasArea({
                       fontFamily: sc.fontFamily || "'Inter', sans-serif"
                     }}
                   >
-                    {/* Headline - TOP */}
+                    {/* Headline - TOP (Pushes screenshot down naturally) */}
                     {!isNoText && !isBottomText && (
-                      <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mb-2`}>
+                      <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mb-3`}>
                         {sc.headline && (
                           <h1
                             className="font-black tracking-tight leading-tight transition-all whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
@@ -395,7 +395,7 @@ export default function CanvasArea({
                       </div>
                     )}
 
-                    {/* Screenshot Container */}
+                    {/* Screenshot Container (Fills remaining height & 100% width) */}
                     <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isBottomText ? 'items-start' : 'items-end'}`}>
                       <div
                         className="w-full h-full overflow-hidden transition-all flex items-center justify-center"
@@ -418,7 +418,7 @@ export default function CanvasArea({
                             src={sc.imageSrc}
                             alt="App Screenshot"
                             className={`w-full h-full transition-transform duration-150 ${
-                              scImageFit === 'cover' ? 'object-cover object-top origin-top' : 'object-contain object-center'
+                              scImageFit === 'contain' ? 'object-contain object-top origin-top' : 'object-cover object-top origin-top'
                             }`}
                             style={{ transform: `scale(${scZoomScale})` }}
                           />
@@ -435,7 +435,7 @@ export default function CanvasArea({
 
                     {/* Headline - BOTTOM */}
                     {!isNoText && isBottomText && (
-                      <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mt-2.5 mb-0`}>
+                      <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mt-3 mb-0`}>
                         {sc.headline && (
                           <h1
                             className="font-black tracking-tight leading-tight transition-all whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
@@ -461,20 +461,20 @@ export default function CanvasArea({
           const expTextPos = safeScreenState.textPosition || 'top';
           const isExpBottom = expTextPos === 'bottom';
           const isExpNone = expTextPos === 'none';
-          const expImageFit = safeScreenState.imageFit || 'contain';
+          const expImageFit = safeScreenState.imageFit || 'cover';
           const exportCornerRadius = Math.round((imageCornerRadius / 2.8) * 1.5);
 
           return (
             <div className="pointer-events-none flex items-center justify-center" style={{ position: 'fixed', top: '-9999px', left: '-9999px', zIndex: -1 }}>
               <div
                 ref={canvasRef}
-                className="relative overflow-hidden flex flex-col justify-between"
+                className="relative overflow-hidden flex flex-col"
                 style={{
                   width: `${preset.width / 2.8}px`,
                   height: `${preset.height / 2.8}px`,
                   paddingTop: '24px',
-                  paddingLeft: '18px',
-                  paddingRight: '18px',
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
                   paddingBottom: isExpBottom ? '24px' : '0px',
                   ...getBackgroundPatternStyle(screenState),
                   fontFamily: screenState?.fontFamily || "'Inter', sans-serif"
@@ -483,7 +483,7 @@ export default function CanvasArea({
                 {/* TOP HEADLINE */}
                 {!isExpNone && !isExpBottom && (
                   <div
-                    className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(screenState?.textAlign)} w-full mb-3`}
+                    className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(screenState?.textAlign)} w-full mb-4`}
                     style={{ gap: '6px' }}
                   >
                     {screenState?.headline && (
@@ -524,7 +524,7 @@ export default function CanvasArea({
                         src={screenState.imageSrc}
                         alt="App Screenshot"
                         className={`w-full h-full transition-transform duration-150 ${
-                          expImageFit === 'cover' ? 'object-cover object-top origin-top' : 'object-contain object-center'
+                          expImageFit === 'contain' ? 'object-contain object-top origin-top' : 'object-cover object-top origin-top'
                         }`}
                         style={{ transform: `scale(${imageZoomScale})` }}
                       />
@@ -541,7 +541,7 @@ export default function CanvasArea({
                 {/* BOTTOM HEADLINE */}
                 {!isExpNone && isExpBottom && (
                   <div
-                    className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(screenState?.textAlign)} w-full mt-3`}
+                    className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(screenState?.textAlign)} w-full mt-4`}
                     style={{ gap: '6px' }}
                   >
                     {screenState?.headline && (
