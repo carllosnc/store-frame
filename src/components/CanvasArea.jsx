@@ -187,11 +187,11 @@ export default function CanvasArea({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`flex-1 bg-[#07080B] flex items-center justify-center relative overflow-hidden select-none infinite-stage ${
+      className={`flex-1 bg-[#131520] flex items-center justify-center relative overflow-hidden select-none infinite-stage ${
         isPanning ? 'cursor-grabbing' : isSpacePressed ? 'cursor-grab' : 'cursor-default'
       }`}
       style={{
-        backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.2px)`,
+        backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.10) 1.2px, transparent 1.2px)`,
         backgroundSize: `24px 24px`,
         backgroundPosition: `${pan.x}px ${pan.y}px`
       }}
@@ -300,8 +300,8 @@ export default function CanvasArea({
 
                     {/* Rendered Mockup Card */}
                     <div
-                      className={`relative shadow-2xl overflow-hidden flex flex-col justify-between pt-12 px-8 pb-0 transition-all ${
-                        isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] shadow-white/20 scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
+                      className={`relative overflow-hidden flex flex-col pt-5 px-3 pb-0 transition-all ${
+                        isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
                       }`}
                       style={{
                         width: `${preset.width / 4.2}px`,
@@ -311,13 +311,13 @@ export default function CanvasArea({
                       }}
                     >
                       {/* Headline */}
-                      <div className={`z-10 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-2 px-2 max-w-xs mx-auto w-full mb-4`}>
+                      <div className={`z-10 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mb-3`}>
                         {sc.headline && (
                           <h1
                             className="font-black tracking-tight leading-tight transition-all"
                             style={{
                               color: sc.headlineColor || '#000000',
-                              fontSize: `${Math.max(22, (sc.headlineSize || 48) * 0.65)}px`,
+                              fontSize: `${Math.max(20, (sc.headlineSize || 48) * 0.55)}px`,
                               fontWeight: sc.headlineWeight || '900'
                             }}
                           >
@@ -327,15 +327,16 @@ export default function CanvasArea({
                       </div>
 
                       {/* Screenshot */}
-                      <div className="w-full flex-1 flex items-end justify-center relative z-10 overflow-hidden pt-2">
+                      <div className="w-full flex-1 flex items-end justify-center relative z-10 overflow-hidden">
                         <div
-                          className="w-full h-full max-w-[240px] overflow-hidden transition-all flex items-center justify-center bg-black"
+                          className="w-full h-full overflow-hidden transition-all bg-black"
                           style={{
+                            border: '5px solid #000',
+                            borderBottom: 'none',
                             borderTopLeftRadius: `${scCornerRadius * 0.7}px`,
                             borderTopRightRadius: `${scCornerRadius * 0.7}px`,
                             borderBottomLeftRadius: '0px',
                             borderBottomRightRadius: '0px',
-                            boxShadow: 'none'
                           }}
                         >
                           {sc.imageSrc ? (
@@ -362,7 +363,7 @@ export default function CanvasArea({
           <div className="absolute top-[-9999px] left-[-9999px] opacity-0 pointer-events-none flex items-center justify-center">
             <div
               ref={canvasRef}
-                className="relative shadow-2xl overflow-hidden flex flex-col justify-between pt-16 px-10 pb-0 transition-all"
+                className="relative overflow-hidden flex flex-col justify-between pt-16 px-10 pb-0 transition-all"
                 style={{
                   width: `${preset.width / 2.8}px`,
                   height: `${preset.height / 2.8}px`,

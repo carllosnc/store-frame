@@ -67,7 +67,7 @@ function ColorPicker({ value, onChange }) {
 
 export default function Sidebar({ activePreset, onSelectPreset, screenState, onUpdateScreenState }) {
   return (
-    <aside className="w-64 bg-[#0E0F14] border-r border-[#1E202B] flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
+    <aside className="w-72 bg-[#0E0F14] border-r border-[#1E202B] flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-9 sidebar-scrollbar-transparent">
 
         {/* 1. FORMATO DA LOJA */}
