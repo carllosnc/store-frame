@@ -73,6 +73,9 @@ export default function CanvasArea({
         } else if (e.key === 'ArrowRight') {
           e.preventDefault();
           onSelectScreen(prev => Math.min(screens.length - 1, prev + 1));
+        } else if (e.key === 'Delete') {
+          e.preventDefault();
+          onDeleteScreen(activeScreenIndex);
         }
       }
     };
@@ -90,7 +93,7 @@ export default function CanvasArea({
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [screens.length, onSelectScreen]);
+  }, [screens.length, activeScreenIndex, onSelectScreen, onDeleteScreen]);
 
   // Mouse Wheel Zoom
   const handleWheel = (e) => {
