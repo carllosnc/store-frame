@@ -366,7 +366,7 @@ export default function CanvasArea({
                   {/* Rendered Mockup Card */}
                   <div
                     className={`relative overflow-hidden flex flex-col transition-all ${
-                      isBottomText ? 'pt-0 px-3.5 pb-4' : isNoText ? 'pt-0 px-3.5 pb-0' : 'pt-4 px-3.5 pb-0'
+                      isNoText ? 'p-4' : isBottomText ? 'pt-0 px-3.5 pb-4' : 'pt-4 px-3.5 pb-0'
                     } ${
                       isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
                     }`}
@@ -396,11 +396,13 @@ export default function CanvasArea({
                     )}
 
                     {/* Screenshot Container (Fills remaining height & 100% width) */}
-                    <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isBottomText ? 'items-start' : 'items-end'}`}>
+                    <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isNoText ? 'items-center' : isBottomText ? 'items-start' : 'items-end'}`}>
                       <div
                         className="w-full h-full overflow-hidden transition-all flex items-center justify-center"
                         style={{
-                          ...(isBottomText ? {
+                          ...(isNoText ? {
+                            borderRadius: `${previewCornerRadius}px`,
+                          } : isBottomText ? {
                             borderTopLeftRadius: '0px',
                             borderTopRightRadius: '0px',
                             borderBottomLeftRadius: `${previewCornerRadius}px`,
@@ -472,10 +474,10 @@ export default function CanvasArea({
                 style={{
                   width: `${preset.width / 2.8}px`,
                   height: `${preset.height / 2.8}px`,
-                  paddingTop: isExpBottom ? '0px' : '24px',
+                  paddingTop: isExpNone ? '24px' : isExpBottom ? '0px' : '24px',
                   paddingLeft: '20px',
                   paddingRight: '20px',
-                  paddingBottom: isExpBottom ? '24px' : '0px',
+                  paddingBottom: isExpNone ? '24px' : isExpBottom ? '24px' : '0px',
                   ...getBackgroundPatternStyle(screenState),
                   fontFamily: screenState?.fontFamily || "'Inter', sans-serif"
                 }}
@@ -502,11 +504,13 @@ export default function CanvasArea({
                 )}
 
                 {/* SCREENSHOT */}
-                <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isExpBottom ? 'items-start' : 'items-end'}`}>
+                <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isExpNone ? 'items-center' : isExpBottom ? 'items-start' : 'items-end'}`}>
                   <div
                     className="w-full h-full overflow-hidden flex items-center justify-center"
                     style={{
-                      ...(isExpBottom ? {
+                      ...(isExpNone ? {
+                        borderRadius: `${exportCornerRadius}px`,
+                      } : isExpBottom ? {
                         borderTopLeftRadius: '0px',
                         borderTopRightRadius: '0px',
                         borderBottomLeftRadius: `${exportCornerRadius}px`,
