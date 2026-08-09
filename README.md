@@ -13,7 +13,7 @@
 <br />
 
 <p align="center">
-  <img src="./public/screenshot.png" alt="StoreFrame Studio Interface" width="100%" />
+  <img src="./public/store-frame-studio.png" alt="StoreFrame Studio Interface" width="100%" />
 </p>
 
 </div>
