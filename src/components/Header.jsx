@@ -35,8 +35,11 @@ export default function Header({
         <Button
           variant={viewMode === 'all' ? "default" : "ghost"}
           size="sm"
-          onClick={() => onToggleViewMode(viewMode === 'single' ? 'all' : 'single')}
-          className="h-8 px-3 text-xs font-semibold gap-1.5"
+          onClick={(e) => {
+            e.currentTarget.blur();
+            onToggleViewMode(viewMode === 'single' ? 'all' : 'single');
+          }}
+          className="h-8 px-3 text-xs font-semibold gap-1.5 focus:outline-none focus:ring-0"
           title="Alternar entre tela única e visão geral de todas as telas"
         >
           {viewMode === 'all' ? (
@@ -57,8 +60,11 @@ export default function Header({
         <Button
           variant="ghost"
           size="sm"
-          onClick={onDuplicateScreen}
-          className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white"
+          onClick={(e) => {
+            e.currentTarget.blur();
+            onDuplicateScreen();
+          }}
+          className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white focus:outline-none focus:ring-0"
           title="Duplicar tela atual"
         >
           <Copy className="w-3.5 h-3.5 text-zinc-400" />
@@ -68,8 +74,11 @@ export default function Header({
         <Button
           variant="ghost"
           size="sm"
-          onClick={onSyncStyles}
-          className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white"
+          onClick={(e) => {
+            e.currentTarget.blur();
+            onSyncStyles();
+          }}
+          className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white focus:outline-none focus:ring-0"
           title="Aplicar estilo de fundo e texto em todas as telas"
         >
           <Wand2 className="w-3.5 h-3.5 text-zinc-400" />
@@ -82,9 +91,12 @@ export default function Header({
         <Button
           variant="secondary"
           size="sm"
-          onClick={onExportSingle}
+          onClick={(e) => {
+            e.currentTarget.blur();
+            onExportSingle();
+          }}
           disabled={isExporting}
-          className="gap-1.5 text-xs font-semibold"
+          className="gap-1.5 text-xs font-semibold focus:outline-none focus:ring-0"
         >
           <Download className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">Exportar PNG</span>
@@ -93,9 +105,12 @@ export default function Header({
         <Button
           variant="default"
           size="sm"
-          onClick={onExportZip}
+          onClick={(e) => {
+            e.currentTarget.blur();
+            onExportZip();
+          }}
           disabled={isExporting}
-          className="gap-1.5 text-xs font-semibold"
+          className="gap-1.5 text-xs font-semibold focus:outline-none focus:ring-0"
         >
           <Archive className="w-3.5 h-3.5" />
           <span>ZIP ({screensCount})</span>
