@@ -18,15 +18,15 @@ export const STORE_PRESETS = [
 ];
 
 export const SOLID_COLOR_SWATCHES = [
-  { id: 'cyan-sky', name: 'Azul Celeste', hex: '#44C0FE' },
-  { id: 'vibrant-blue', name: 'Azul Elétrico', hex: '#2563EB' },
-  { id: 'emerald-mint', name: 'Verde Menta', hex: '#10B981' },
-  { id: 'coral-orange', name: 'Coral Quente', hex: '#FF6B6B' },
-  { id: 'soft-purple', name: 'Lilás Suave', hex: '#A855F7' },
-  { id: 'studio-white', name: 'Branco Puro', hex: '#FFFFFF' },
-  { id: 'soft-gray', name: 'Cinza Suave', hex: '#F4F4F5' },
-  { id: 'dark-slate', name: 'Cinza Escuro', hex: '#18181B' },
-  { id: 'pitch-black', name: 'Preto Absoluto', hex: '#000000' }
+  { id: 'cyan-sky', name: 'Sky Blue', hex: '#44C0FE' },
+  { id: 'vibrant-blue', name: 'Electric Blue', hex: '#2563EB' },
+  { id: 'emerald-mint', name: 'Mint Green', hex: '#10B981' },
+  { id: 'coral-orange', name: 'Warm Coral', hex: '#FF6B6B' },
+  { id: 'soft-purple', name: 'Soft Purple', hex: '#A855F7' },
+  { id: 'studio-white', name: 'Pure White', hex: '#FFFFFF' },
+  { id: 'soft-gray', name: 'Soft Gray', hex: '#F4F4F5' },
+  { id: 'dark-slate', name: 'Dark Gray', hex: '#18181B' },
+  { id: 'pitch-black', name: 'Pitch Black', hex: '#000000' }
 ];
 
 export const GOOGLE_FONTS = [

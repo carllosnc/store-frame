@@ -38,10 +38,10 @@ export default function Header({
             onDuplicateScreen?.();
           }}
           className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white focus:outline-none focus:ring-0"
-          title="Duplicar tela atual"
+          title="Duplicate active screen"
         >
           <Copy className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="hidden md:inline">Duplicar</span>
+          <span className="hidden md:inline">Duplicate</span>
         </Button>
 
         <Button
@@ -52,10 +52,10 @@ export default function Header({
             onSyncStyles?.();
           }}
           className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white focus:outline-none focus:ring-0"
-          title="Aplicar estilo de fundo e texto em todas as telas"
+          title="Apply background & text style to all screens"
         >
           <Wand2 className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="hidden md:inline">Aplicar Estilo em Todas</span>
+          <span className="hidden md:inline">Apply Style to All</span>
         </Button>
       </div>
 

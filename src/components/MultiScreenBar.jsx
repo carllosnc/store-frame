@@ -25,7 +25,7 @@ export default function MultiScreenBar({
               }`}
             >
               {/* Screen Title */}
-              <span className="max-w-[140px] truncate tracking-tight">{screen.title || `Tela ${idx + 1}`}</span>
+              <span className="max-w-[140px] truncate tracking-tight">{screen.title || `Screen ${idx + 1}`}</span>
 
               {/* Close Button X */}
               {screens.length > 1 && (
@@ -39,7 +39,7 @@ export default function MultiScreenBar({
                       ? 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-200'
                       : 'text-zinc-500 hover:text-white hover:bg-zinc-800'
                   }`}
-                  title="Fechar tela"
+                  title="Delete screen"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -54,7 +54,7 @@ export default function MultiScreenBar({
           className="h-12 px-4 rounded-xl border border-dashed border-zinc-700 hover:border-zinc-300 bg-zinc-900 text-zinc-300 hover:text-white text-sm font-bold flex items-center gap-2 transition-all hover:bg-zinc-800 shrink-0"
         >
           <Plus className="w-4 h-4 text-zinc-300" />
-          <span>Nova Tela</span>
+          <span>New Screen</span>
         </button>
       </div>
     </div>

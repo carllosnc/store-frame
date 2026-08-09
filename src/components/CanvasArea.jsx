@@ -269,7 +269,7 @@ export default function CanvasArea({
           title="Criar telas com vários prints"
         >
           <Images className="w-4 h-4 text-blue-400" />
-          Importar prints
+          Import Screenshots
         </button>
       </div>
 
@@ -284,7 +284,7 @@ export default function CanvasArea({
         <button
           onClick={() => setScale(s => Math.max(0.15, s * 0.85))}
           className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
-          title="Diminuir Zoom (-)"
+          title="Zoom Out (-)"
         >
           <ZoomOut className="w-4 h-4" />
         </button>
@@ -296,7 +296,7 @@ export default function CanvasArea({
         <button
           onClick={() => setScale(s => Math.min(2.5, s * 1.15))}
           className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
-          title="Aumentar Zoom (+)"
+          title="Zoom In (+)"
         >
           <ZoomIn className="w-4 h-4" />
         </button>
@@ -306,7 +306,7 @@ export default function CanvasArea({
         <button
           onClick={handleResetView}
           className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
-          title="Resetar Posição e Zoom"
+          title="Reset View"
         >
           <RotateCcw className="w-4 h-4 text-zinc-400" />
         </button>
@@ -315,7 +315,7 @@ export default function CanvasArea({
 
         <div className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-zinc-400 font-medium">
           <Move className="w-3 h-3 text-zinc-500" />
-          <span>Espaço / Ctrl + Arrastar</span>
+          <span>Space / Ctrl + Drag</span>
         </div>
       </div>
 
@@ -352,12 +352,12 @@ export default function CanvasArea({
                       isCurrentActive ? 'border-white text-white ring-2 ring-white/20' : 'border-zinc-800 group-hover:border-zinc-500'
                     }`}>
                       <span className="font-mono text-zinc-400">#{idx + 1}</span>
-                      <span>{sc.title || `Tela ${idx + 1}`}</span>
+                      <span>{sc.title || `Screen ${idx + 1}`}</span>
                     </div>
                     <button
                       onClick={(e) => { e.stopPropagation(); onDeleteScreen(idx); }}
                       className="z-10 flex items-center justify-center w-5 h-5 rounded-full bg-zinc-800 hover:bg-red-600 text-zinc-400 hover:text-white transition-all"
-                      title="Remover tela"
+                      title="Delete screen"
                     >
                       <X className="w-3 h-3" />
                     </button>
@@ -451,7 +451,7 @@ export default function CanvasArea({
                             <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center mb-1.5 text-zinc-300">
                               <Upload className="w-4 h-4" />
                             </div>
-                            <span className="text-[11px] font-semibold text-zinc-300">Carregar print</span>
+                            <span className="text-[11px] font-semibold text-zinc-300">Upload Screenshot</span>
                           </div>
                         )}
                       </div>

@@ -12,7 +12,7 @@ export default function App() {
   const [exportProgress, setExportProgress] = useState('');
 
 
-  const createInitialScreenState = (title = 'Tela 1', headlineText = 'Conecte-se com amigos', bgHex = '#44C0FE') => ({
+  const createInitialScreenState = (title = 'Screen 1', headlineText = 'Connect with friends', bgHex = '#44C0FE') => ({
     id: `screen-${Date.now()}-${Math.random().toString(36).substring(2, 5)}`,
     title: title,
     headline: headlineText,
@@ -31,15 +31,15 @@ export default function App() {
   });
 
   const [screens, setScreens] = useState([
-    createInitialScreenState('Tela 1 — Início', 'Conecte-se com amigos', '#44C0FE'),
-    createInitialScreenState('Tela 2 — Destaques', 'Compartilhe momentos', '#10B981'),
-    createInitialScreenState('Tela 3 — Perfil', 'Crie sua comunidade', '#FF6B6B')
+    createInitialScreenState('Screen 1 — Home', 'Connect with friends', '#44C0FE'),
+    createInitialScreenState('Screen 2 — Highlights', 'Share moments', '#10B981'),
+    createInitialScreenState('Screen 3 — Profile', 'Build your community', '#FF6B6B')
   ]);
 
   const [activeScreenIndex, setActiveScreenIndex] = useState(0);
   const canvasRef = useRef(null);
 
-  const defaultFallbackScreen = createInitialScreenState('Tela 1', 'Conecte-se com amigos', '#44C0FE');
+  const defaultFallbackScreen = createInitialScreenState('Screen 1', 'Connect with friends', '#44C0FE');
   const activeScreen = (screens && screens.length > 0)
     ? (screens[activeScreenIndex] || screens[0] || defaultFallbackScreen)
     : defaultFallbackScreen;
@@ -78,8 +78,8 @@ export default function App() {
       const reader = new FileReader();
       reader.onload = (ev) => {
         const newScreen = createInitialScreenState(
-          `Tela ${screens.length + i + 1}`,
-          `Título da Tela ${screens.length + i + 1}`,
+          `Screen ${screens.length + i + 1}`,
+          `Screen ${screens.length + i + 1} Title`,
           currentStyle.bgColor || '#44C0FE'
         );
         newScreen.imageSrc = ev.target.result;
@@ -91,26 +91,26 @@ export default function App() {
 
   const handleAddScreen = () => {
     const newIndex = screens.length + 1;
-    const newScreen = createInitialScreenState(`Tela ${newIndex}`, `Título da Tela ${newIndex}`, '#2563EB');
+    const newScreen = createInitialScreenState(`Screen ${newIndex}`, `Screen ${newIndex} Title`, '#2563EB');
     setScreens(prev => [...prev, newScreen]);
     setActiveScreenIndex(screens.length);
   };
 
-  // Clean duplication function that prevents stacking (Cópia) (Cópia)
+  // Clean duplication function that prevents stacking (Copy) (Copy)
   const handleDuplicateScreen = () => {
-    const rawTitle = activeScreen.title || 'Tela';
-    const baseTitle = rawTitle.replace(/\s*\(Cópia(?:\s+\d+)?\)$/gi, '').trim();
+    const rawTitle = activeScreen.title || 'Screen';
+    const baseTitle = rawTitle.replace(/\s*\(Copy(?:\s+\d+)?\)$/gi, '').trim();
 
     // Count how many copies already exist for this base title
     const existingCopies = screens.filter(sc => {
-      const scBase = (sc.title || '').replace(/\s*\(Cópia(?:\s+\d+)?\)$/gi, '').trim();
-      return scBase === baseTitle && sc.title.toLowerCase().includes('cópia');
+      const scBase = (sc.title || '').replace(/\s*\(Copy(?:\s+\d+)?\)$/gi, '').trim();
+      return scBase === baseTitle && sc.title.toLowerCase().includes('copy');
     });
 
     const nextCopyNumber = existingCopies.length + 1;
     const newTitle = nextCopyNumber === 1 
-      ? `${baseTitle} (Cópia)`
-      : `${baseTitle} (Cópia ${nextCopyNumber})`;
+      ? `${baseTitle} (Copy)`
+      : `${baseTitle} (Copy ${nextCopyNumber})`;
 
     const newScreen = {
       ...activeScreen,
@@ -152,11 +152,11 @@ export default function App() {
     try {
       setIsExporting(true);
       
-      setExportProgress('Gerando imagem da loja em alta definição...');
+      setExportProgress('Generating high-definition store image...');
       await downloadSingleScreen(canvasRef.current, activePreset, activeScreen.title);
     } catch (err) {
-      console.error('Erro ao exportar tela:', err);
-      alert('Erro ao gerar imagem.');
+      console.error('Error exporting screen:', err);
+      alert('Error generating image.');
     } finally {
       setIsExporting(false);
       setExportProgress('');
@@ -169,7 +169,7 @@ export default function App() {
       const originalIndex = activeScreenIndex;
 
       const renderScreenFn = async (index) => {
-        setExportProgress(`Renderizando tela ${index + 1} de ${screens.length}...`);
+        setExportProgress(`Rendering screen ${index + 1} of ${screens.length}...`);
         setActiveScreenIndex(index);
         await new Promise(r => setTimeout(r, 400));
         return await captureCanvasToPng(canvasRef.current, activePreset);
@@ -179,8 +179,8 @@ export default function App() {
       
       setActiveScreenIndex(originalIndex);
     } catch (err) {
-      console.error('Erro ao exportar ZIP:', err);
-      alert('Erro ao gerar arquivo ZIP.');
+      console.error('Error exporting ZIP:', err);
+      alert('Error generating ZIP file.');
     } finally {
       setIsExporting(false);
       setExportProgress('');
@@ -204,8 +204,8 @@ export default function App() {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center">
           <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-3 max-w-xs text-center">
             <div className="w-10 h-10 rounded-full border-4 border-white border-t-transparent animate-spin"></div>
-            <div className="text-sm font-bold text-white">Exportando para Lojas</div>
-            <p className="text-xs text-zinc-400">{exportProgress || 'Processando renderização...'}</p>
+            <div className="text-sm font-bold text-white">Exporting Store Assets</div>
+            <p className="text-xs text-zinc-400">{exportProgress || 'Processing render...'}</p>
           </div>
         </div>
       )}

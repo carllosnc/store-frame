@@ -66,9 +66,9 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
     <aside className="w-72 bg-zinc-950 border-r border-zinc-800 flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-9 sidebar-scrollbar-transparent">
 
-        {/* 1. FORMATO DA LOJA */}
+        {/* 1. STORE FORMAT */}
         <div className="space-y-3">
-          <SectionHeader icon={Layout} label="Formato da loja" />
+          <SectionHeader icon={Layout} label="Store Format" />
           <Select
             value={activePreset.id}
             onValueChange={(val) => {
@@ -77,7 +77,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             }}
           >
             <SelectTrigger className="w-full h-8 text-xs border-zinc-800 bg-zinc-900 text-zinc-300 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
-              <SelectValue placeholder="Selecione..." />
+              <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
               {STORE_PRESETS.map((p) => (
@@ -89,11 +89,11 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           </Select>
         </div>
 
-        {/* 2. IMAGEM DO APLICATIVO */}
+        {/* 2. APP SCREENSHOT */}
         <div className="space-y-3">
-          <SectionHeader icon={ImageIcon} label="Imagem do aplicativo" />
+          <SectionHeader icon={ImageIcon} label="App Screenshot" />
 
-          {/* Upload simples — tela ativa */}
+          {/* Simple Upload — Active Screen */}
           <div className="relative group">
             <input
               type="file"
@@ -111,18 +111,18 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             <div className="h-8 rounded-lg border border-dashed border-zinc-700 bg-zinc-900 group-hover:border-zinc-500 transition flex items-center justify-center gap-2">
               <Upload className="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition" />
               <span className="text-[11px] text-zinc-400 group-hover:text-white transition">
-                {currentScreen.imageSrc ? 'Trocar imagem' : 'Upload Captura de Tela'}
+                {currentScreen.imageSrc ? 'Change Image' : 'Upload Screenshot'}
               </span>
             </div>
           </div>
 
-          {/* Modo de Ajuste */}
+          {/* Image Fit Mode */}
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Ajuste da Imagem</label>
+            <label className="text-xs text-zinc-500">Image Fit</label>
             <div className="grid grid-cols-2 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
               {[
-                { id: 'contain', label: 'Sem Cortes' },
-                { id: 'cover', label: 'Preencher' }
+                { id: 'contain', label: 'Contain' },
+                { id: 'cover', label: 'Cover' }
               ].map((fit) => {
                 const isSelected = (currentScreen.imageFit || 'contain') === fit.id;
                 return (
@@ -143,7 +143,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           </div>
 
           <SliderRow
-            label="Arredondamento dos cantos"
+            label="Corner Radius"
             value={currentScreen.cornerRadius !== undefined ? currentScreen.cornerRadius : 36}
             unit="px"
             min={0} max={60} step={2}
@@ -151,9 +151,9 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           />
         </div>
 
-        {/* 3. PLANO DE FUNDO */}
+        {/* 3. BACKGROUND & COLORS */}
         <div className="space-y-3">
-          <SectionHeader icon={Palette} label="Plano de fundo & listras" />
+          <SectionHeader icon={Palette} label="Background & Colors" />
 
           <ColorPicker
             value={currentScreen.bgColor || '#44C0FE'}
@@ -163,29 +163,29 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
 
         </div>
 
-        {/* 4. TEXTO DO TÍTULO */}
+        {/* 4. TITLE TEXT */}
         <div className="space-y-3">
-          <SectionHeader icon={Type} label="Texto do título" />
+          <SectionHeader icon={Type} label="Title Text" />
 
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Nome da Tela</label>
+            <label className="text-xs text-zinc-500">Screen Name</label>
             <input
               type="text"
               value={currentScreen.title || ''}
               onChange={(e) => onUpdateScreenState('title', e.target.value)}
-              placeholder="Ex: Tela 1 — Início"
+              placeholder="e.g., Screen 1 — Home"
               className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition"
             />
           </div>
 
-          {/* Posição do Texto */}
+          {/* Text Position */}
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Posição do Texto</label>
+            <label className="text-xs text-zinc-500">Text Position</label>
             <div className="grid grid-cols-3 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
               {[
-                { id: 'top', label: 'Em cima' },
-                { id: 'bottom', label: 'Em baixo' },
-                { id: 'none', label: 'Sem texto' }
+                { id: 'top', label: 'Top' },
+                { id: 'bottom', label: 'Bottom' },
+                { id: 'none', label: 'No Text' }
               ].map((pos) => {
                 const isSelected = (currentScreen.textPosition || 'top') === pos.id;
                 return (
@@ -206,31 +206,31 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Texto Principal da Arte</label>
+            <label className="text-xs text-zinc-500">Main Title Text</label>
             <textarea
               rows={2}
               value={currentScreen.headline || ''}
               onChange={(e) => onUpdateScreenState('headline', e.target.value)}
-              placeholder="Ex: Conecte-se com amigos"
+              placeholder="e.g., Connect with friends"
               className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
             />
           </div>
 
           <SliderRow
-            label="Tamanho do texto"
+            label="Font Size"
             value={currentScreen.headlineSize || 48}
             unit="px"
             min={28} max={68} step={2}
             onValueChange={(v) => onUpdateScreenState('headlineSize', v)}
           />
 
-          {/* Peso da Fonte */}
+          {/* Font Weight */}
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Peso da fonte</label>
+            <label className="text-xs text-zinc-500">Font Weight</label>
             <div className="grid grid-cols-4 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
               {[
                 { id: '400', label: 'Normal' },
-                { id: '600', label: 'Médio' },
+                { id: '600', label: 'Medium' },
                 { id: '700', label: 'Bold' },
                 { id: '900', label: 'Black' }
               ].map((weight) => {
