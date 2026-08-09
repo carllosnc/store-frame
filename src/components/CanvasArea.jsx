@@ -13,8 +13,6 @@ export default function CanvasArea({
   screens = [],
   activeScreenIndex = 0,
   onSelectScreen,
-  viewMode = 'single',
-  onToggleViewMode,
   canvasRef,
   onImageDrop
 }) {
@@ -28,7 +26,26 @@ export default function CanvasArea({
   const [isSpacePressed, setIsSpacePressed] = useState(false);
 
   const containerRef = useRef(null);
+  const gridRef = useRef(null);
+  const screenRefs = useRef([]);
 
+  // Auto-center canvas on the active screen when selection changes
+  useEffect(() => {
+    const activeNode = screenRefs.current[activeScreenIndex];
+    if (activeNode && gridRef.current) {
+      const childCenterX = activeNode.offsetLeft + (activeNode.offsetWidth / 2);
+      const childCenterY = activeNode.offsetTop + (activeNode.offsetHeight / 2);
+
+      const gridCenterX = gridRef.current.offsetWidth / 2;
+      const gridCenterY = gridRef.current.offsetHeight / 2;
+
+      setPan({
+        x: gridCenterX - childCenterX,
+        y: gridCenterY - childCenterY
+      });
+      setScale(1.15); // Auto zoom level for focused screen
+    }
+  }, [activeScreenIndex]);
   // Spacebar Panning Listener (Restored for Infinite Canvas Panning only)
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -171,7 +188,7 @@ export default function CanvasArea({
       }`}
       style={{
         backgroundImage: `radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.2px)`,
-        backgroundSize: `${24 * scale}px ${24 * scale}px`,
+        backgroundSize: `24px 24px`,
         backgroundPosition: `${pan.x}px ${pan.y}px`
       }}
     >
@@ -236,27 +253,26 @@ export default function CanvasArea({
           transform: `translate(${pan.x}px, ${pan.y}px) scale(${scale})`
         }}
       >
-        <div className="pointer-events-auto flex items-center justify-center">
+        <div className={`flex items-center justify-center ${isPanning || isSpacePressed ? 'pointer-events-none' : 'pointer-events-auto'}`}>
           {/* VIEW MODE: OVERVIEW GRID (TODAS AS TELAS NO CANVAS INFINITO) */}
-          {viewMode === 'all' ? (
-            <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-16 max-w-[1600px] p-8">
-              {screens.map((sc, idx) => {
-                const isCurrentActive = activeScreenIndex === idx;
-                const scCornerRadius = sc.cornerRadius !== undefined ? sc.cornerRadius : 36;
-                const scZoomScale = (sc.imageZoom !== undefined ? sc.imageZoom : 100) / 100;
+          <div ref={gridRef} className="flex flex-wrap items-center justify-center gap-x-12 gap-y-16 max-w-[1600px] p-8">
+            {screens.map((sc, idx) => {
+              const isCurrentActive = activeScreenIndex === idx;
+              const scCornerRadius = sc.cornerRadius !== undefined ? sc.cornerRadius : 36;
+              const scZoomScale = (sc.imageZoom !== undefined ? sc.imageZoom : 100) / 100;
 
-                return (
-                  <div
-                    key={sc.id || idx}
-                    onClick={() => {
-                      onSelectScreen(idx);
-                      onToggleViewMode('single');
-                    }}
-                    className="group flex flex-col items-center gap-3 cursor-pointer transition-all duration-200 transform hover:scale-[1.02]"
-                  >
+              return (
+                <div
+                  key={sc.id || idx}
+                  ref={(el) => (screenRefs.current[idx] = el)}
+                  onClick={() => {
+                    onSelectScreen(idx);
+                  }}
+                  className="group flex flex-col items-center gap-6 cursor-pointer transition-all duration-200 transform hover:scale-[1.02]"
+                >
                     {/* Title Badge Header */}
                     <div className={`bg-[#14151C]/95 backdrop-blur-md border px-3.5 py-1 rounded-full text-xs font-bold text-zinc-200 shadow-md flex items-center gap-2 transition ${
-                      isCurrentActive ? 'border-sky-400/80 text-sky-300 ring-2 ring-sky-500/20' : 'border-[#222430] group-hover:border-zinc-500'
+                      isCurrentActive ? 'border-white text-white ring-2 ring-white/20' : 'border-[#222430] group-hover:border-zinc-500'
                     }`}>
                       <span className="font-mono text-zinc-400">#{idx + 1}</span>
                       <span>{sc.title || `Tela ${idx + 1}`}</span>
@@ -264,8 +280,8 @@ export default function CanvasArea({
 
                     {/* Rendered Mockup Card */}
                     <div
-                      className={`relative shadow-2xl overflow-hidden flex flex-col justify-between pt-12 px-8 pb-0 transition-all rounded-3xl ${
-                        isCurrentActive ? 'ring-4 ring-sky-400/70 shadow-sky-950/50 scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
+                      className={`relative shadow-2xl overflow-hidden flex flex-col justify-between pt-12 px-8 pb-0 transition-all ${
+                        isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] shadow-white/20 scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
                       }`}
                       style={{
                         width: `${preset.width / 4.2}px`,
@@ -321,12 +337,12 @@ export default function CanvasArea({
                 );
               })}
             </div>
-          ) : (
-            /* VIEW MODE: SINGLE ACTIVE SCREEN (CANVAS NODE FOR EXPORT) */
-            <div className="flex items-center justify-center relative">
-              <div
-                ref={canvasRef}
-                className="relative shadow-2xl overflow-hidden flex flex-col justify-between pt-16 px-10 pb-0 transition-all rounded-3xl"
+          
+          {/* HIDDEN EXPORT NODE: HIGH RESOLUTION CANVAS FOR EXPORTING ONLY */}
+          <div className="absolute top-[-9999px] left-[-9999px] opacity-0 pointer-events-none flex items-center justify-center">
+            <div
+              ref={canvasRef}
+                className="relative shadow-2xl overflow-hidden flex flex-col justify-between pt-16 px-10 pb-0 transition-all"
                 style={{
                   width: `${preset.width / 2.8}px`,
                   height: `${preset.height / 2.8}px`,
@@ -391,9 +407,9 @@ export default function CanvasArea({
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </div>
-    </div>
+    
   );
 }
