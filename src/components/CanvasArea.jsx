@@ -53,16 +53,27 @@ export default function CanvasArea({
       setScale(1.15); // Auto zoom level for focused screen
     }
   }, [activeScreenIndex]);
-  // Spacebar Panning Listener (Restored for Infinite Canvas Panning only)
+  // Keyboard Navigation & Spacebar Panning Listener
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.code === 'Space' && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+      const isEditingText = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
+
+      if (e.code === 'Space' && !isEditingText) {
         e.preventDefault();
-        // Blur active element so Space never triggers a focused button (like Visão Geral / Modo Foco)
         if (document.activeElement && typeof document.activeElement.blur === 'function') {
           document.activeElement.blur();
         }
         setIsSpacePressed(true);
+      }
+
+      if (!isEditingText) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          onSelectScreen(prev => Math.max(0, prev - 1));
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          onSelectScreen(prev => Math.min(screens.length - 1, prev + 1));
+        }
       }
     };
 
@@ -79,7 +90,7 @@ export default function CanvasArea({
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, []);
+  }, [screens.length, onSelectScreen]);
 
   // Mouse Wheel Zoom
   const handleWheel = (e) => {
