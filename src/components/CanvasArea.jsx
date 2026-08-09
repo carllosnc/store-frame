@@ -379,7 +379,7 @@ export default function CanvasArea({
                             fill="none"
                             stroke="#FFFFFF"
                             strokeWidth="2"
-                            strokeDasharray="6 5"
+                            strokeDasharray="6 6"
                             className="animate-marching-ants"
                           />
                         </svg>

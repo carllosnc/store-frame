@@ -119,10 +119,11 @@ input[type="range"]::-moz-range-thumb {
     stroke-dashoffset: 0;
   }
   100% {
-    stroke-dashoffset: -24;
+    stroke-dashoffset: -24px;
   }
 }
 
 .animate-marching-ants {
-  animation: marching-ants 1.2s linear infinite;
+  animation: marching-ants 1s linear infinite;
+  will-change: stroke-dashoffset;
 }
