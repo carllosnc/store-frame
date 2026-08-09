@@ -38,15 +38,22 @@ export default function App() {
   const [activeScreenIndex, setActiveScreenIndex] = useState(0);
   const canvasRef = useRef(null);
 
-  const activeScreen = screens[activeScreenIndex] || screens[0];
+  const defaultFallbackScreen = createInitialScreenState('Tela 1', 'Conecte-se com amigos', '#44C0FE');
+  const activeScreen = (screens && screens.length > 0)
+    ? (screens[activeScreenIndex] || screens[0] || defaultFallbackScreen)
+    : defaultFallbackScreen;
 
   const handleUpdateScreenState = (field, value) => {
     setScreens(prev => {
+      if (!prev || prev.length === 0) return prev;
+      const targetIndex = Math.min(Math.max(0, activeScreenIndex), prev.length - 1);
       const updated = [...prev];
-      updated[activeScreenIndex] = {
-        ...updated[activeScreenIndex],
-        [field]: value
-      };
+      if (updated[targetIndex]) {
+        updated[targetIndex] = {
+          ...updated[targetIndex],
+          [field]: value
+        };
+      }
       return updated;
     });
   };

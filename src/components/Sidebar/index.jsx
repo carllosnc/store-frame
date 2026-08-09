@@ -58,6 +58,7 @@ function ColorPicker({ value, onChange }) {
 }
 
 export default function Sidebar({ activePreset, onSelectPreset, screenState, onUpdateScreenState }) {
+  const currentScreen = screenState || {};
   return (
     <aside className="w-72 bg-zinc-950 border-r border-zinc-800 flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-9 sidebar-scrollbar-transparent">
@@ -107,14 +108,14 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             <div className="h-8 rounded-lg border border-dashed border-zinc-700 bg-zinc-900 group-hover:border-zinc-500 transition flex items-center justify-center gap-2">
               <Upload className="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition" />
               <span className="text-[11px] text-zinc-400 group-hover:text-white transition">
-                {screenState.imageSrc ? 'Trocar imagem' : 'Upload Captura de Tela'}
+                {currentScreen.imageSrc ? 'Trocar imagem' : 'Upload Captura de Tela'}
               </span>
             </div>
           </div>
 
           <SliderRow
             label="Zoom da Imagem Central"
-            value={screenState.imageZoom !== undefined ? screenState.imageZoom : 100}
+            value={currentScreen.imageZoom !== undefined ? currentScreen.imageZoom : 100}
             unit="%"
             min={80} max={160} step={2}
             onValueChange={(v) => onUpdateScreenState('imageZoom', v)}
@@ -122,7 +123,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
 
           <SliderRow
             label="Arredondamento dos cantos"
-            value={screenState.cornerRadius !== undefined ? screenState.cornerRadius : 36}
+            value={currentScreen.cornerRadius !== undefined ? currentScreen.cornerRadius : 36}
             unit="px"
             min={12} max={60} step={2}
             onValueChange={(v) => onUpdateScreenState('cornerRadius', v)}
@@ -134,7 +135,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           <SectionHeader icon={Palette} label="Plano de fundo & listras" />
 
           <ColorPicker
-            value={screenState.bgColor || '#44C0FE'}
+            value={currentScreen.bgColor || '#44C0FE'}
             onChange={(v) => onUpdateScreenState('bgColor', v)}
           />
 
@@ -149,7 +150,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             <label className="text-xs text-zinc-500">Nome da Tela</label>
             <input
               type="text"
-              value={screenState.title || ''}
+              value={currentScreen.title || ''}
               onChange={(e) => onUpdateScreenState('title', e.target.value)}
               placeholder="Ex: Tela 1 — Início"
               className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition"
@@ -160,7 +161,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             <label className="text-xs text-zinc-500">Texto Principal da Arte</label>
             <textarea
               rows={2}
-              value={screenState.headline}
+              value={currentScreen.headline || ''}
               onChange={(e) => onUpdateScreenState('headline', e.target.value)}
               placeholder="Ex: Conecte-se com amigos"
               className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
@@ -169,7 +170,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
 
           <SliderRow
             label="Tamanho do texto"
-            value={screenState.headlineSize || 48}
+            value={currentScreen.headlineSize || 48}
             unit="px"
             min={28} max={68} step={2}
             onValueChange={(v) => onUpdateScreenState('headlineSize', v)}
@@ -178,7 +179,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           {/* Cor do texto + Alinhamento */}
           <div className="grid grid-cols-2 gap-2">
             <ColorPicker
-              value={screenState.headlineColor || '#000000'}
+              value={currentScreen.headlineColor || '#000000'}
               onChange={(v) => onUpdateScreenState('headlineColor', v)}
             />
 
@@ -188,7 +189,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
                 { id: 'center', icon: AlignCenter },
                 { id: 'right', icon: AlignRight }
               ].map(({ id, icon: Icon }) => {
-                const isSelected = (screenState.textAlign || 'center') === id;
+                const isSelected = (currentScreen.textAlign || 'center') === id;
                 return (
                   <button
                     key={id}

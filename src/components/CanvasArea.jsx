@@ -173,7 +173,8 @@ export default function CanvasArea({
     }
   };
 
-  const getBackgroundPatternStyle = (scState) => {
+  const getBackgroundPatternStyle = (scState = {}) => {
+    if (!scState) return { backgroundColor: '#44C0FE' };
     const bgPattern = scState.bgPattern || 'none';
     const bgColor = scState.bgColor || '#44C0FE';
 
@@ -201,8 +202,9 @@ export default function CanvasArea({
     };
   };
 
-  const imageCornerRadius = screenState.cornerRadius !== undefined ? screenState.cornerRadius : 36;
-  const imageZoomScale = (screenState.imageZoom !== undefined ? screenState.imageZoom : 100) / 100;
+  const safeScreenState = screenState || {};
+  const imageCornerRadius = safeScreenState.cornerRadius !== undefined ? safeScreenState.cornerRadius : 36;
+  const imageZoomScale = (safeScreenState.imageZoom !== undefined ? safeScreenState.imageZoom : 100) / 100;
 
   return (
     <div
