@@ -15,8 +15,6 @@ export default function Header({
   onExportZip,
   isExporting,
   screensCount = 1,
-  viewMode = 'single',
-  onToggleViewMode,
   onDuplicateScreen,
   onSyncStyles
 }) {
@@ -32,30 +30,6 @@ export default function Header({
 
       {/* Studio Action Controls in Top Header */}
       <div className="flex items-center gap-1 bg-[#14151C] p-1 rounded-xl border border-[#22242A]">
-        <Button
-          variant={viewMode === 'all' ? "default" : "ghost"}
-          size="sm"
-          onClick={(e) => {
-            e.currentTarget.blur();
-            onToggleViewMode(viewMode === 'single' ? 'all' : 'single');
-          }}
-          className="h-8 px-3 text-xs font-semibold gap-1.5 focus:outline-none focus:ring-0"
-          title={viewMode === 'single' ? "Clique para alternar para a Visão Geral (Grid de Telas)" : "Clique para alternar para o Modo Foco (Tela Única)"}
-        >
-          {viewMode === 'single' ? (
-            <>
-              <Maximize2 className="w-3.5 h-3.5 text-zinc-300" />
-              <span className="hidden md:inline">Modo Foco</span>
-            </>
-          ) : (
-            <>
-              <LayoutGrid className="w-3.5 h-3.5 text-sky-400" />
-              <span className="hidden md:inline">Visão Geral ({screensCount})</span>
-            </>
-          )}
-        </Button>
-
-        <div className="w-[1px] h-4 bg-[#22242A]" />
 
         <Button
           variant="ghost"

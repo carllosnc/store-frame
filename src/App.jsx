@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import CanvasArea from './components/CanvasArea';
-import MultiScreenBar from './components/MultiScreenBar';
+
 import { STORE_PRESETS } from './constants/dimensions';
 import { downloadSingleScreen, downloadZipBundle, captureCanvasToPng } from './utils/exporter';
 
@@ -11,7 +11,7 @@ export default function App() {
   const [zoom, setZoom] = useState(65);
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState('');
-  const [viewMode, setViewMode] = useState('single'); // 'single' | 'all'
+
 
   const createInitialScreenState = (title = 'Tela 1', headlineText = 'Conecte-se com amigos', bgHex = '#44C0FE') => ({
     id: `screen-${Date.now()}-${Math.random().toString(36).substring(2, 5)}`,
@@ -120,6 +120,7 @@ export default function App() {
   const handleExportSingle = async () => {
     try {
       setIsExporting(true);
+      
       setExportProgress('Gerando imagem da loja em alta definição...');
       await downloadSingleScreen(canvasRef.current, activePreset, activeScreen.title);
     } catch (err) {
@@ -144,6 +145,7 @@ export default function App() {
       };
 
       await downloadZipBundle(screens, activePreset, renderScreenFn);
+      
       setActiveScreenIndex(originalIndex);
     } catch (err) {
       console.error('Erro ao exportar ZIP:', err);
@@ -163,8 +165,6 @@ export default function App() {
         onExportZip={handleExportZip}
         isExporting={isExporting}
         screensCount={screens.length}
-        viewMode={viewMode}
-        onToggleViewMode={setViewMode}
         onDuplicateScreen={handleDuplicateScreen}
         onSyncStyles={handleSyncStyles}
       />
@@ -193,21 +193,15 @@ export default function App() {
           screens={screens}
           activeScreenIndex={activeScreenIndex}
           onSelectScreen={setActiveScreenIndex}
-          viewMode={viewMode}
-          onToggleViewMode={setViewMode}
+          onAddScreen={handleAddScreen}
+          onDeleteScreen={handleDeleteScreen}
           zoom={zoom}
           canvasRef={canvasRef}
           onImageDrop={handleImageDrop}
         />
       </div>
 
-      <MultiScreenBar
-        screens={screens}
-        activeScreenIndex={activeScreenIndex}
-        onSelectScreen={setActiveScreenIndex}
-        onAddScreen={handleAddScreen}
-        onDeleteScreen={handleDeleteScreen}
-      />
+      
     </div>
   );
 }
