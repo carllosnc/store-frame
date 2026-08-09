@@ -224,6 +224,34 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             onValueChange={(v) => onUpdateScreenState('headlineSize', v)}
           />
 
+          {/* Peso da Fonte */}
+          <div className="space-y-1">
+            <label className="text-xs text-zinc-500">Peso da fonte</label>
+            <div className="grid grid-cols-4 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
+              {[
+                { id: '400', label: 'Normal' },
+                { id: '600', label: 'Médio' },
+                { id: '700', label: 'Bold' },
+                { id: '900', label: 'Black' }
+              ].map((weight) => {
+                const isSelected = (currentScreen.headlineWeight || '900') === weight.id;
+                return (
+                  <button
+                    key={weight.id}
+                    onClick={() => onUpdateScreenState('headlineWeight', weight.id)}
+                    className={`py-1 text-[10px] font-medium rounded transition ${
+                      isSelected
+                        ? 'bg-zinc-200 text-zinc-950 font-semibold shadow-sm'
+                        : 'text-zinc-400 hover:text-zinc-200'
+                    }`}
+                  >
+                    {weight.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Cor do texto + Alinhamento */}
           <div className="grid grid-cols-2 gap-2">
             <ColorPicker
