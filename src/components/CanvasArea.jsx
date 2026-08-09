@@ -360,71 +360,62 @@ export default function CanvasArea({
             </div>
 
           {/* HIDDEN EXPORT NODE: HIGH RESOLUTION CANVAS FOR EXPORTING ONLY */}
-          <div className="absolute top-[-9999px] left-[-9999px] opacity-0 pointer-events-none flex items-center justify-center">
+          <div className="pointer-events-none flex items-center justify-center" style={{ position: 'fixed', top: '-9999px', left: '-9999px', zIndex: -1 }}>
             <div
               ref={canvasRef}
-                className="relative overflow-hidden flex flex-col justify-between pt-16 px-10 pb-0 transition-all"
-                style={{
-                  width: `${preset.width / 2.8}px`,
-                  height: `${preset.height / 2.8}px`,
-                  ...getBackgroundPatternStyle(screenState),
-                  fontFamily: screenState.fontFamily || "'Inter', sans-serif"
-                }}
-              >
-                {/* TOP HEADLINE TEXT */}
-                <div className={`z-10 flex flex-col ${getAlignmentClass(screenState.textAlign)} gap-3 px-4 max-w-xl mx-auto w-full mb-8`}>
-                  {screenState.headline && (
-                    <h1
-                      className="font-black tracking-tight leading-tight transition-all"
-                      style={{
-                        color: screenState.headlineColor || '#000000',
-                        fontSize: `${screenState.headlineSize || 48}px`,
-                        fontWeight: screenState.headlineWeight || '900'
-                      }}
-                    >
-                      {screenState.headline}
-                    </h1>
-                  )}
-                  {screenState.subtitle && (
-                    <p
-                      className="font-semibold opacity-90 max-w-md leading-relaxed transition-all"
-                      style={{
-                        color: screenState.subtitleColor || '#18181B',
-                        fontSize: `${Math.max(14, (screenState.headlineSize || 48) * 0.40)}px`
-                      }}
-                    >
-                      {screenState.subtitle}
-                    </p>
-                  )}
-                </div>
-
-                {/* FRAMELESS SCREENSHOT */}
-                <div className="w-full flex-1 flex items-end justify-center relative z-10 overflow-hidden pt-4">
-                  <div
-                    className="w-full h-full max-w-[340px] overflow-hidden transition-all flex items-center justify-center bg-black"
+              className="relative overflow-hidden flex flex-col"
+              style={{
+                width: `${preset.width / 2.8}px`,
+                height: `${preset.height / 2.8}px`,
+                paddingTop: '30px',
+                paddingLeft: '18px',
+                paddingRight: '18px',
+                paddingBottom: '0',
+                ...getBackgroundPatternStyle(screenState),
+                fontFamily: screenState.fontFamily || "'Inter', sans-serif"
+              }}
+            >
+              {/* TOP HEADLINE TEXT — mirrors canvas card */}
+              <div className={`z-10 flex flex-col ${getAlignmentClass(screenState.textAlign)} w-full`} style={{ gap: '6px', marginBottom: '18px' }}>
+                {screenState.headline && (
+                  <h1
+                    className="font-black tracking-tight leading-tight"
                     style={{
-                      borderTopLeftRadius: `${imageCornerRadius}px`,
-                      borderTopRightRadius: `${imageCornerRadius}px`,
-                      borderBottomLeftRadius: '0px',
-                      borderBottomRightRadius: '0px',
-                      boxShadow: 'none'
+                      color: screenState.headlineColor || '#000000',
+                      fontSize: `${Math.max(30, (screenState.headlineSize || 48) * 0.825)}px`,
+                      fontWeight: screenState.headlineWeight || '900'
                     }}
                   >
-                    {screenState.imageSrc ? (
-                      <img
-                        src={screenState.imageSrc}
-                        alt="App Screenshot"
-                        className="w-full h-full object-cover object-top transition-transform duration-150 origin-top"
-                        style={{ transform: `scale(${imageZoomScale})` }}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-zinc-900 text-white flex flex-col items-center justify-center text-center select-none group border border-white/5">
-                        <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-white group-hover:scale-110 transition-all shadow-sm">
-                          <Upload className="w-6 h-6 text-white" />
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                    {screenState.headline}
+                  </h1>
+                )}
+              </div>
+
+              {/* SCREENSHOT — mirrors canvas card (w-full, same border/radius style) */}
+              <div className="w-full flex-1 flex items-end justify-center relative z-10 overflow-hidden">
+                <div
+                  className="w-full h-full overflow-hidden bg-black"
+                  style={{
+                    border: '7px solid #000',
+                    borderBottom: 'none',
+                    borderTopLeftRadius: `${imageCornerRadius * 1.05}px`,
+                    borderTopRightRadius: `${imageCornerRadius * 1.05}px`,
+                    borderBottomLeftRadius: '0px',
+                    borderBottomRightRadius: '0px',
+                  }}
+                >
+                  {screenState.imageSrc ? (
+                    <img
+                      src={screenState.imageSrc}
+                      alt="App Screenshot"
+                      className="w-full h-full object-cover object-top"
+                      style={{ transform: `scale(${imageZoomScale})`, transformOrigin: 'top center' }}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-zinc-900 text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
+                      <Upload className="w-6 h-6 text-white/50" />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

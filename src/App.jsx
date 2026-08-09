@@ -140,7 +140,7 @@ export default function App() {
       const renderScreenFn = async (index) => {
         setExportProgress(`Renderizando tela ${index + 1} de ${screens.length}...`);
         setActiveScreenIndex(index);
-        await new Promise(r => setTimeout(r, 220));
+        await new Promise(r => setTimeout(r, 400));
         return await captureCanvasToPng(canvasRef.current, activePreset);
       };
 
