@@ -112,3 +112,17 @@ input[type="range"]::-moz-range-thumb {
   border: none;
   box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
 }
+
+/* Marching Ants Animated Selection Line */
+@keyframes marching-ants {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -24;
+  }
+}
+
+.animate-marching-ants {
+  animation: marching-ants 1.2s linear infinite;
+}

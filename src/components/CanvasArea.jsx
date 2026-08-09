@@ -364,19 +364,41 @@ export default function CanvasArea({
                   </div>
 
                   {/* Rendered Mockup Card */}
-                  <div
-                    className={`relative overflow-hidden flex flex-col transition-all ${
-                      isNoText ? 'p-4' : isBottomText ? 'pt-0 px-3.5 pb-4' : 'pt-4 px-3.5 pb-0'
-                    } ${
-                      isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
-                    }`}
-                    style={{
-                      width: `${preset.width / 4.2}px`,
-                      height: `${preset.height / 4.2}px`,
-                      ...getBackgroundPatternStyle(sc),
-                      fontFamily: sc.fontFamily || "'Inter', sans-serif"
-                    }}
-                  >
+                  <div className="relative">
+                    {/* Active Selection Animated Dashed Ring Overlay */}
+                    {isCurrentActive && (
+                      <div className="absolute -inset-[7px] pointer-events-none z-30">
+                        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                          <rect
+                            x="1.5"
+                            y="1.5"
+                            width="calc(100% - 3px)"
+                            height="calc(100% - 3px)"
+                            rx="8"
+                            ry="8"
+                            fill="none"
+                            stroke="#FFFFFF"
+                            strokeWidth="2"
+                            strokeDasharray="6 5"
+                            className="animate-marching-ants"
+                          />
+                        </svg>
+                      </div>
+                    )}
+
+                    <div
+                      className={`relative overflow-hidden flex flex-col transition-all ${
+                        isNoText ? 'p-4' : isBottomText ? 'pt-0 px-3.5 pb-4' : 'pt-4 px-3.5 pb-0'
+                      } ${
+                        isCurrentActive ? 'scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
+                      }`}
+                      style={{
+                        width: `${preset.width / 4.2}px`,
+                        height: `${preset.height / 4.2}px`,
+                        ...getBackgroundPatternStyle(sc),
+                        fontFamily: sc.fontFamily || "'Inter', sans-serif"
+                      }}
+                    >
                     {/* Headline - TOP (Pushes screenshot down naturally) */}
                     {!isNoText && !isBottomText && (
                       <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mb-3`}>
@@ -452,6 +474,7 @@ export default function CanvasArea({
                         )}
                       </div>
                     )}
+                    </div>
                   </div>
                 </div>
               );
