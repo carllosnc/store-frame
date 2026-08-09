@@ -160,6 +160,33 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             />
           </div>
 
+          {/* Posição do Texto */}
+          <div className="space-y-1">
+            <label className="text-xs text-zinc-500">Posição do Texto</label>
+            <div className="grid grid-cols-3 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
+              {[
+                { id: 'top', label: 'Em cima' },
+                { id: 'bottom', label: 'Em baixo' },
+                { id: 'none', label: 'Sem texto' }
+              ].map((pos) => {
+                const isSelected = (currentScreen.textPosition || 'top') === pos.id;
+                return (
+                  <button
+                    key={pos.id}
+                    onClick={() => onUpdateScreenState('textPosition', pos.id)}
+                    className={`py-1 text-[11px] font-medium rounded transition ${
+                      isSelected
+                        ? 'bg-zinc-200 text-zinc-950 font-semibold shadow-sm'
+                        : 'text-zinc-400 hover:text-zinc-200'
+                    }`}
+                  >
+                    {pos.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <div className="space-y-1">
             <label className="text-xs text-zinc-500">Texto Principal da Arte</label>
             <textarea

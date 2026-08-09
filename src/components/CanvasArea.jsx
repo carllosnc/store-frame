@@ -333,6 +333,9 @@ export default function CanvasArea({
               const isCurrentActive = activeScreenIndex === idx;
               const scCornerRadius = sc.cornerRadius !== undefined ? sc.cornerRadius : 36;
               const scZoomScale = (sc.imageZoom !== undefined ? sc.imageZoom : 100) / 100;
+              const textPos = sc.textPosition || 'top';
+              const isBottomText = textPos === 'bottom';
+              const isNoText = textPos === 'none';
 
               return (
                 <div
@@ -358,20 +361,23 @@ export default function CanvasArea({
                     </button>
                   </div>
 
-                    {/* Rendered Mockup Card */}
-                    <div
-                      className={`relative overflow-hidden flex flex-col pt-5 px-3 pb-0 transition-all ${
-                        isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
-                      }`}
-                      style={{
-                        width: `${preset.width / 4.2}px`,
-                        height: `${preset.height / 4.2}px`,
-                        ...getBackgroundPatternStyle(sc),
-                        fontFamily: sc.fontFamily || "'Inter', sans-serif"
-                      }}
-                    >
-                      {/* Headline */}
-                      <div className={`z-10 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mb-3`}>
+                  {/* Rendered Mockup Card */}
+                  <div
+                    className={`relative overflow-hidden flex flex-col transition-all ${
+                      isBottomText ? 'pt-0 px-3 pb-5' : 'pt-5 px-3 pb-0'
+                    } ${
+                      isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
+                    }`}
+                    style={{
+                      width: `${preset.width / 4.2}px`,
+                      height: `${preset.height / 4.2}px`,
+                      ...getBackgroundPatternStyle(sc),
+                      fontFamily: sc.fontFamily || "'Inter', sans-serif"
+                    }}
+                  >
+                    {/* Headline */}
+                    {!isNoText && (
+                      <div className={`z-10 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full ${isBottomText ? 'order-2 mt-3 mb-0' : 'order-1 mb-3'}`}>
                         {sc.headline && (
                           <h1
                             className="font-black tracking-tight leading-tight transition-all"
@@ -385,108 +391,138 @@ export default function CanvasArea({
                           </h1>
                         )}
                       </div>
+                    )}
 
-                      {/* Screenshot */}
-                      <div className="w-full flex-1 flex items-end justify-center relative z-10 overflow-hidden">
-                        <div
-                          className="w-full h-full overflow-hidden transition-all bg-black"
-                          style={{
-                            border: '5px solid #000',
+                    {/* Screenshot */}
+                    <div className={`w-full flex-1 flex justify-center relative z-10 overflow-hidden ${isBottomText ? 'order-1 items-start' : 'order-2 items-end'}`}>
+                      <div
+                        className="w-full h-full overflow-hidden transition-all bg-black"
+                        style={{
+                          border: '5px solid #000',
+                          ...(isBottomText ? {
+                            borderTop: 'none',
+                            borderTopLeftRadius: '0px',
+                            borderTopRightRadius: '0px',
+                            borderBottomLeftRadius: `${scCornerRadius * 0.7}px`,
+                            borderBottomRightRadius: `${scCornerRadius * 0.7}px`,
+                          } : {
                             borderBottom: 'none',
                             borderTopLeftRadius: `${scCornerRadius * 0.7}px`,
                             borderTopRightRadius: `${scCornerRadius * 0.7}px`,
                             borderBottomLeftRadius: '0px',
                             borderBottomRightRadius: '0px',
-                          }}
-                        >
-                          {sc.imageSrc && typeof sc.imageSrc === 'string' && sc.imageSrc.trim() !== '' ? (
-                            <img
-                              src={sc.imageSrc}
-                              alt="App Screenshot"
-                              className="w-full h-full object-cover object-top transition-transform duration-150 origin-top"
-                              style={{ transform: `scale(${scZoomScale})` }}
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 text-white flex flex-col items-center justify-center text-center p-3 select-none border border-white/10">
-                              <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center mb-1.5 text-zinc-300">
-                                <Upload className="w-4 h-4" />
-                              </div>
-                              <span className="text-[11px] font-semibold text-zinc-300">Carregar print</span>
+                          })
+                        }}
+                      >
+                        {sc.imageSrc && typeof sc.imageSrc === 'string' && sc.imageSrc.trim() !== '' ? (
+                          <img
+                            src={sc.imageSrc}
+                            alt="App Screenshot"
+                            className="w-full h-full object-cover object-top transition-transform duration-150 origin-top"
+                            style={{ transform: `scale(${scZoomScale})` }}
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 text-white flex flex-col items-center justify-center text-center p-3 select-none border border-white/10">
+                            <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center mb-1.5 text-zinc-300">
+                              <Upload className="w-4 h-4" />
                             </div>
-                          )}
-                        </div>
+                            <span className="text-[11px] font-semibold text-zinc-300">Carregar print</span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
+          </div>
 
-          {/* HIDDEN EXPORT NODE: HIGH RESOLUTION CANVAS FOR EXPORTING ONLY */}
-          <div className="pointer-events-none flex items-center justify-center" style={{ position: 'fixed', top: '-9999px', left: '-9999px', zIndex: -1 }}>
-            <div
-              ref={canvasRef}
-              className="relative overflow-hidden flex flex-col"
-              style={{
-                width: `${preset.width / 2.8}px`,
-                height: `${preset.height / 2.8}px`,
-                paddingTop: '30px',
-                paddingLeft: '18px',
-                paddingRight: '18px',
-                paddingBottom: '0',
-                ...getBackgroundPatternStyle(screenState),
-                fontFamily: screenState.fontFamily || "'Inter', sans-serif"
-              }}
-            >
-              {/* TOP HEADLINE TEXT — mirrors canvas card */}
-              <div className={`z-10 flex flex-col ${getAlignmentClass(screenState.textAlign)} w-full`} style={{ gap: '6px', marginBottom: '18px' }}>
-                {screenState.headline && (
-                  <h1
-                    className="font-black tracking-tight leading-tight"
+        {/* HIDDEN EXPORT NODE: HIGH RESOLUTION CANVAS FOR EXPORTING ONLY */}
+        {(() => {
+          const expTextPos = safeScreenState.textPosition || 'top';
+          const isExpBottom = expTextPos === 'bottom';
+          const isExpNone = expTextPos === 'none';
+
+          return (
+            <div className="pointer-events-none flex items-center justify-center" style={{ position: 'fixed', top: '-9999px', left: '-9999px', zIndex: -1 }}>
+              <div
+                ref={canvasRef}
+                className="relative overflow-hidden flex flex-col"
+                style={{
+                  width: `${preset.width / 2.8}px`,
+                  height: `${preset.height / 2.8}px`,
+                  paddingTop: isExpBottom ? '0px' : isExpNone ? '36px' : '30px',
+                  paddingLeft: '18px',
+                  paddingRight: '18px',
+                  paddingBottom: isExpBottom ? '30px' : '0px',
+                  ...getBackgroundPatternStyle(screenState),
+                  fontFamily: screenState?.fontFamily || "'Inter', sans-serif"
+                }}
+              >
+                {/* TOP/BOTTOM HEADLINE TEXT — mirrors canvas card */}
+                {!isExpNone && (
+                  <div
+                    className={`z-10 flex flex-col ${getAlignmentClass(screenState?.textAlign)} w-full ${isExpBottom ? 'order-2 mt-4 mb-0' : 'order-1 mb-4'}`}
+                    style={{ gap: '6px' }}
+                  >
+                    {screenState?.headline && (
+                      <h1
+                        className="font-black tracking-tight leading-tight"
+                        style={{
+                          color: screenState?.headlineColor || '#000000',
+                          fontSize: `${Math.max(30, (screenState?.headlineSize || 48) * 0.825)}px`,
+                          fontWeight: screenState?.headlineWeight || '900'
+                        }}
+                      >
+                        {screenState.headline}
+                      </h1>
+                    )}
+                  </div>
+                )}
+
+                {/* SCREENSHOT — mirrors canvas card */}
+                <div className={`w-full flex-1 flex justify-center relative z-10 overflow-hidden ${isExpBottom ? 'order-1 items-start' : 'order-2 items-end'}`}>
+                  <div
+                    className="w-full h-full overflow-hidden bg-black"
                     style={{
-                      color: screenState.headlineColor || '#000000',
-                      fontSize: `${Math.max(30, (screenState.headlineSize || 48) * 0.825)}px`,
-                      fontWeight: screenState.headlineWeight || '900'
+                      border: '7px solid #000',
+                      ...(isExpBottom ? {
+                        borderTop: 'none',
+                        borderTopLeftRadius: '0px',
+                        borderTopRightRadius: '0px',
+                        borderBottomLeftRadius: `${imageCornerRadius * 1.05}px`,
+                        borderBottomRightRadius: `${imageCornerRadius * 1.05}px`,
+                      } : {
+                        borderBottom: 'none',
+                        borderTopLeftRadius: `${imageCornerRadius * 1.05}px`,
+                        borderTopRightRadius: `${imageCornerRadius * 1.05}px`,
+                        borderBottomLeftRadius: '0px',
+                        borderBottomRightRadius: '0px',
+                      })
                     }}
                   >
-                    {screenState.headline}
-                  </h1>
-                )}
-              </div>
-
-              {/* SCREENSHOT — mirrors canvas card (w-full, same border/radius style) */}
-              <div className="w-full flex-1 flex items-end justify-center relative z-10 overflow-hidden">
-                <div
-                  className="w-full h-full overflow-hidden bg-black"
-                  style={{
-                    border: '7px solid #000',
-                    borderBottom: 'none',
-                    borderTopLeftRadius: `${imageCornerRadius * 1.05}px`,
-                    borderTopRightRadius: `${imageCornerRadius * 1.05}px`,
-                    borderBottomLeftRadius: '0px',
-                    borderBottomRightRadius: '0px',
-                  }}
-                >
-                  {screenState.imageSrc && typeof screenState.imageSrc === 'string' && screenState.imageSrc.trim() !== '' ? (
-                    <img
-                      src={screenState.imageSrc}
-                      alt="App Screenshot"
-                      className="w-full h-full object-cover object-top"
-                      style={{ transform: `scale(${imageZoomScale})`, transformOrigin: 'top center' }}
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
-                      <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-white shadow-sm">
-                        <Upload className="w-6 h-6 text-white" />
+                    {screenState?.imageSrc && typeof screenState.imageSrc === 'string' && screenState.imageSrc.trim() !== '' ? (
+                      <img
+                        src={screenState.imageSrc}
+                        alt="App Screenshot"
+                        className="w-full h-full object-cover object-top"
+                        style={{ transform: `scale(${imageZoomScale})`, transformOrigin: 'top center' }}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
+                        <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-white shadow-sm">
+                          <Upload className="w-6 h-6 text-white" />
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          );
+        })()}
       </div>
     </div>
+  </div>
   );
 }
