@@ -139,7 +139,11 @@ export default function App() {
         cornerRadius: styleSource.cornerRadius,
         fontFamily: styleSource.fontFamily,
         headlineColor: styleSource.headlineColor,
-        headlineSize: styleSource.headlineSize
+        headlineSize: styleSource.headlineSize,
+        headlineWeight: styleSource.headlineWeight,
+        textPosition: styleSource.textPosition,
+        textAlign: styleSource.textAlign,
+        imageFit: styleSource.imageFit
       }))
     );
   };
