@@ -116,6 +116,32 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             </div>
           </div>
 
+          {/* Modo de Ajuste */}
+          <div className="space-y-1">
+            <label className="text-xs text-zinc-500">Ajuste da Imagem</label>
+            <div className="grid grid-cols-2 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
+              {[
+                { id: 'contain', label: 'Sem Cortes' },
+                { id: 'cover', label: 'Preencher' }
+              ].map((fit) => {
+                const isSelected = (currentScreen.imageFit || 'contain') === fit.id;
+                return (
+                  <button
+                    key={fit.id}
+                    onClick={() => onUpdateScreenState('imageFit', fit.id)}
+                    className={`py-1 text-[11px] font-medium rounded transition ${
+                      isSelected
+                        ? 'bg-zinc-200 text-zinc-950 font-semibold shadow-sm'
+                        : 'text-zinc-400 hover:text-zinc-200'
+                    }`}
+                  >
+                    {fit.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <SliderRow
             label="Zoom da Imagem Central"
             value={currentScreen.imageZoom !== undefined ? currentScreen.imageZoom : 100}

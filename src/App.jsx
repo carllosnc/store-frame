@@ -26,7 +26,8 @@ export default function App() {
     textPosition: 'top',
     textAlign: 'center',
     fontFamily: "'Inter', sans-serif",
-    imageSrc: null
+    imageSrc: null,
+    imageFit: 'contain'
   });
 
   const [screens, setScreens] = useState([

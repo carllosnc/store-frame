@@ -336,6 +336,7 @@ export default function CanvasArea({
               const textPos = sc.textPosition || 'top';
               const isBottomText = textPos === 'bottom';
               const isNoText = textPos === 'none';
+              const scImageFit = sc.imageFit || 'contain';
 
               return (
                 <div
@@ -363,8 +364,8 @@ export default function CanvasArea({
 
                   {/* Rendered Mockup Card */}
                   <div
-                    className={`relative overflow-hidden flex flex-col transition-all ${
-                      isBottomText ? 'pt-0 px-3 pb-5' : 'pt-5 px-3 pb-0'
+                    className={`relative overflow-hidden flex flex-col justify-between transition-all ${
+                      isBottomText ? 'pt-4 px-3 pb-3' : isNoText ? 'pt-4 px-3 pb-0' : 'pt-4 px-3 pb-0'
                     } ${
                       isCurrentActive ? 'outline outline-2 outline-white outline-offset-[6px] scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
                     }`}
@@ -375,15 +376,15 @@ export default function CanvasArea({
                       fontFamily: sc.fontFamily || "'Inter', sans-serif"
                     }}
                   >
-                    {/* Headline */}
-                    {!isNoText && (
-                      <div className={`z-10 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full ${isBottomText ? 'order-2 mt-3 mb-0' : 'order-1 mb-3'}`}>
+                    {/* Headline - TOP */}
+                    {!isNoText && !isBottomText && (
+                      <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mb-2`}>
                         {sc.headline && (
                           <h1
                             className="font-black tracking-tight leading-tight transition-all"
                             style={{
                               color: sc.headlineColor || '#000000',
-                              fontSize: `${Math.max(20, (sc.headlineSize || 48) * 0.55)}px`,
+                              fontSize: `${Math.max(18, (sc.headlineSize || 48) * 0.52)}px`,
                               fontWeight: sc.headlineWeight || '900'
                             }}
                           >
@@ -393,10 +394,10 @@ export default function CanvasArea({
                       </div>
                     )}
 
-                    {/* Screenshot */}
-                    <div className={`w-full flex-1 flex justify-center relative z-10 overflow-hidden ${isBottomText ? 'order-1 items-start' : 'order-2 items-end'}`}>
+                    {/* Screenshot Container */}
+                    <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isBottomText ? 'items-start' : 'items-end'}`}>
                       <div
-                        className="w-full h-full overflow-hidden transition-all bg-black"
+                        className="w-full h-full overflow-hidden transition-all bg-black flex items-center justify-center"
                         style={{
                           border: '5px solid #000',
                           ...(isBottomText ? {
@@ -418,7 +419,9 @@ export default function CanvasArea({
                           <img
                             src={sc.imageSrc}
                             alt="App Screenshot"
-                            className="w-full h-full object-cover object-top transition-transform duration-150 origin-top"
+                            className={`w-full h-full transition-transform duration-150 ${
+                              scImageFit === 'cover' ? 'object-cover object-top origin-top' : 'object-contain object-center'
+                            }`}
                             style={{ transform: `scale(${scZoomScale})` }}
                           />
                         ) : (
@@ -431,6 +434,24 @@ export default function CanvasArea({
                         )}
                       </div>
                     </div>
+
+                    {/* Headline - BOTTOM */}
+                    {!isNoText && isBottomText && (
+                      <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mt-2.5 mb-0`}>
+                        {sc.headline && (
+                          <h1
+                            className="font-black tracking-tight leading-tight transition-all"
+                            style={{
+                              color: sc.headlineColor || '#000000',
+                              fontSize: `${Math.max(18, (sc.headlineSize || 48) * 0.52)}px`,
+                              fontWeight: sc.headlineWeight || '900'
+                            }}
+                          >
+                            {sc.headline}
+                          </h1>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               );
@@ -442,27 +463,28 @@ export default function CanvasArea({
           const expTextPos = safeScreenState.textPosition || 'top';
           const isExpBottom = expTextPos === 'bottom';
           const isExpNone = expTextPos === 'none';
+          const expImageFit = safeScreenState.imageFit || 'contain';
 
           return (
             <div className="pointer-events-none flex items-center justify-center" style={{ position: 'fixed', top: '-9999px', left: '-9999px', zIndex: -1 }}>
               <div
                 ref={canvasRef}
-                className="relative overflow-hidden flex flex-col"
+                className="relative overflow-hidden flex flex-col justify-between"
                 style={{
                   width: `${preset.width / 2.8}px`,
                   height: `${preset.height / 2.8}px`,
-                  paddingTop: isExpBottom ? '0px' : isExpNone ? '36px' : '30px',
+                  paddingTop: '24px',
                   paddingLeft: '18px',
                   paddingRight: '18px',
-                  paddingBottom: isExpBottom ? '30px' : '0px',
+                  paddingBottom: isExpBottom ? '24px' : '0px',
                   ...getBackgroundPatternStyle(screenState),
                   fontFamily: screenState?.fontFamily || "'Inter', sans-serif"
                 }}
               >
-                {/* TOP/BOTTOM HEADLINE TEXT — mirrors canvas card */}
-                {!isExpNone && (
+                {/* TOP HEADLINE */}
+                {!isExpNone && !isExpBottom && (
                   <div
-                    className={`z-10 flex flex-col ${getAlignmentClass(screenState?.textAlign)} w-full ${isExpBottom ? 'order-2 mt-4 mb-0' : 'order-1 mb-4'}`}
+                    className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(screenState?.textAlign)} w-full mb-3`}
                     style={{ gap: '6px' }}
                   >
                     {screenState?.headline && (
@@ -470,7 +492,7 @@ export default function CanvasArea({
                         className="font-black tracking-tight leading-tight"
                         style={{
                           color: screenState?.headlineColor || '#000000',
-                          fontSize: `${Math.max(30, (screenState?.headlineSize || 48) * 0.825)}px`,
+                          fontSize: `${Math.max(28, (screenState?.headlineSize || 48) * 0.78)}px`,
                           fontWeight: screenState?.headlineWeight || '900'
                         }}
                       >
@@ -480,10 +502,10 @@ export default function CanvasArea({
                   </div>
                 )}
 
-                {/* SCREENSHOT — mirrors canvas card */}
-                <div className={`w-full flex-1 flex justify-center relative z-10 overflow-hidden ${isExpBottom ? 'order-1 items-start' : 'order-2 items-end'}`}>
+                {/* SCREENSHOT */}
+                <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isExpBottom ? 'items-start' : 'items-end'}`}>
                   <div
-                    className="w-full h-full overflow-hidden bg-black"
+                    className="w-full h-full overflow-hidden bg-black flex items-center justify-center"
                     style={{
                       border: '7px solid #000',
                       ...(isExpBottom ? {
@@ -505,8 +527,10 @@ export default function CanvasArea({
                       <img
                         src={screenState.imageSrc}
                         alt="App Screenshot"
-                        className="w-full h-full object-cover object-top"
-                        style={{ transform: `scale(${imageZoomScale})`, transformOrigin: 'top center' }}
+                        className={`w-full h-full transition-transform duration-150 ${
+                          expImageFit === 'cover' ? 'object-cover object-top origin-top' : 'object-contain object-center'
+                        }`}
+                        style={{ transform: `scale(${imageZoomScale})` }}
                       />
                     ) : (
                       <div className="w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
@@ -517,6 +541,27 @@ export default function CanvasArea({
                     )}
                   </div>
                 </div>
+
+                {/* BOTTOM HEADLINE */}
+                {!isExpNone && isExpBottom && (
+                  <div
+                    className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(screenState?.textAlign)} w-full mt-3`}
+                    style={{ gap: '6px' }}
+                  >
+                    {screenState?.headline && (
+                      <h1
+                        className="font-black tracking-tight leading-tight"
+                        style={{
+                          color: screenState?.headlineColor || '#000000',
+                          fontSize: `${Math.max(28, (screenState?.headlineSize || 48) * 0.78)}px`,
+                          fontWeight: screenState?.headlineWeight || '900'
+                        }}
+                      >
+                        {screenState.headline}
+                      </h1>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           );
