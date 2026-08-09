@@ -332,6 +332,7 @@ export default function CanvasArea({
             {screens.map((sc, idx) => {
               const isCurrentActive = activeScreenIndex === idx;
               const scCornerRadius = sc.cornerRadius !== undefined ? sc.cornerRadius : 36;
+              const previewCornerRadius = Math.round((scCornerRadius / 4.2) * 1.5);
               const scZoomScale = (sc.imageZoom !== undefined ? sc.imageZoom : 100) / 100;
               const textPos = sc.textPosition || 'top';
               const isBottomText = textPos === 'bottom';
@@ -402,11 +403,11 @@ export default function CanvasArea({
                           ...(isBottomText ? {
                             borderTopLeftRadius: '0px',
                             borderTopRightRadius: '0px',
-                            borderBottomLeftRadius: `${scCornerRadius * 0.7}px`,
-                            borderBottomRightRadius: `${scCornerRadius * 0.7}px`,
+                            borderBottomLeftRadius: `${previewCornerRadius}px`,
+                            borderBottomRightRadius: `${previewCornerRadius}px`,
                           } : {
-                            borderTopLeftRadius: `${scCornerRadius * 0.7}px`,
-                            borderTopRightRadius: `${scCornerRadius * 0.7}px`,
+                            borderTopLeftRadius: `${previewCornerRadius}px`,
+                            borderTopRightRadius: `${previewCornerRadius}px`,
                             borderBottomLeftRadius: '0px',
                             borderBottomRightRadius: '0px',
                           })
@@ -461,6 +462,7 @@ export default function CanvasArea({
           const isExpBottom = expTextPos === 'bottom';
           const isExpNone = expTextPos === 'none';
           const expImageFit = safeScreenState.imageFit || 'contain';
+          const exportCornerRadius = Math.round((imageCornerRadius / 2.8) * 1.5);
 
           return (
             <div className="pointer-events-none flex items-center justify-center" style={{ position: 'fixed', top: '-9999px', left: '-9999px', zIndex: -1 }}>
@@ -507,11 +509,11 @@ export default function CanvasArea({
                       ...(isExpBottom ? {
                         borderTopLeftRadius: '0px',
                         borderTopRightRadius: '0px',
-                        borderBottomLeftRadius: `${imageCornerRadius * 1.05}px`,
-                        borderBottomRightRadius: `${imageCornerRadius * 1.05}px`,
+                        borderBottomLeftRadius: `${exportCornerRadius}px`,
+                        borderBottomRightRadius: `${exportCornerRadius}px`,
                       } : {
-                        borderTopLeftRadius: `${imageCornerRadius * 1.05}px`,
-                        borderTopRightRadius: `${imageCornerRadius * 1.05}px`,
+                        borderTopLeftRadius: `${exportCornerRadius}px`,
+                        borderTopRightRadius: `${exportCornerRadius}px`,
                         borderBottomLeftRadius: '0px',
                         borderBottomRightRadius: '0px',
                       })

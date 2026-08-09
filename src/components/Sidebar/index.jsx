@@ -154,7 +154,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             label="Arredondamento dos cantos"
             value={currentScreen.cornerRadius !== undefined ? currentScreen.cornerRadius : 36}
             unit="px"
-            min={12} max={60} step={2}
+            min={0} max={60} step={2}
             onValueChange={(v) => onUpdateScreenState('cornerRadius', v)}
           />
         </div>
