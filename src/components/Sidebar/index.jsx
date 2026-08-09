@@ -146,32 +146,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             onChange={(v) => onUpdateScreenState('bgColor', v)}
           />
 
-          {/* Padrão de fundo */}
-          <div className="grid grid-cols-4 gap-1.5">
-            {[
-              { id: 'none', label: 'Sem Listras', icon: Ban },
-              { id: 'diagonal', label: 'Diagonal', icon: Rows },
-              { id: 'vertical', label: 'Vertical', icon: Columns },
-              { id: 'dots', label: 'Pontos', icon: Grid }
-            ].map((pattern) => {
-              const IconComponent = pattern.icon;
-              const isSelected = (screenState.bgPattern || 'none') === pattern.id;
-              return (
-                <button
-                  key={pattern.id}
-                  onClick={() => onUpdateScreenState('bgPattern', pattern.id)}
-                  title={pattern.label}
-                  className={`h-8 rounded-lg border transition flex items-center justify-center ${
-                    isSelected
-                      ? 'bg-zinc-100 text-zinc-950 border-zinc-100 shadow-sm'
-                      : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-zinc-200 hover:border-zinc-600'
-                  }`}
-                >
-                  <IconComponent className="w-4 h-4" />
-                </button>
-              );
-            })}
-          </div>
+
         </div>
 
         {/* 4. TEXTO DO TÍTULO */}
