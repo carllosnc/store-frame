@@ -4,7 +4,10 @@ import {
   Palette,
   Type,
   Layout,
-  Image as ImageIcon
+  Image as ImageIcon,
+  AlignLeft,
+  AlignCenter,
+  AlignRight
 } from 'lucide-react';
 import { STORE_PRESETS } from '../../constants/dimensions';
 import { Slider } from '../ui/slider';
