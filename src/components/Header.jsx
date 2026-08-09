@@ -1,13 +1,5 @@
 import React from 'react';
-import { 
-  Sparkles, 
-  Download, 
-  Archive, 
-  LayoutGrid, 
-  Maximize2, 
-  Copy, 
-  Wand2 
-} from 'lucide-react';
+import { Download, Archive, Copy, Wand2 } from 'lucide-react';
 import { Button } from './ui/button';
 
 export default function Header({
@@ -38,13 +30,12 @@ export default function Header({
 
       {/* Studio Action Controls in Top Header */}
       <div className="flex items-center gap-1 bg-zinc-900 p-1 rounded-xl border border-zinc-800">
-
         <Button
           variant="ghost"
           size="sm"
           onClick={(e) => {
             e.currentTarget.blur();
-            onDuplicateScreen();
+            onDuplicateScreen?.();
           }}
           className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white focus:outline-none focus:ring-0"
           title="Duplicar tela atual"
@@ -58,7 +49,7 @@ export default function Header({
           size="sm"
           onClick={(e) => {
             e.currentTarget.blur();
-            onSyncStyles();
+            onSyncStyles?.();
           }}
           className="h-8 px-3 text-xs font-semibold gap-1.5 text-zinc-300 hover:text-white focus:outline-none focus:ring-0"
           title="Aplicar estilo de fundo e texto em todas as telas"
@@ -67,6 +58,7 @@ export default function Header({
           <span className="hidden md:inline">Aplicar Estilo em Todas</span>
         </Button>
       </div>
+
 
       {/* Export Actions */}
       <div className="flex items-center gap-2 shrink-0">
