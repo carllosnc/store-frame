@@ -9,7 +9,7 @@ export default function MultiScreenBar({
   onDeleteScreen
 }) {
   return (
-    <div className="h-20 bg-[#0E0F14] border-t border-[#1E202B] px-6 flex items-center justify-start z-20 overflow-x-auto custom-scrollbar shrink-0 select-none">
+    <div className="h-20 bg-zinc-950 border-t border-zinc-800 px-6 flex items-center justify-start z-20 overflow-x-auto custom-scrollbar shrink-0 select-none">
       {/* Screen Cards Bar */}
       <div className="flex items-center gap-3 my-auto py-1">
         {screens.map((screen, idx) => {
@@ -21,7 +21,7 @@ export default function MultiScreenBar({
               className={`h-12 px-4 rounded-xl border flex items-center gap-2.5 cursor-pointer transition-all duration-150 text-sm font-bold shrink-0 ${
                 isActive
                   ? 'bg-zinc-100 text-zinc-950 border-zinc-100 shadow-md scale-[1.02]'
-                  : 'bg-[#14151C] border-[#222430] text-zinc-400 hover:text-zinc-100 hover:border-zinc-700 hover:bg-[#1A1C26]'
+                  : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:border-zinc-700 hover:bg-zinc-800'
               }`}
             >
               {/* Screen Title */}
@@ -51,7 +51,7 @@ export default function MultiScreenBar({
         {/* Add New Screen Button */}
         <button
           onClick={onAddScreen}
-          className="h-12 px-4 rounded-xl border border-dashed border-[#333646] hover:border-zinc-300 bg-[#14151C] text-zinc-300 hover:text-white text-sm font-bold flex items-center gap-2 transition-all hover:bg-[#1A1C26] shrink-0"
+          className="h-12 px-4 rounded-xl border border-dashed border-zinc-700 hover:border-zinc-300 bg-zinc-900 text-zinc-300 hover:text-white text-sm font-bold flex items-center gap-2 transition-all hover:bg-zinc-800 shrink-0"
         >
           <Plus className="w-4 h-4 text-zinc-300" />
           <span>Nova Tela</span>

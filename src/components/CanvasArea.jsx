@@ -187,7 +187,7 @@ export default function CanvasArea({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      className={`flex-1 bg-[#131520] flex items-center justify-center relative overflow-hidden select-none infinite-stage ${
+      className={`flex-1 bg-zinc-900 flex items-center justify-center relative overflow-hidden select-none infinite-stage ${
         isPanning ? 'cursor-grabbing' : isSpacePressed ? 'cursor-grab' : 'cursor-default'
       }`}
       style={{
@@ -214,7 +214,7 @@ export default function CanvasArea({
       </button>
 
       {/* Top Right Floating Resolution Badge */}
-      <div className="absolute top-4 right-6 bg-[#14151C]/90 backdrop-blur-md border border-[#222430] px-3.5 py-1.5 rounded-full text-[11px] font-mono text-zinc-300 font-semibold shadow-md z-20 flex items-center gap-2 pointer-events-none">
+      <div className="absolute top-4 right-6 bg-zinc-900/90 backdrop-blur-md border border-zinc-800 px-3.5 py-1.5 rounded-full text-[11px] font-mono text-zinc-300 font-semibold shadow-md z-20 flex items-center gap-2 pointer-events-none">
         <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         <span>{preset.width} × {preset.height} px</span>
       </div>
@@ -223,7 +223,7 @@ export default function CanvasArea({
       
         <button
           onClick={() => setScale(s => Math.max(0.15, s * 0.85))}
-          className="p-1 rounded-xl hover:bg-[#1E202B] hover:text-white transition"
+          className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
           title="Diminuir Zoom (-)"
         >
           <ZoomOut className="w-4 h-4" />
@@ -235,23 +235,23 @@ export default function CanvasArea({
 
         <button
           onClick={() => setScale(s => Math.min(2.5, s * 1.15))}
-          className="p-1 rounded-xl hover:bg-[#1E202B] hover:text-white transition"
+          className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
           title="Aumentar Zoom (+)"
         >
           <ZoomIn className="w-4 h-4" />
         </button>
 
-        <div className="w-[1px] h-4 bg-[#222430] mx-0.5" />
+        <div className="w-[1px] h-4 bg-zinc-800 mx-0.5" />
 
         <button
           onClick={handleResetView}
-          className="p-1 rounded-xl hover:bg-[#1E202B] hover:text-white transition"
+          className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
           title="Resetar Posição e Zoom"
         >
           <RotateCcw className="w-4 h-4 text-zinc-400" />
         </button>
 
-        <div className="w-[1px] h-4 bg-[#222430] mx-0.5" />
+        <div className="w-[1px] h-4 bg-zinc-800 mx-0.5" />
 
         <div className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-zinc-400 font-medium">
           <Move className="w-3 h-3 text-zinc-500" />
@@ -283,15 +283,15 @@ export default function CanvasArea({
                 >
                   {/* Title Badge + Delete Button Row */}
                   <div className="flex items-center gap-2">
-                    <div className={`bg-[#14151C]/95 backdrop-blur-md border px-3.5 py-1 rounded-full text-xs font-bold text-zinc-200 shadow-md flex items-center gap-2 transition ${
-                      isCurrentActive ? 'border-white text-white ring-2 ring-white/20' : 'border-[#222430] group-hover:border-zinc-500'
+                    <div className={`bg-zinc-900/95 backdrop-blur-md border px-3.5 py-1 rounded-full text-xs font-bold text-zinc-200 shadow-md flex items-center gap-2 transition ${
+                      isCurrentActive ? 'border-white text-white ring-2 ring-white/20' : 'border-zinc-800 group-hover:border-zinc-500'
                     }`}>
                       <span className="font-mono text-zinc-400">#{idx + 1}</span>
                       <span>{sc.title || `Tela ${idx + 1}`}</span>
                     </div>
                     <button
                       onClick={(e) => { e.stopPropagation(); onDeleteScreen(idx); }}
-                      className="z-10 flex items-center justify-center w-5 h-5 rounded-full bg-[#222433] hover:bg-red-600 text-zinc-400 hover:text-white transition-all"
+                      className="z-10 flex items-center justify-center w-5 h-5 rounded-full bg-zinc-800 hover:bg-red-600 text-zinc-400 hover:text-white transition-all"
                       title="Remover tela"
                     >
                       <X className="w-3 h-3" />
@@ -347,7 +347,7 @@ export default function CanvasArea({
                               style={{ transform: `scale(${scZoomScale})` }}
                             />
                           ) : (
-                            <div className="w-full h-full bg-[#111] text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
+                            <div className="w-full h-full bg-zinc-900 text-white flex flex-col items-center justify-center text-center select-none border border-white/5">
                               <Upload className="w-5 h-5 text-white/50" />
                             </div>
                           )}
@@ -418,7 +418,7 @@ export default function CanvasArea({
                         style={{ transform: `scale(${imageZoomScale})` }}
                       />
                     ) : (
-                      <div className="w-full h-full bg-[#111] text-white flex flex-col items-center justify-center text-center select-none group border border-white/5">
+                      <div className="w-full h-full bg-zinc-900 text-white flex flex-col items-center justify-center text-center select-none group border border-white/5">
                         <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-white group-hover:scale-110 transition-all shadow-sm">
                           <Upload className="w-6 h-6 text-white" />
                         </div>

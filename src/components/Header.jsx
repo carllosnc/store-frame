@@ -19,7 +19,7 @@ export default function Header({
   onSyncStyles
 }) {
   return (
-    <header className="h-14 bg-[#0E0F14] border-b border-[#1E2028] px-4 sm:px-6 flex items-center justify-between z-30 select-none">
+    <header className="h-14 bg-zinc-950 border-b border-zinc-800 px-4 sm:px-6 flex items-center justify-between z-30 select-none">
       {/* Logo */}
       <div className="flex items-center gap-2.5 shrink-0">
         <div className="w-8 h-8 rounded-lg bg-white text-zinc-950 flex items-center justify-center font-black text-sm shadow-md">
@@ -29,7 +29,7 @@ export default function Header({
       </div>
 
       {/* Studio Action Controls in Top Header */}
-      <div className="flex items-center gap-1 bg-[#14151C] p-1 rounded-xl border border-[#22242A]">
+      <div className="flex items-center gap-1 bg-zinc-900 p-1 rounded-xl border border-zinc-800">
 
         <Button
           variant="ghost"

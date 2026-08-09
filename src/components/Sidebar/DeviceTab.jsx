@@ -45,7 +45,7 @@ export default function DeviceTab({
             onChange={onImageUpload}
             className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
           />
-          <div className="p-4 rounded-xl border-2 border-dashed border-[#262933] group-hover:border-indigo-500 bg-[#14161F] group-hover:bg-indigo-950/20 text-center transition flex flex-col items-center justify-center gap-2">
+          <div className="p-4 rounded-xl border-2 border-dashed border-zinc-700 group-hover:border-indigo-500 bg-zinc-900 group-hover:bg-indigo-950/20 text-center transition flex flex-col items-center justify-center gap-2">
             <Upload className="w-5 h-5 text-indigo-400 group-hover:scale-110 transition" />
             <div className="text-xs font-semibold text-white">
               {imageSrc ? 'Trocar Imagem do App' : 'Clique ou arraste a captura de tela'}
@@ -69,7 +69,7 @@ export default function DeviceTab({
               className={`p-2.5 rounded-xl border text-left text-xs transition font-semibold flex items-center gap-2 ${
                 deviceType === dev.id
                   ? 'bg-indigo-600/20 border-indigo-500 text-white'
-                  : 'bg-[#14161F] border-[#22242A] text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                  : 'bg-zinc-900 border-zinc-800 text-slate-400 hover:bg-slate-800 hover:text-slate-200'
               }`}
             >
               <Smartphone className="w-4 h-4 text-indigo-400 shrink-0" />
@@ -80,7 +80,7 @@ export default function DeviceTab({
       </div>
 
       {/* 3D Perspective Tilt Selector */}
-      <div className="space-y-2 pt-2 border-t border-[#22242A]">
+      <div className="space-y-2 pt-2 border-t border-zinc-800">
         <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
           <Box className="w-3.5 h-3.5 text-indigo-400" />
           <span>Ângulo e Perspectiva 3D</span>
@@ -98,7 +98,7 @@ export default function DeviceTab({
               className={`p-2 rounded-xl text-xs font-semibold text-center border transition ${
                 perspectiveTilt === tilt.id
                   ? 'bg-indigo-600 border-indigo-500 text-white'
-                  : 'bg-[#14161F] border-[#22242A] text-slate-400 hover:text-white'
+                  : 'bg-zinc-900 border-zinc-800 text-slate-400 hover:text-white'
               }`}
             >
               {tilt.label}
@@ -108,7 +108,7 @@ export default function DeviceTab({
       </div>
 
       {/* Crop / Layout Cut Mode */}
-      <div className="space-y-2 pt-2 border-t border-[#22242A]">
+      <div className="space-y-2 pt-2 border-t border-zinc-800">
         <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
           <Crop className="w-3.5 h-3.5 text-indigo-400" />
           <span>Layout do Aparelho na Tela</span>
@@ -124,7 +124,7 @@ export default function DeviceTab({
               className={`p-2 rounded-xl text-xs font-semibold text-center border transition ${
                 cropMode === mode.id
                   ? 'bg-indigo-600 border-indigo-500 text-white'
-                  : 'bg-[#14161F] border-[#22242A] text-slate-400 hover:text-white'
+                  : 'bg-zinc-900 border-zinc-800 text-slate-400 hover:text-white'
               }`}
             >
               {mode.label}
@@ -134,7 +134,7 @@ export default function DeviceTab({
       </div>
 
       {/* Device Bezel Color Selector */}
-      <div className="space-y-2 pt-2 border-t border-[#22242A]">
+      <div className="space-y-2 pt-2 border-t border-zinc-800">
         <label className="text-xs font-bold text-slate-200">Acabamento do Titânio / Cor</label>
         <div className="flex items-center gap-2.5 flex-wrap">
           {currentDeviceConfig.colors.map((c) => {
@@ -157,7 +157,7 @@ export default function DeviceTab({
       </div>
 
       {/* Radix Sliders */}
-      <div className="space-y-4 pt-2 border-t border-[#22242A]">
+      <div className="space-y-4 pt-2 border-t border-zinc-800">
         <div className="space-y-2">
           <div className="flex justify-between text-xs text-slate-300 font-medium">
             <span>Tamanho / Escala</span>
@@ -202,7 +202,7 @@ export default function DeviceTab({
       </div>
 
       {/* Shadow Strength & Reflection Switch */}
-      <div className="space-y-3 pt-2 border-t border-[#22242A]">
+      <div className="space-y-3 pt-2 border-t border-zinc-800">
         <label className="text-xs font-bold text-slate-200">Intensidade de Sombra</label>
         <div className="grid grid-cols-3 gap-1.5">
           {['none', 'soft', 'deep', 'heavy', 'glow'].map((s) => (
@@ -212,7 +212,7 @@ export default function DeviceTab({
               className={`py-1.5 text-[11px] font-semibold rounded-lg capitalize border transition ${
                 shadowStrength === s
                   ? 'bg-indigo-600 border-indigo-500 text-white'
-                  : 'bg-[#14161F] border-[#22242A] text-slate-400 hover:text-white'
+                  : 'bg-zinc-900 border-zinc-800 text-slate-400 hover:text-white'
               }`}
             >
               {s === 'none' ? 'Sem sombra' : s === 'glow' ? 'Glow Neon' : s}
@@ -220,7 +220,7 @@ export default function DeviceTab({
           ))}
         </div>
 
-        <div className="flex items-center justify-between p-3 rounded-xl bg-[#14161F] border border-[#22242A] mt-2">
+        <div className="flex items-center justify-between p-3 rounded-xl bg-zinc-900 border border-zinc-800 mt-2">
           <div className="flex items-center gap-2">
             <Sun className="w-4 h-4 text-amber-400" />
             <span className="text-xs font-semibold text-slate-200">Reflexo de Vidro na Tela</span>

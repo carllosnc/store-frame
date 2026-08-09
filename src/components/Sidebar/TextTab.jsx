@@ -47,7 +47,7 @@ export default function TextTab({
               className={`p-2 rounded-xl text-xs font-semibold text-left transition border ${
                 badgeType === badge.id
                   ? 'bg-indigo-600/20 border-indigo-500 text-white'
-                  : 'bg-[#14161F] border-[#22242A] text-slate-400 hover:text-white'
+                  : 'bg-zinc-900 border-zinc-800 text-slate-400 hover:text-white'
               }`}
             >
               {badge.label}
@@ -62,21 +62,21 @@ export default function TextTab({
               value={badgeText}
               onChange={(e) => onChangeBadgeText(e.target.value)}
               placeholder="Texto customizado do selo..."
-              className="w-full bg-[#14161F] border border-[#22242A] rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
             />
           </div>
         )}
       </div>
 
       {/* Headline Input */}
-      <div className="space-y-1.5 pt-2 border-t border-[#22242A]">
+      <div className="space-y-1.5 pt-2 border-t border-zinc-800">
         <label className="text-xs font-bold text-slate-200">Título Chamativo (Headline)</label>
         <textarea
           rows={2}
           value={headline}
           onChange={(e) => onChangeHeadline(e.target.value)}
           placeholder="Ex: Gerencie suas finanças em segundos"
-          className="w-full bg-[#14161F] border border-[#22242A] rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition resize-none font-medium"
+          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition resize-none font-medium"
         />
       </div>
 
@@ -88,7 +88,7 @@ export default function TextTab({
           value={subtitle}
           onChange={(e) => onChangeSubtitle(e.target.value)}
           placeholder="Ex: Relatórios automáticos e cartões ilimitados"
-          className="w-full bg-[#14161F] border border-[#22242A] rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition resize-none font-medium"
+          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition resize-none font-medium"
         />
       </div>
 
@@ -107,7 +107,7 @@ export default function TextTab({
               className={`py-2 text-xs font-semibold rounded-xl border transition ${
                 textPosition === pos.id
                   ? 'bg-indigo-600 border-indigo-500 text-white'
-                  : 'bg-[#14161F] border-[#22242A] text-slate-400 hover:text-white'
+                  : 'bg-zinc-900 border-zinc-800 text-slate-400 hover:text-white'
               }`}
             >
               {pos.label}
@@ -117,12 +117,12 @@ export default function TextTab({
       </div>
 
       {/* Font Family Selection */}
-      <div className="space-y-2 pt-2 border-t border-[#22242A]">
+      <div className="space-y-2 pt-2 border-t border-zinc-800">
         <label className="text-xs font-bold text-slate-200">Fonte Tipográfica</label>
         <select
           value={fontFamily}
           onChange={(e) => onChangeFontFamily(e.target.value)}
-          className="w-full bg-[#14161F] border border-[#22242A] rounded-xl p-2.5 text-xs text-white font-semibold focus:outline-none focus:border-indigo-500 cursor-pointer"
+          className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 text-xs text-white font-semibold focus:outline-none focus:border-indigo-500 cursor-pointer"
         >
           {GOOGLE_FONTS.map((font) => (
             <option key={font.name} value={font.family} style={{ fontFamily: font.family }}>
@@ -133,10 +133,10 @@ export default function TextTab({
       </div>
 
       {/* Alignment & Sizes */}
-      <div className="space-y-4 pt-2 border-t border-[#22242A]">
+      <div className="space-y-4 pt-2 border-t border-zinc-800">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-200">Alinhamento</span>
-          <div className="flex bg-[#14161F] rounded-xl p-1 border border-[#22242A]">
+          <div className="flex bg-zinc-900 rounded-xl p-1 border border-zinc-800">
             {[
               { id: 'left', icon: AlignLeft },
               { id: 'center', icon: AlignCenter },
@@ -177,7 +177,7 @@ export default function TextTab({
         <div className="grid grid-cols-2 gap-3 pt-2">
           <div className="space-y-1.5">
             <label className="text-[11px] font-semibold text-slate-300">Cor do Título</label>
-            <div className="flex items-center gap-2 bg-[#14161F] p-1.5 rounded-xl border border-[#22242A]">
+            <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-xl border border-zinc-800">
               <input
                 type="color"
                 value={headlineColor}
@@ -189,7 +189,7 @@ export default function TextTab({
           </div>
           <div className="space-y-1.5">
             <label className="text-[11px] font-semibold text-slate-300">Cor do Subtítulo</label>
-            <div className="flex items-center gap-2 bg-[#14161F] p-1.5 rounded-xl border border-[#22242A]">
+            <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-xl border border-zinc-800">
               <input
                 type="color"
                 value={subtitleColor}

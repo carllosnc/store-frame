@@ -157,7 +157,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-[#07080A] text-[#FAFAFA] font-sans">
+    <div className="flex flex-col h-screen w-screen overflow-hidden bg-zinc-950 text-zinc-50 font-sans">
       <Header
         activePreset={activePreset}
         onSelectPreset={setActivePreset}
@@ -171,10 +171,10 @@ export default function App() {
 
       {isExporting && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center">
-          <div className="bg-[#11131A] border border-[#22242A] p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-3 max-w-xs text-center">
+          <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-3 max-w-xs text-center">
             <div className="w-10 h-10 rounded-full border-4 border-white border-t-transparent animate-spin"></div>
             <div className="text-sm font-bold text-white">Exportando para Lojas</div>
-            <p className="text-xs text-[#94A3B8]">{exportProgress || 'Processando renderização...'}</p>
+            <p className="text-xs text-zinc-400">{exportProgress || 'Processando renderização...'}</p>
           </div>
         </div>
       )}

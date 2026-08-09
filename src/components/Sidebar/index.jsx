@@ -26,7 +26,7 @@ import {
 
 function SectionHeader({ icon: Icon, label }) {
   return (
-    <div className="flex items-center gap-2 pb-2.5 border-b border-[#1E202B]">
+    <div className="flex items-center gap-2 pb-2.5 border-b border-zinc-800">
       <Icon className="w-3.5 h-3.5 text-sky-400 shrink-0" />
       <h2 className="text-xs font-bold uppercase tracking-widest text-sky-300/80">{label}</h2>
     </div>
@@ -49,7 +49,7 @@ function SliderRow({ label, value, unit, min, max, step, onValueChange }) {
 
 function ColorPicker({ value, onChange }) {
   return (
-    <div className="relative h-8 bg-[#14151C] border border-[#222430] hover:border-zinc-600 rounded-lg px-2.5 flex items-center justify-between transition cursor-pointer group focus-within:ring-1 focus-within:ring-white/10">
+    <div className="relative h-8 bg-zinc-900 border border-zinc-800 hover:border-zinc-600 rounded-lg px-2.5 flex items-center justify-between transition cursor-pointer group focus-within:ring-1 focus-within:ring-white/10">
       <input
         type="color"
         value={value}
@@ -67,7 +67,7 @@ function ColorPicker({ value, onChange }) {
 
 export default function Sidebar({ activePreset, onSelectPreset, screenState, onUpdateScreenState }) {
   return (
-    <aside className="w-72 bg-[#0E0F14] border-r border-[#1E202B] flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
+    <aside className="w-72 bg-zinc-950 border-r border-zinc-800 flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
       <div className="flex-1 overflow-y-auto px-4 py-5 space-y-9 sidebar-scrollbar-transparent">
 
         {/* 1. FORMATO DA LOJA */}
@@ -80,7 +80,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
               if (found) onSelectPreset(found);
             }}
           >
-            <SelectTrigger className="w-full h-8 text-xs border-[#222430] bg-[#14151C] text-zinc-300 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
+            <SelectTrigger className="w-full h-8 text-xs border-zinc-800 bg-zinc-900 text-zinc-300 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
               <SelectValue placeholder="Selecione..." />
             </SelectTrigger>
             <SelectContent>
@@ -112,7 +112,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
               }}
               className="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
             />
-            <div className="h-8 rounded-lg border border-dashed border-[#2E3140] bg-[#14151C] group-hover:border-zinc-500 transition flex items-center justify-center gap-2">
+            <div className="h-8 rounded-lg border border-dashed border-zinc-700 bg-zinc-900 group-hover:border-zinc-500 transition flex items-center justify-center gap-2">
               <Upload className="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition" />
               <span className="text-[11px] text-zinc-400 group-hover:text-white transition">
                 {screenState.imageSrc ? 'Trocar imagem' : 'Upload Captura de Tela'}
@@ -164,7 +164,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
                   className={`h-8 rounded-lg border transition flex items-center justify-center ${
                     isSelected
                       ? 'bg-zinc-100 text-zinc-950 border-zinc-100 shadow-sm'
-                      : 'bg-[#14151C] border-[#222430] text-zinc-500 hover:text-zinc-200 hover:border-zinc-600'
+                      : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-zinc-200 hover:border-zinc-600'
                   }`}
                 >
                   <IconComponent className="w-4 h-4" />
@@ -185,7 +185,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
               value={screenState.title || ''}
               onChange={(e) => onUpdateScreenState('title', e.target.value)}
               placeholder="Ex: Tela 1 — Início"
-              className="w-full bg-[#14151C] border border-[#222430] rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition"
             />
           </div>
 
@@ -196,7 +196,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
               value={screenState.headline}
               onChange={(e) => onUpdateScreenState('headline', e.target.value)}
               placeholder="Ex: Conecte-se com amigos"
-              className="w-full bg-[#14151C] border border-[#222430] rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
             />
           </div>
 
@@ -215,7 +215,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
               onChange={(v) => onUpdateScreenState('headlineColor', v)}
             />
 
-            <div className="h-8 flex items-center justify-between bg-[#14151C] px-1 rounded-lg border border-[#222430]">
+            <div className="h-8 flex items-center justify-between bg-zinc-900 px-1 rounded-lg border border-zinc-800">
               {[
                 { id: 'left', icon: AlignLeft },
                 { id: 'center', icon: AlignCenter },

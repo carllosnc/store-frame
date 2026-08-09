@@ -46,7 +46,7 @@ export default function BackgroundTab({
       {/* Background Mode Switcher */}
       <div className="space-y-2">
         <label className="text-xs font-bold text-slate-200">Tipo de Plano de Fundo</label>
-        <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#0E0F14] rounded-xl border border-[#22242A]">
+        <div className="grid grid-cols-3 gap-1.5 p-1 bg-zinc-950 rounded-xl border border-zinc-800">
           {[
             { id: 'solid', label: 'Sólido' },
             { id: 'linear', label: 'Gradiente' },
@@ -95,7 +95,7 @@ export default function BackgroundTab({
       </div>
 
       {/* Custom Color Pickers */}
-      <div className="space-y-3 pt-2 border-t border-[#22242A]">
+      <div className="space-y-3 pt-2 border-t border-zinc-800">
         <label className="text-xs font-bold text-slate-200">Cores Customizadas</label>
         {bgType === 'solid' ? (
           <div className="flex items-center gap-3">
@@ -109,14 +109,14 @@ export default function BackgroundTab({
               type="text"
               value={bgColor}
               onChange={(e) => onChangeBgColor(e.target.value)}
-              className="bg-[#14161F] border border-[#22242A] rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none uppercase w-28"
+              className="bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none uppercase w-28"
             />
           </div>
         ) : (
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               {gradientColors.map((color, index) => (
-                <div key={index} className="flex items-center gap-1 bg-[#14161F] p-1.5 rounded-xl border border-[#22242A]">
+                <div key={index} className="flex items-center gap-1 bg-zinc-900 p-1.5 rounded-xl border border-zinc-800">
                   <input
                     type="color"
                     value={color}
@@ -152,7 +152,7 @@ export default function BackgroundTab({
       </div>
 
       {/* Pattern Overlay Option */}
-      <div className="space-y-2 pt-2 border-t border-[#22242A]">
+      <div className="space-y-2 pt-2 border-t border-zinc-800">
         <label className="text-xs font-bold text-slate-200">Textura de Fundo</label>
         <div className="grid grid-cols-3 gap-2">
           {[
@@ -168,7 +168,7 @@ export default function BackgroundTab({
                 className={`p-2.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-1.5 transition ${
                   patternOverlay === pat.id
                     ? 'bg-indigo-600 border-indigo-500 text-white'
-                    : 'bg-[#14161F] border-[#22242A] text-slate-400 hover:text-white'
+                    : 'bg-zinc-900 border-zinc-800 text-slate-400 hover:text-white'
                 }`}
               >
                 <IconComp className="w-3.5 h-3.5" />

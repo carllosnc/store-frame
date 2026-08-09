@@ -20,7 +20,7 @@ export default function TemplatesTab({ onApplyTemplate, activeTemplateId }) {
               className={`p-3 rounded-xl border text-left transition-all duration-200 relative overflow-hidden group ${
                 isSelected
                   ? 'bg-white/10 border-white/30 ring-1 ring-white/20'
-                  : 'bg-[#14151B] border-[#22242D] hover:bg-[#1A1C24] hover:border-slate-700'
+                  : 'bg-zinc-900 border-zinc-800 hover:bg-zinc-800 hover:border-slate-700'
               }`}
             >
               {/* Preview Gradient Strip */}
