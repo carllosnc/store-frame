@@ -30,5 +30,12 @@ export const SOLID_COLOR_SWATCHES = [
 ];
 
 export const GOOGLE_FONTS = [
-  { name: 'Inter', family: "'Inter', sans-serif" }
+  { name: 'Inter', family: "'Inter', sans-serif", category: 'Modern Clean' },
+  { name: 'Outfit', family: "'Outfit', sans-serif", category: 'App Display' },
+  { name: 'Plus Jakarta Sans', family: "'Plus Jakarta Sans', sans-serif", category: 'Geometric Tech' },
+  { name: 'Poppins', family: "'Poppins', sans-serif", category: 'Friendly Soft' },
+  { name: 'Space Grotesk', family: "'Space Grotesk', sans-serif", category: 'Futuristic' },
+  { name: 'Syne', family: "'Syne', sans-serif", category: 'Bold Artistic' },
+  { name: 'Bricolage Grotesque', family: "'Bricolage Grotesque', sans-serif", category: 'Editorial' },
+  { name: 'Playfair Display', family: "'Playfair Display', serif", category: 'Luxury Serif' }
 ];

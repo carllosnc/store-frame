@@ -31,15 +31,15 @@ export default function TextTab({
       <div className="space-y-2">
         <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
           <Award className="w-3.5 h-3.5 text-amber-400" />
-          <span>Selo de Benefício ou Avaliação</span>
+          <span>Benefit Badge / Social Proof</span>
         </label>
         <div className="grid grid-cols-2 gap-1.5">
           {[
-            { id: 'none', label: 'Sem Selo' },
-            { id: 'rating', label: '★★★★★ 4.9 Nota' },
-            { id: 'pill-tag', label: '✦ Destaque AI' },
-            { id: 'award', label: '🏆 App do Dia' },
-            { id: 'security', label: '🔒 100% Seguro' }
+            { id: 'none', label: 'No Badge' },
+            { id: 'rating', label: '★★★★★ 4.9 Rating' },
+            { id: 'pill-tag', label: '✦ AI Feature' },
+            { id: 'award', label: '🏆 App of the Day' },
+            { id: 'security', label: '🔒 100% Secure' }
           ].map((badge) => (
             <button
               key={badge.id}
@@ -61,7 +61,7 @@ export default function TextTab({
               type="text"
               value={badgeText}
               onChange={(e) => onChangeBadgeText(e.target.value)}
-              placeholder="Texto customizado do selo..."
+              placeholder="Custom badge text..."
               className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
             />
           </div>
@@ -70,36 +70,36 @@ export default function TextTab({
 
       {/* Headline Input */}
       <div className="space-y-1.5 pt-2 border-t border-zinc-800">
-        <label className="text-xs font-bold text-slate-200">Título Chamativo (Headline)</label>
+        <label className="text-xs font-bold text-slate-200">Headline Text</label>
         <textarea
           rows={2}
           value={headline}
           onChange={(e) => onChangeHeadline(e.target.value)}
-          placeholder="Ex: Gerencie suas finanças em segundos"
+          placeholder="e.g. Manage finances in seconds"
           className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition resize-none font-medium"
         />
       </div>
 
       {/* Subtitle Input */}
       <div className="space-y-1.5">
-        <label className="text-xs font-bold text-slate-200">Subtítulo / Benefício</label>
+        <label className="text-xs font-bold text-slate-200">Subtitle / Key Benefit</label>
         <textarea
           rows={2}
           value={subtitle}
           onChange={(e) => onChangeSubtitle(e.target.value)}
-          placeholder="Ex: Relatórios automáticos e cartões ilimitados"
+          placeholder="e.g. Automated reports & unlimited cards"
           className="w-full bg-zinc-900 border border-zinc-800 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition resize-none font-medium"
         />
       </div>
 
       {/* Text Position */}
       <div className="space-y-2">
-        <label className="text-xs font-bold text-slate-200">Posição dos Textos</label>
+        <label className="text-xs font-bold text-slate-200">Text Position</label>
         <div className="grid grid-cols-3 gap-1.5">
           {[
-            { id: 'top', label: 'No Topo' },
-            { id: 'bottom', label: 'Abaixo' },
-            { id: 'none', label: 'Ocultar' }
+            { id: 'top', label: 'Top' },
+            { id: 'bottom', label: 'Bottom' },
+            { id: 'none', label: 'Hide' }
           ].map((pos) => (
             <button
               key={pos.id}
@@ -118,7 +118,7 @@ export default function TextTab({
 
       {/* Font Family Selection */}
       <div className="space-y-2 pt-2 border-t border-zinc-800">
-        <label className="text-xs font-bold text-slate-200">Fonte Tipográfica</label>
+        <label className="text-xs font-bold text-slate-200">Font Family</label>
         <select
           value={fontFamily}
           onChange={(e) => onChangeFontFamily(e.target.value)}
@@ -126,7 +126,7 @@ export default function TextTab({
         >
           {GOOGLE_FONTS.map((font) => (
             <option key={font.name} value={font.family} style={{ fontFamily: font.family }}>
-              {font.name}
+              {font.name} — {font.category}
             </option>
           ))}
         </select>
@@ -135,7 +135,7 @@ export default function TextTab({
       {/* Alignment & Sizes */}
       <div className="space-y-4 pt-2 border-t border-zinc-800">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold text-slate-200">Alinhamento</span>
+          <span className="text-xs font-bold text-slate-200">Text Alignment</span>
           <div className="flex bg-zinc-900 rounded-xl p-1 border border-zinc-800">
             {[
               { id: 'left', icon: AlignLeft },
@@ -161,7 +161,7 @@ export default function TextTab({
         {/* Radix Headline Size Slider */}
         <div className="space-y-2">
           <div className="flex justify-between text-xs text-slate-300 font-medium">
-            <span>Tamanho do Título</span>
+            <span>Title Font Size</span>
             <span className="font-mono text-indigo-400">{headlineSize}px</span>
           </div>
           <Slider
@@ -176,7 +176,7 @@ export default function TextTab({
         {/* Font Colors */}
         <div className="grid grid-cols-2 gap-3 pt-2">
           <div className="space-y-1.5">
-            <label className="text-[11px] font-semibold text-slate-300">Cor do Título</label>
+            <label className="text-[11px] font-semibold text-slate-300">Title Color</label>
             <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-xl border border-zinc-800">
               <input
                 type="color"
@@ -188,7 +188,7 @@ export default function TextTab({
             </div>
           </div>
           <div className="space-y-1.5">
-            <label className="text-[11px] font-semibold text-slate-300">Cor do Subtítulo</label>
+            <label className="text-[11px] font-semibold text-slate-300">Subtitle Color</label>
             <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-xl border border-zinc-800">
               <input
                 type="color"
