@@ -174,3 +174,17 @@ input[type="range"]::-moz-range-thumb {
 .animate-spin-slow {
   animation: spin 6s linear infinite;
 }
+
+@keyframes spin-custom {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-custom {
+  animation: spin-custom 0.8s linear infinite;
+}
+
