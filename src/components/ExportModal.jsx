@@ -1,8 +1,47 @@
 import React from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, CheckCircle2 } from 'lucide-react';
 
-export default function ExportModal({ isExporting, exportProgress, activePreset }) {
-  if (!isExporting) return null;
+export default function ExportModal({
+  isExporting,
+  exportProgress,
+  activePreset,
+  isExportSuccess,
+  onCloseSuccess
+}) {
+  if (!isExporting && !isExportSuccess) return null;
+
+  // Render Export Success Dialog
+  if (isExportSuccess) {
+    return (
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 select-none animate-fade-in">
+        <div className="w-full max-w-xs bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-2xl flex flex-col items-center text-center">
+          {/* Success Icon */}
+          <div className="w-12 h-12 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center mb-3 text-white">
+            <CheckCircle2 className="w-6 h-6 text-white" />
+          </div>
+
+          {/* Title */}
+          <h3 className="text-base font-bold text-white tracking-tight mb-1">
+            Export Completed
+          </h3>
+
+          {/* Message */}
+          <p className="text-xs text-zinc-400 mb-5 leading-relaxed">
+            Your store assets have been generated and downloaded successfully.
+          </p>
+
+          {/* OK Button */}
+          <button
+            type="button"
+            onClick={onCloseSuccess}
+            className="w-full h-10 bg-white text-zinc-950 hover:bg-zinc-200 rounded-xl text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // Extract numeric progress (e.g., "Rendering screen 3 of 11...")
   const match = exportProgress?.match(/(\d+)\s+of\s+(\d+)/i);

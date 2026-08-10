@@ -10,6 +10,7 @@ import { downloadSingleScreen, downloadZipBundle, captureCanvasToPng } from './u
 export default function App() {
   const [activePreset, setActivePreset] = useState(STORE_PRESETS[0]);
   const [isExporting, setIsExporting] = useState(false);
+  const [isExportSuccess, setIsExportSuccess] = useState(false);
   const [exportProgress, setExportProgress] = useState('');
 
 
@@ -152,12 +153,14 @@ export default function App() {
   const handleExportSingle = async () => {
     try {
       setIsExporting(true);
+      setIsExportSuccess(false);
       setExportProgress('Generating high-definition store image...');
       
       // Yield to let browser render the ExportModal UI and start spinner animation
       await new Promise(r => requestAnimationFrame(() => setTimeout(r, 60)));
       
       await downloadSingleScreen(canvasRef.current, activePreset, activeScreen.title);
+      setIsExportSuccess(true);
     } catch (err) {
       console.error('Error exporting screen:', err);
       alert('Error generating image.');
@@ -170,6 +173,7 @@ export default function App() {
   const handleExportZip = async () => {
     try {
       setIsExporting(true);
+      setIsExportSuccess(false);
       const originalIndex = activeScreenIndex;
 
       // Initial yield to allow modal to render smoothly
@@ -192,6 +196,7 @@ export default function App() {
       await downloadZipBundle(screens, activePreset, renderScreenFn);
       
       setActiveScreenIndex(originalIndex);
+      setIsExportSuccess(true);
     } catch (err) {
       console.error('Error exporting ZIP:', err);
       alert('Error generating ZIP file.');
@@ -218,6 +223,8 @@ export default function App() {
         isExporting={isExporting}
         exportProgress={exportProgress}
         activePreset={activePreset}
+        isExportSuccess={isExportSuccess}
+        onCloseSuccess={() => setIsExportSuccess(false)}
       />
 
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
