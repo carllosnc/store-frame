@@ -9,7 +9,7 @@ import {
   AlignCenter,
   AlignRight
 } from 'lucide-react';
-import { STORE_PRESETS } from '../../constants/dimensions';
+import { STORE_PRESETS, GOOGLE_FONTS } from '../../constants/dimensions';
 import { Slider } from '../ui/slider';
 import {
   Select,
@@ -214,6 +214,35 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
               placeholder="e.g., Connect with friends"
               className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
             />
+          </div>
+
+          {/* Font Family */}
+          <div className="space-y-1">
+            <label className="text-xs text-zinc-500">Font Family</label>
+            <Select
+              value={currentScreen.fontFamily || "'Inter', sans-serif"}
+              onValueChange={(val) => onUpdateScreenState('fontFamily', val)}
+            >
+              <SelectTrigger className="w-full h-8 text-xs border-zinc-800 bg-zinc-900 text-zinc-300 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
+                <SelectValue placeholder="Select font..." />
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-200">
+                {GOOGLE_FONTS.map((font) => (
+                  <SelectItem
+                    key={font.name}
+                    value={font.family}
+                    className="text-xs focus:bg-zinc-800 focus:text-white"
+                  >
+                    <span style={{ fontFamily: font.family }} className="font-medium">
+                      {font.name}
+                    </span>
+                    <span className="ml-2 text-[10px] text-zinc-500 font-mono">
+                      ({font.category})
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <SliderRow
