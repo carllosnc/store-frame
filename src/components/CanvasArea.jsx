@@ -419,7 +419,7 @@ export default function CanvasArea({
                     )}
 
                     {/* Screenshot Container (Fills remaining height & 100% width) */}
-                    <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isNoText ? 'items-center' : isBottomText ? 'items-start' : 'items-end'}`}>
+                    <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isNoText ? 'items-center' : 'items-end'}`}>
                       <div
                         className="w-full h-full overflow-hidden transition-all flex items-center justify-center"
                         style={{
@@ -443,7 +443,9 @@ export default function CanvasArea({
                             src={sc.imageSrc}
                             alt="App Screenshot"
                             className={`w-full h-full transition-transform duration-150 ${
-                              scImageFit === 'contain' ? 'object-contain object-top origin-top' : 'object-cover object-top origin-top'
+                              scImageFit === 'contain'
+                                ? (isBottomText ? 'object-contain object-bottom origin-bottom' : 'object-contain object-top origin-top')
+                                : (isBottomText ? 'object-cover object-bottom origin-bottom' : 'object-cover object-top origin-top')
                             }`}
                             style={{ transform: `scale(${scZoomScale})` }}
                           />
@@ -530,7 +532,7 @@ export default function CanvasArea({
                 )}
 
                 {/* SCREENSHOT */}
-                <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isExpNone ? 'items-center' : isExpBottom ? 'items-start' : 'items-end'}`}>
+                <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isExpNone ? 'items-center' : 'items-end'}`}>
                   <div
                     className="w-full h-full overflow-hidden flex items-center justify-center"
                     style={{
@@ -554,7 +556,9 @@ export default function CanvasArea({
                         src={screenState.imageSrc}
                         alt="App Screenshot"
                         className={`w-full h-full transition-transform duration-150 ${
-                          expImageFit === 'contain' ? 'object-contain object-top origin-top' : 'object-cover object-top origin-top'
+                          expImageFit === 'contain'
+                            ? (isExpBottom ? 'object-contain object-bottom origin-bottom' : 'object-contain object-top origin-top')
+                            : (isExpBottom ? 'object-cover object-bottom origin-bottom' : 'object-cover object-top origin-top')
                         }`}
                         style={{ transform: `scale(${imageZoomScale})` }}
                       />
