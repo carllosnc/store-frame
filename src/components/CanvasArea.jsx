@@ -53,10 +53,25 @@ export default function CanvasArea({
       setScale(1.15); // Auto zoom level for focused screen
     }
   }, [activeScreenIndex]);
-  // Keyboard Navigation & Spacebar / Control Panning Listener
+  // Keyboard Navigation, Ctrl Zoom Shortcuts & Spacebar / Control Panning Listener
   useEffect(() => {
     const handleKeyDown = (e) => {
       const isEditingText = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
+
+      // Prevent browser page zoom shortcuts (Ctrl + +, Ctrl + -, Ctrl + 0) and zoom canvas instead
+      if ((e.ctrlKey || e.metaKey) && ['=', '+', '-', '_', '0', 'NumpadAdd', 'NumpadSubtract', 'Numpad0'].includes(e.key)) {
+        if (!isEditingText) {
+          e.preventDefault();
+          if (['=', '+', 'NumpadAdd'].includes(e.key)) {
+            setScale(s => Math.min(2.5, s * 1.15));
+          } else if (['-', '_', 'NumpadSubtract'].includes(e.key)) {
+            setScale(s => Math.max(0.15, s * 0.85));
+          } else if (['0', 'Numpad0'].includes(e.key)) {
+            handleResetView();
+          }
+          return;
+        }
+      }
 
       if ((e.code === 'Space' || e.key === 'Control' || e.code === 'ControlLeft' || e.code === 'ControlRight') && !isEditingText) {
         e.preventDefault();
@@ -95,13 +110,35 @@ export default function CanvasArea({
     };
   }, [screens.length, activeScreenIndex, onSelectScreen, onDeleteScreen]);
 
-  // Mouse Wheel Zoom
-  const handleWheel = (e) => {
-    if (e.target.closest('.custom-scrollbar-content')) return;
-    e.preventDefault();
-    const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-    setScale(prevScale => Math.min(2.5, Math.max(0.15, prevScale * zoomFactor)));
-  };
+  // Non-passive Wheel Listener to Prevent Browser Zoom (Ctrl+Wheel / Trackpad pinch) and Zoom Canvas
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleNativeWheel = (e) => {
+      // Prevent browser page zoom / trackpad pinch zoom
+      e.preventDefault();
+
+      if (e.target.closest('.custom-scrollbar-content')) return;
+
+      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+      setScale(prevScale => Math.min(2.5, Math.max(0.15, prevScale * zoomFactor)));
+    };
+
+    const handleGlobalCtrlWheel = (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+      }
+    };
+
+    container.addEventListener('wheel', handleNativeWheel, { passive: false });
+    window.addEventListener('wheel', handleGlobalCtrlWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', handleNativeWheel);
+      window.removeEventListener('wheel', handleGlobalCtrlWheel);
+    };
+  }, []);
 
   // Pan Start (Via Space/Ctrl + Drag, Middle Click, or Dragging direct background stage)
   const handleMouseDown = (e) => {
@@ -209,7 +246,6 @@ export default function CanvasArea({
   return (
     <div
       ref={containerRef}
-      onWheel={handleWheel}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
