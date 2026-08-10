@@ -64,7 +64,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
   const currentScreen = screenState || {};
   return (
     <aside className="w-72 bg-zinc-950 border-r border-zinc-800 flex flex-col h-full z-20 shrink-0 select-none overflow-hidden">
-      <div className="flex-1 overflow-y-auto px-4 pt-5 pb-16 space-y-9 sidebar-scrollbar-transparent">
+      <div className="flex-1 overflow-y-auto px-4 py-16 space-y-9 sidebar-scrollbar-transparent">
 
         {/* 1. STORE FORMAT */}
         <div className="space-y-3">
