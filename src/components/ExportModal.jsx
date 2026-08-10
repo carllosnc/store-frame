@@ -14,9 +14,9 @@ export default function ExportModal({ isExporting, exportProgress, activePreset 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 select-none animate-fade-in">
       <div className="w-full max-w-xs bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-2xl flex flex-col items-center text-center">
-        {/* Loading Indicator */}
-        <div className="mb-4 flex items-center justify-center">
-          <Loader2 className="w-8 h-8 text-white animate-spin" />
+        {/* Hardware-accelerated Loading Indicator */}
+        <div className="mb-4 flex items-center justify-center transform-gpu will-change-transform [transform:translateZ(0)]">
+          <Loader2 className="w-8 h-8 text-white animate-spin transform-gpu will-change-transform" />
         </div>
 
         {/* Title */}

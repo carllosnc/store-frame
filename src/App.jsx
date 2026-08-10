@@ -152,8 +152,11 @@ export default function App() {
   const handleExportSingle = async () => {
     try {
       setIsExporting(true);
-      
       setExportProgress('Generating high-definition store image...');
+      
+      // Yield to let browser render the ExportModal UI and start spinner animation
+      await new Promise(r => requestAnimationFrame(() => setTimeout(r, 60)));
+      
       await downloadSingleScreen(canvasRef.current, activePreset, activeScreen.title);
     } catch (err) {
       console.error('Error exporting screen:', err);
@@ -169,11 +172,21 @@ export default function App() {
       setIsExporting(true);
       const originalIndex = activeScreenIndex;
 
+      // Initial yield to allow modal to render smoothly
+      await new Promise(r => requestAnimationFrame(() => setTimeout(r, 60)));
+
       const renderScreenFn = async (index) => {
         setExportProgress(`Rendering screen ${index + 1} of ${screens.length}...`);
         setActiveScreenIndex(index);
-        await new Promise(r => setTimeout(r, 400));
-        return await captureCanvasToPng(canvasRef.current, activePreset);
+        
+        // Wait 2 animation frames + delay to allow React state updates and browser paint
+        await new Promise(r => requestAnimationFrame(() => setTimeout(r, 120)));
+        
+        const dataUrl = await captureCanvasToPng(canvasRef.current, activePreset);
+        
+        // Brief yield to keep UI event loop responsive between renders
+        await new Promise(r => setTimeout(r, 60));
+        return dataUrl;
       };
 
       await downloadZipBundle(screens, activePreset, renderScreenFn);

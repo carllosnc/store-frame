@@ -55,6 +55,9 @@ export async function downloadZipBundle(screens, preset, renderScreenFn) {
     }
   }
 
+  // Yield to browser UI before CPU-intensive zip blob generation
+  await new Promise(r => setTimeout(r, 50));
+
   const content = await zip.generateAsync({ type: 'blob' });
   saveAs(content, `store-frame-${preset.id}-bundle.zip`);
 }
