@@ -131,30 +131,6 @@ export default function App() {
     }
   };
 
-  const handleReorderScreens = (fromIndex, toIndex) => {
-    if (
-      fromIndex === toIndex ||
-      fromIndex < 0 ||
-      toIndex < 0 ||
-      fromIndex >= screens.length ||
-      toIndex >= screens.length
-    ) {
-      return;
-    }
-    setScreens(prev => {
-      const updated = [...prev];
-      const [movedItem] = updated.splice(fromIndex, 1);
-      updated.splice(toIndex, 0, movedItem);
-      return updated;
-    });
-    setActiveScreenIndex(prev => {
-      if (prev === fromIndex) return toIndex;
-      if (fromIndex < prev && toIndex >= prev) return prev - 1;
-      if (fromIndex > prev && toIndex <= prev) return prev + 1;
-      return prev;
-    });
-  };
-
   const handleSyncStyles = () => {
     const styleSource = activeScreen;
     setScreens(prev =>
@@ -261,12 +237,13 @@ export default function App() {
           onSelectScreen={setActiveScreenIndex}
           onAddScreen={handleAddScreen}
           onDeleteScreen={handleDeleteScreen}
-          onReorderScreens={handleReorderScreens}
           canvasRef={canvasRef}
           onImageDrop={handleImageDrop}
           onBulkImageUpload={handleBulkImageUpload}
         />
       </div>
+
+      
     </div>
   );
 }
