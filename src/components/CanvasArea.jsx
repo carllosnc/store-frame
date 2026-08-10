@@ -7,12 +7,16 @@ import {
   Move,
   Plus,
   X,
-  Images
+  Images,
+  ChevronLeft,
+  ChevronRight,
+  GripVertical
 } from 'lucide-react';
 
 export default function CanvasArea({
   onAddScreen,
   onDeleteScreen,
+  onReorderScreens,
   preset,
   screenState,
   screens = [],
@@ -24,6 +28,38 @@ export default function CanvasArea({
 }) {
   const bulkInputRef = useRef(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
+  
+  // Canvas Drag & Drop Screen Reordering State
+  const [draggedIdx, setDraggedIdx] = useState(null);
+  const [dropTargetIdx, setDropTargetIdx] = useState(null);
+
+  const handleScreenDragStart = (e, idx) => {
+    setDraggedIdx(idx);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', idx.toString());
+  };
+
+  const handleScreenDragOver = (e, idx) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (dropTargetIdx !== idx) {
+      setDropTargetIdx(idx);
+    }
+  };
+
+  const handleScreenDrop = (e, targetIdx) => {
+    e.preventDefault();
+    if (draggedIdx !== null && draggedIdx !== targetIdx && onReorderScreens) {
+      onReorderScreens(draggedIdx, targetIdx);
+    }
+    setDraggedIdx(null);
+    setDropTargetIdx(null);
+  };
+
+  const handleScreenDragEnd = () => {
+    setDraggedIdx(null);
+    setDropTargetIdx(null);
+  };
   
   // Infinite Canvas Pan & Zoom State
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -331,6 +367,8 @@ export default function CanvasArea({
           <div ref={gridRef} className="flex flex-nowrap items-center justify-start gap-x-10 overflow-x-auto no-scrollbar p-4">
             {screens.map((sc, idx) => {
               const isCurrentActive = activeScreenIndex === idx;
+              const isDragging = draggedIdx === idx;
+              const isDropTarget = dropTargetIdx === idx && draggedIdx !== idx;
               const scCornerRadius = sc.cornerRadius !== undefined ? sc.cornerRadius : 36;
               const previewCornerRadius = Math.round((scCornerRadius / 4.2) * 1.5);
               const scZoomScale = (sc.imageZoom !== undefined ? sc.imageZoom : 100) / 100;
@@ -343,24 +381,66 @@ export default function CanvasArea({
                 <div
                   key={sc.id || idx}
                   ref={(el) => (screenRefs.current[idx] = el)}
+                  draggable={!isPanning && !isSpacePressed}
+                  onDragStart={(e) => handleScreenDragStart(e, idx)}
+                  onDragOver={(e) => handleScreenDragOver(e, idx)}
+                  onDrop={(e) => handleScreenDrop(e, idx)}
+                  onDragEnd={handleScreenDragEnd}
                   onClick={() => { onSelectScreen(idx); }}
-                  className={`group relative flex flex-col items-center gap-6 cursor-pointer transition-all duration-200 transform hover:scale-[1.02]`}
+                  className={`group relative flex flex-col items-center gap-6 cursor-pointer transition-all duration-200 ${
+                    isDragging ? 'opacity-30 scale-95' : 'hover:scale-[1.02]'
+                  } ${
+                    isDropTarget ? 'scale-105 ring-4 ring-sky-400/50 rounded-3xl p-3 bg-sky-500/10' : ''
+                  }`}
                 >
-                  {/* Title Badge + Delete Button Row */}
-                  <div className="flex items-center gap-2">
-                    <div className={`bg-zinc-900/95 backdrop-blur-md border px-3.5 py-1 rounded-full text-xs font-bold text-zinc-200 shadow-md flex items-center gap-2 transition ${
+                  {/* Title Badge + Reorder + Delete Button Row */}
+                  <div className="flex items-center gap-1.5 z-10">
+                    {idx > 0 && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onReorderScreens && onReorderScreens(idx, idx - 1);
+                        }}
+                        className="flex items-center justify-center w-6 h-6 rounded-full bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-zinc-400 hover:text-white transition-all shadow-md"
+                        title="Move screen left"
+                      >
+                        <ChevronLeft className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+
+                    <div className={`bg-zinc-900/95 backdrop-blur-md border px-3.5 py-1 rounded-full text-xs font-bold text-zinc-200 shadow-md flex items-center gap-2 transition cursor-grab active:cursor-grabbing ${
                       isCurrentActive ? 'border-white text-white ring-2 ring-white/20' : 'border-zinc-800 group-hover:border-zinc-500'
                     }`}>
+                      <GripVertical className="w-3.5 h-3.5 text-zinc-400" />
                       <span className="font-mono text-zinc-400">#{idx + 1}</span>
                       <span>{sc.title || `Screen ${idx + 1}`}</span>
                     </div>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onDeleteScreen(idx); }}
-                      className="z-10 flex items-center justify-center w-5 h-5 rounded-full bg-zinc-800 hover:bg-red-600 text-zinc-400 hover:text-white transition-all"
-                      title="Delete screen"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
+
+                    {idx < screens.length - 1 && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onReorderScreens && onReorderScreens(idx, idx + 1);
+                        }}
+                        className="flex items-center justify-center w-6 h-6 rounded-full bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-zinc-400 hover:text-white transition-all shadow-md"
+                        title="Move screen right"
+                      >
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+
+                    {screens.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); onDeleteScreen(idx); }}
+                        className="flex items-center justify-center w-6 h-6 rounded-full bg-zinc-900 border border-zinc-800 hover:bg-red-600 hover:border-red-600 text-zinc-400 hover:text-white transition-all shadow-md ml-0.5"
+                        title="Delete screen"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    )}
                   </div>
 
                   {/* Rendered Mockup Card */}
@@ -368,18 +448,18 @@ export default function CanvasArea({
                     {/* Active Selection Animated Dashed Ring Overlay */}
                     {isCurrentActive && (
                       <div className="absolute -inset-[11px] pointer-events-none z-30">
-                        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="w-full h-full" style={{ overflow: 'visible' }}>
                           <rect
-                            x="1.5"
-                            y="1.5"
-                            width="calc(100% - 3px)"
-                            height="calc(100% - 3px)"
-                            rx="0"
-                            ry="0"
+                            x="0"
+                            y="0"
+                            width="100%"
+                            height="100%"
+                            rx={previewCornerRadius + 11}
+                            ry={previewCornerRadius + 11}
                             fill="none"
                             stroke="#FFFFFF"
                             strokeWidth="2"
-                            strokeDasharray="6 6"
+                            strokeDasharray="8 6"
                             className="animate-marching-ants"
                           />
                         </svg>
@@ -387,19 +467,20 @@ export default function CanvasArea({
                     )}
 
                     <div
-                      className={`relative overflow-hidden flex flex-col transition-all ${
-                        isNoText ? 'p-4' : isBottomText ? 'pt-0 px-3.5 pb-4' : 'pt-4 px-3.5 pb-0'
-                      } ${
-                        isCurrentActive ? 'scale-[1.01]' : 'opacity-90 group-hover:opacity-100'
-                      }`}
+                      className="relative overflow-hidden flex flex-col shadow-2xl transition-all duration-200"
                       style={{
                         width: `${preset.width / 4.2}px`,
                         height: `${preset.height / 4.2}px`,
+                        borderRadius: `${previewCornerRadius}px`,
+                        paddingTop: isNoText ? '16px' : isBottomText ? '0px' : '16px',
+                        paddingLeft: '16px',
+                        paddingRight: '16px',
+                        paddingBottom: isNoText ? '16px' : isBottomText ? '16px' : '0px',
                         ...getBackgroundPatternStyle(sc),
                         fontFamily: sc.fontFamily || "'Inter', sans-serif"
                       }}
                     >
-                    {/* Headline - TOP (Pushes screenshot down naturally) */}
+                    {/* Headline - TOP */}
                     {!isNoText && !isBottomText && (
                       <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mb-3`}>
                         {sc.headline && (
@@ -418,37 +499,30 @@ export default function CanvasArea({
                       </div>
                     )}
 
-                    {/* Screenshot Container (Fills remaining height & 100% width) */}
-                    <div className={`w-full flex-1 min-h-0 flex justify-center relative z-10 overflow-hidden ${isNoText ? 'items-center' : 'items-end'}`}>
+                    {/* Screenshot Device Mockup Center Container */}
+                    <div className={`flex-1 w-full min-h-0 relative flex items-center justify-center overflow-hidden ${
+                      isBottomText ? 'mb-2' : isNoText ? 'my-auto' : 'mt-auto'
+                    }`}>
                       <div
-                        className="w-full h-full overflow-hidden transition-all flex items-center justify-center"
+                        className="w-full h-full relative overflow-hidden transition-all duration-300 shadow-xl flex flex-col"
                         style={{
-                          ...(isNoText ? {
-                            borderRadius: `${previewCornerRadius}px`,
-                          } : isBottomText ? {
-                            borderTopLeftRadius: '0px',
-                            borderTopRightRadius: '0px',
-                            borderBottomLeftRadius: `${previewCornerRadius}px`,
-                            borderBottomRightRadius: `${previewCornerRadius}px`,
-                          } : {
-                            borderTopLeftRadius: `${previewCornerRadius}px`,
-                            borderTopRightRadius: `${previewCornerRadius}px`,
-                            borderBottomLeftRadius: '0px',
-                            borderBottomRightRadius: '0px',
-                          })
+                          borderRadius: `${previewCornerRadius}px`,
+                          backgroundColor: '#000000'
                         }}
                       >
-                        {sc.imageSrc && typeof sc.imageSrc === 'string' && sc.imageSrc.trim() !== '' ? (
-                          <img
-                            src={sc.imageSrc}
-                            alt="App Screenshot"
-                            className={`w-full h-full transition-transform duration-150 ${
-                              scImageFit === 'contain'
-                                ? (isBottomText ? 'object-contain object-bottom origin-bottom' : 'object-contain object-top origin-top')
-                                : (isBottomText ? 'object-cover object-bottom origin-bottom' : 'object-cover object-top origin-top')
-                            }`}
-                            style={{ transform: `scale(${scZoomScale})` }}
-                          />
+                        {sc.imageSrc ? (
+                          <div className="w-full h-full relative overflow-hidden flex items-center justify-center">
+                            <img
+                              src={sc.imageSrc}
+                              alt={sc.title || 'Screen screenshot'}
+                              className="w-full h-full transition-transform duration-200 pointer-events-none"
+                              style={{
+                                objectFit: scImageFit,
+                                transform: `scale(${scZoomScale})`,
+                                transformOrigin: 'center center'
+                              }}
+                            />
+                          </div>
                         ) : (
                           <div className="w-full h-full bg-gradient-to-b from-zinc-800 to-zinc-900 text-white flex flex-col items-center justify-center text-center p-3 select-none border border-white/10">
                             <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center mb-1.5 text-zinc-300">
@@ -483,7 +557,24 @@ export default function CanvasArea({
                 </div>
               );
             })}
+
+            {/* Add Screen Button Card on Canvas Grid */}
+            <button
+              type="button"
+              onClick={onAddScreen}
+              className="flex flex-col items-center justify-center border-2 border-dashed border-zinc-800 hover:border-zinc-500 rounded-3xl bg-zinc-900/40 hover:bg-zinc-900/80 text-zinc-400 hover:text-white transition-all p-8 gap-3 cursor-pointer shrink-0 self-center"
+              style={{
+                width: `${preset.width / 4.2}px`,
+                height: `${preset.height / 4.2}px`
+              }}
+            >
+              <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center border border-zinc-700">
+                <Plus className="w-6 h-6 text-zinc-200" />
+              </div>
+              <span className="text-sm font-bold text-zinc-300">New Screen</span>
+            </button>
           </div>
+        </div>
 
         {/* HIDDEN EXPORT NODE: HIGH RESOLUTION CANVAS FOR EXPORTING ONLY */}
         {(() => {
@@ -599,6 +690,5 @@ export default function CanvasArea({
         })()}
       </div>
     </div>
-  </div>
   );
 }
