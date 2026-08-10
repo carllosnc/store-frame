@@ -263,7 +263,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
                 { id: '700', label: 'Bold' },
                 { id: '900', label: 'Black' }
               ].map((weight) => {
-                const isSelected = (currentScreen.headlineWeight || '900') === weight.id;
+                const isSelected = (currentScreen.headlineWeight || '700') === weight.id;
                 return (
                   <button
                     key={weight.id}

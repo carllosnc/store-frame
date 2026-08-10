@@ -18,7 +18,7 @@ export default function App() {
     headline: headlineText,
     headlineSize: 48,
     headlineColor: '#000000',
-    headlineWeight: '900',
+    headlineWeight: '700',
     subtitle: '',
     subtitleColor: '#18181B',
     bgColor: bgHex,

@@ -404,11 +404,12 @@ export default function CanvasArea({
                       <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mb-3`}>
                         {sc.headline && (
                           <h1
-                            className="font-black tracking-tight leading-tight transition-all whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
+                            className="tracking-tight leading-tight transition-all whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
                             style={{
+                              fontFamily: sc.fontFamily || "'Inter', sans-serif",
                               color: sc.headlineColor || '#000000',
                               fontSize: `${Math.max(18, (sc.headlineSize || 48) * 0.52)}px`,
-                              fontWeight: sc.headlineWeight || '900'
+                              fontWeight: sc.headlineWeight || '700'
                             }}
                           >
                             {sc.headline}
@@ -462,11 +463,12 @@ export default function CanvasArea({
                       <div className={`z-10 shrink-0 flex flex-col ${getAlignmentClass(sc.textAlign)} gap-1 w-full mt-3 mb-0`}>
                         {sc.headline && (
                           <h1
-                            className="font-black tracking-tight leading-tight transition-all whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
+                            className="tracking-tight leading-tight transition-all whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
                             style={{
+                              fontFamily: sc.fontFamily || "'Inter', sans-serif",
                               color: sc.headlineColor || '#000000',
                               fontSize: `${Math.max(18, (sc.headlineSize || 48) * 0.52)}px`,
-                              fontWeight: sc.headlineWeight || '900'
+                              fontWeight: sc.headlineWeight || '700'
                             }}
                           >
                             {sc.headline}
@@ -513,11 +515,12 @@ export default function CanvasArea({
                   >
                     {screenState?.headline && (
                       <h1
-                        className="font-black tracking-tight leading-tight whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
+                        className="tracking-tight leading-tight whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
                         style={{
+                          fontFamily: screenState?.fontFamily || "'Inter', sans-serif",
                           color: screenState?.headlineColor || '#000000',
                           fontSize: `${Math.max(28, (screenState?.headlineSize || 48) * 0.78)}px`,
-                          fontWeight: screenState?.headlineWeight || '900'
+                          fontWeight: screenState?.headlineWeight || '700'
                         }}
                       >
                         {screenState.headline}
@@ -573,11 +576,12 @@ export default function CanvasArea({
                   >
                     {screenState?.headline && (
                       <h1
-                        className="font-black tracking-tight leading-tight whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
+                        className="tracking-tight leading-tight whitespace-pre-wrap break-words [word-break:break-word] [overflow-wrap:anywhere]"
                         style={{
+                          fontFamily: screenState?.fontFamily || "'Inter', sans-serif",
                           color: screenState?.headlineColor || '#000000',
                           fontSize: `${Math.max(28, (screenState?.headlineSize || 48) * 0.78)}px`,
-                          fontWeight: screenState?.headlineWeight || '900'
+                          fontWeight: screenState?.headlineWeight || '700'
                         }}
                       >
                         {screenState.headline}
