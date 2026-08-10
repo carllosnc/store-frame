@@ -32,8 +32,8 @@ function SliderRow({ label, value, unit, min, max, step, onValueChange }) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
-        <span className="text-xs text-zinc-400">{label}</span>
-        <span className="font-mono text-[11px] text-zinc-500 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">
+        <span className="text-[13px] font-medium text-zinc-300">{label}</span>
+        <span className="font-mono text-xs text-zinc-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">
           {value}{unit}
         </span>
       </div>
@@ -55,7 +55,7 @@ function ColorPicker({ value, onChange }) {
         className="w-4 h-4 rounded border border-white/20 shrink-0"
         style={{ backgroundColor: value }}
       />
-      <span className="text-[10px] font-mono text-zinc-500 uppercase">{value}</span>
+      <span className="text-[11px] font-mono text-zinc-400 uppercase">{value}</span>
     </div>
   );
 }
@@ -76,12 +76,12 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
               if (found) onSelectPreset(found);
             }}
           >
-            <SelectTrigger className="w-full h-8 text-xs border-zinc-800 bg-zinc-900 text-zinc-300 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
+            <SelectTrigger className="w-full h-8 text-[13px] border-zinc-800 bg-zinc-900 text-zinc-200 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
               <SelectValue placeholder="Select..." />
             </SelectTrigger>
             <SelectContent>
               {STORE_PRESETS.map((p) => (
-                <SelectItem key={p.id} value={p.id} className="text-xs">
+                <SelectItem key={p.id} value={p.id} className="text-[13px]">
                   {p.store} — {p.name}
                 </SelectItem>
               ))}
@@ -110,7 +110,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
             />
             <div className="h-8 rounded-lg border border-dashed border-zinc-700 bg-zinc-900 group-hover:border-zinc-500 transition flex items-center justify-center gap-2">
               <Upload className="w-3.5 h-3.5 text-zinc-500 group-hover:text-white transition" />
-              <span className="text-[11px] text-zinc-400 group-hover:text-white transition">
+              <span className="text-xs text-zinc-300 group-hover:text-white transition">
                 {currentScreen.imageSrc ? 'Change Image' : 'Upload Screenshot'}
               </span>
             </div>
@@ -118,7 +118,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
 
           {/* Image Fit Mode */}
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Image Fit</label>
+            <label className="text-[13px] font-medium text-zinc-400">Image Fit</label>
             <div className="grid grid-cols-2 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
               {[
                 { id: 'contain', label: 'Contain' },
@@ -129,7 +129,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
                   <button
                     key={fit.id}
                     onClick={() => onUpdateScreenState('imageFit', fit.id)}
-                    className={`py-1 text-[11px] font-medium rounded transition ${
+                    className={`py-1 text-xs font-medium rounded transition ${
                       isSelected
                         ? 'bg-zinc-200 text-zinc-950 font-semibold shadow-sm'
                         : 'text-zinc-400 hover:text-zinc-200'
@@ -168,19 +168,19 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           <SectionHeader icon={Type} label="Title Text" />
 
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Screen Name</label>
+            <label className="text-[13px] font-medium text-zinc-400">Screen Name</label>
             <input
               type="text"
               value={currentScreen.title || ''}
               onChange={(e) => onUpdateScreenState('title', e.target.value)}
               placeholder="e.g., Screen 1 — Home"
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-[13px] text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition"
             />
           </div>
 
           {/* Text Position */}
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Text Position</label>
+            <label className="text-[13px] font-medium text-zinc-400">Text Position</label>
             <div className="grid grid-cols-3 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
               {[
                 { id: 'top', label: 'Top' },
@@ -192,7 +192,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
                   <button
                     key={pos.id}
                     onClick={() => onUpdateScreenState('textPosition', pos.id)}
-                    className={`py-1 text-[11px] font-medium rounded transition ${
+                    className={`py-1 text-xs font-medium rounded transition ${
                       isSelected
                         ? 'bg-zinc-200 text-zinc-950 font-semibold shadow-sm'
                         : 'text-zinc-400 hover:text-zinc-200'
@@ -206,24 +206,24 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Main Title Text</label>
+            <label className="text-[13px] font-medium text-zinc-400">Main Title Text</label>
             <textarea
               rows={2}
               value={currentScreen.headline || ''}
               onChange={(e) => onUpdateScreenState('headline', e.target.value)}
               placeholder="e.g., Connect with friends"
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-[13px] text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-zinc-600 focus:ring-1 focus:ring-white/10 transition resize-none"
             />
           </div>
 
           {/* Font Family */}
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Font Family</label>
+            <label className="text-[13px] font-medium text-zinc-400">Font Family</label>
             <Select
               value={currentScreen.fontFamily || "'Inter', sans-serif"}
               onValueChange={(val) => onUpdateScreenState('fontFamily', val)}
             >
-              <SelectTrigger className="w-full h-8 text-xs border-zinc-800 bg-zinc-900 text-zinc-300 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
+              <SelectTrigger className="w-full h-8 text-[13px] border-zinc-800 bg-zinc-900 text-zinc-200 focus:border-zinc-600 focus:ring-1 focus:ring-white/10">
                 <SelectValue placeholder="Select font..." />
               </SelectTrigger>
               <SelectContent className="bg-zinc-900 border-zinc-800 text-zinc-200">
@@ -231,12 +231,12 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
                   <SelectItem
                     key={font.name}
                     value={font.family}
-                    className="text-xs focus:bg-zinc-800 focus:text-white"
+                    className="text-[13px] focus:bg-zinc-800 focus:text-white"
                   >
                     <span style={{ fontFamily: font.family }} className="font-medium">
                       {font.name}
                     </span>
-                    <span className="ml-2 text-[10px] text-zinc-500 font-mono">
+                    <span className="ml-2 text-[11px] text-zinc-500 font-mono">
                       ({font.category})
                     </span>
                   </SelectItem>
@@ -255,7 +255,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
 
           {/* Font Weight */}
           <div className="space-y-1">
-            <label className="text-xs text-zinc-500">Font Weight</label>
+            <label className="text-[13px] font-medium text-zinc-400">Font Weight</label>
             <div className="grid grid-cols-4 gap-1 p-1 bg-zinc-900 rounded-lg border border-zinc-800">
               {[
                 { id: '400', label: 'Normal' },
@@ -268,7 +268,7 @@ export default function Sidebar({ activePreset, onSelectPreset, screenState, onU
                   <button
                     key={weight.id}
                     onClick={() => onUpdateScreenState('headlineWeight', weight.id)}
-                    className={`py-1 text-[10px] font-medium rounded transition ${
+                    className={`py-1 text-[11px] font-medium rounded transition ${
                       isSelected
                         ? 'bg-zinc-200 text-zinc-950 font-semibold shadow-sm'
                         : 'text-zinc-400 hover:text-zinc-200'
