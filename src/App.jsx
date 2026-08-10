@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import CanvasArea from './components/CanvasArea';
+import ExportModal from './components/ExportModal';
 
 import { STORE_PRESETS } from './constants/dimensions';
 import { downloadSingleScreen, downloadZipBundle, captureCanvasToPng } from './utils/exporter';
@@ -200,15 +201,11 @@ export default function App() {
         onSyncStyles={handleSyncStyles}
       />
 
-      {isExporting && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center">
-          <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-3 max-w-xs text-center">
-            <div className="w-10 h-10 rounded-full border-4 border-white border-t-transparent animate-spin"></div>
-            <div className="text-sm font-bold text-white">Exporting Store Assets</div>
-            <p className="text-xs text-zinc-400">{exportProgress || 'Processing render...'}</p>
-          </div>
-        </div>
-      )}
+      <ExportModal
+        isExporting={isExporting}
+        exportProgress={exportProgress}
+        activePreset={activePreset}
+      />
 
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
         <Sidebar
