@@ -36,20 +36,33 @@ export default function CanvasArea({
   const gridRef = useRef(null);
   const screenRefs = useRef([]);
 
-  // Auto-center canvas on the active screen
+  // Auto-position canvas: screen 0 starts at the beginning (left margin), subsequent screens auto-center
   const centerScreen = (index = activeScreenIndex, newScale = 0.8) => {
     const activeNode = screenRefs.current[index];
-    if (activeNode && gridRef.current) {
-      const childCenterX = activeNode.offsetLeft + (activeNode.offsetWidth / 2);
-      const childCenterY = activeNode.offsetTop + (activeNode.offsetHeight / 2);
+    if (activeNode && gridRef.current && containerRef.current) {
+      if (index === 0) {
+        const containerWidth = containerRef.current.offsetWidth;
+        const gridWidth = gridRef.current.offsetWidth;
+        const targetLeftMargin = 60;
+        const screen0OffsetLeft = activeNode.offsetLeft || 16;
+        const panX = targetLeftMargin - ((containerWidth - gridWidth) / 2) - screen0OffsetLeft;
 
-      const gridCenterX = gridRef.current.offsetWidth / 2;
-      const gridCenterY = gridRef.current.offsetHeight / 2;
+        setPan({
+          x: panX,
+          y: 0
+        });
+      } else {
+        const childCenterX = activeNode.offsetLeft + (activeNode.offsetWidth / 2);
+        const childCenterY = activeNode.offsetTop + (activeNode.offsetHeight / 2);
 
-      setPan({
-        x: gridCenterX - childCenterX,
-        y: gridCenterY - childCenterY
-      });
+        const gridCenterX = gridRef.current.offsetWidth / 2;
+        const gridCenterY = gridRef.current.offsetHeight / 2;
+
+        setPan({
+          x: gridCenterX - childCenterX,
+          y: gridCenterY - childCenterY
+        });
+      }
       if (newScale !== undefined && newScale !== null) {
         setScale(newScale);
       }
