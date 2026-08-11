@@ -36,9 +36,9 @@ export default function CanvasArea({
   const gridRef = useRef(null);
   const screenRefs = useRef([]);
 
-  // Auto-center canvas on the active screen when selection changes
-  useEffect(() => {
-    const activeNode = screenRefs.current[activeScreenIndex];
+  // Auto-center canvas on the active screen
+  const centerScreen = (index = activeScreenIndex, newScale = 0.8) => {
+    const activeNode = screenRefs.current[index];
     if (activeNode && gridRef.current) {
       const childCenterX = activeNode.offsetLeft + (activeNode.offsetWidth / 2);
       const childCenterY = activeNode.offsetTop + (activeNode.offsetHeight / 2);
@@ -50,9 +50,18 @@ export default function CanvasArea({
         x: gridCenterX - childCenterX,
         y: gridCenterY - childCenterY
       });
-      setScale(1.15); // Auto zoom level for focused screen
+      if (newScale !== undefined && newScale !== null) {
+        setScale(newScale);
+      }
     }
-  }, [activeScreenIndex]);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      centerScreen(activeScreenIndex, 0.8);
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [activeScreenIndex, preset]);
   // Keyboard Navigation, Ctrl Zoom Shortcuts & Spacebar / Control Panning Listener
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -166,8 +175,7 @@ export default function CanvasArea({
 
   // Reset Canvas View
   const handleResetView = () => {
-    setPan({ x: 0, y: 0 });
-    setScale(0.8);
+    centerScreen(activeScreenIndex, 0.8);
   };
 
   const handleDragOver = (e) => {
