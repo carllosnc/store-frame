@@ -315,44 +315,45 @@ export default function CanvasArea({
         <span>{preset.width} × {preset.height} px</span>
       </div>
 
-      <div style={{display:'none'}}>
-      
+      {/* Top Left Floating Zoom Controls & Reset Button Bar */}
+      <div className="absolute top-4 left-6 z-20 flex items-center gap-1.5 bg-zinc-900/90 backdrop-blur-md border border-zinc-800 rounded-full px-3 py-1.5 shadow-md select-none">
+        {/* Zoom Out */}
         <button
+          type="button"
           onClick={() => setScale(s => Math.max(0.15, s * 0.85))}
-          className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
+          className="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
           title="Zoom Out (-)"
         >
-          <ZoomOut className="w-4 h-4" />
+          <ZoomOut className="w-3.5 h-3.5" />
         </button>
 
-        <span className="font-mono text-xs font-semibold px-2 py-0.5 text-zinc-300 min-w-[48px] text-center">
+        {/* Current Zoom Percentage */}
+        <span className="font-mono text-xs font-semibold text-zinc-300 min-w-[42px] text-center">
           {Math.round(scale * 100)}%
         </span>
 
+        {/* Zoom In */}
         <button
+          type="button"
           onClick={() => setScale(s => Math.min(2.5, s * 1.15))}
-          className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
+          className="p-1 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
           title="Zoom In (+)"
         >
-          <ZoomIn className="w-4 h-4" />
+          <ZoomIn className="w-3.5 h-3.5" />
         </button>
 
-        <div className="w-[1px] h-4 bg-zinc-800 mx-0.5" />
+        <div className="w-[1px] h-3.5 bg-zinc-800 mx-0.5" />
 
+        {/* Reset Zoom Button */}
         <button
+          type="button"
           onClick={handleResetView}
-          className="p-1 rounded-xl hover:bg-zinc-800 hover:text-white transition"
-          title="Reset View"
+          className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
+          title="Reset Zoom & Pan (Ctrl + 0)"
         >
-          <RotateCcw className="w-4 h-4 text-zinc-400" />
+          <RotateCcw className="w-3.5 h-3.5" />
+          <span>Reset</span>
         </button>
-
-        <div className="w-[1px] h-4 bg-zinc-800 mx-0.5" />
-
-        <div className="flex items-center gap-1 px-2 py-0.5 text-[11px] text-zinc-400 font-medium">
-          <Move className="w-3 h-3 text-zinc-500" />
-          <span>Space / Ctrl + Drag</span>
-        </div>
       </div>
 
       {/* INFINITE CANVAS TRANSFORM CONTAINER */}
