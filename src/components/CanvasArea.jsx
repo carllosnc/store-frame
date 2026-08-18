@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Upload, 
-  ZoomIn, 
-  ZoomOut, 
+import {
+  Upload,
+  ZoomIn,
+  ZoomOut,
   RotateCcw,
-  Move,
   Plus,
   X,
   Images
@@ -37,32 +36,35 @@ export default function CanvasArea({
   const screenRefs = useRef([]);
 
   // Auto-position canvas: screen 0 starts at the beginning (left margin), subsequent screens auto-center
+  // Transform: translate(panX, panY) scale(s) with origin-center on a flex-centered container.
+  // Viewport pos of a local point lx = containerW/2 + s*(lx - gridW/2) + panX
   const centerScreen = (index = activeScreenIndex, newScale = 0.8) => {
     const activeNode = screenRefs.current[index];
     if (activeNode && gridRef.current && containerRef.current) {
+      const s = (newScale !== undefined && newScale !== null) ? newScale : scale;
+      const containerWidth = containerRef.current.offsetWidth;
+      const gridWidth = gridRef.current.offsetWidth;
+      const gridHeight = gridRef.current.offsetHeight;
+
+      // Screen position relative to grid (both share the same offsetParent)
+      const screenLeftRel = activeNode.offsetLeft - gridRef.current.offsetLeft;
+      const screenTopRel = activeNode.offsetTop - gridRef.current.offsetTop;
+      const screenCenterX = screenLeftRel + activeNode.offsetWidth / 2;
+      const screenCenterY = screenTopRel + activeNode.offsetHeight / 2;
+
+      let panX, panY;
       if (index === 0) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const gridWidth = gridRef.current.offsetWidth;
+        // Position screen 0 at left margin, vertically centered
         const targetLeftMargin = 60;
-        const screen0OffsetLeft = activeNode.offsetLeft || 16;
-        const panX = targetLeftMargin - ((containerWidth - gridWidth) / 2) - screen0OffsetLeft;
-
-        setPan({
-          x: panX,
-          y: 0
-        });
+        panX = targetLeftMargin - containerWidth / 2 - s * (screenLeftRel - gridWidth / 2);
+        panY = -s * (screenCenterY - gridHeight / 2);
       } else {
-        const childCenterX = activeNode.offsetLeft + (activeNode.offsetWidth / 2);
-        const childCenterY = activeNode.offsetTop + (activeNode.offsetHeight / 2);
-
-        const gridCenterX = gridRef.current.offsetWidth / 2;
-        const gridCenterY = gridRef.current.offsetHeight / 2;
-
-        setPan({
-          x: gridCenterX - childCenterX,
-          y: gridCenterY - childCenterY
-        });
+        // Center screen i in the viewport
+        panX = -s * (screenCenterX - gridWidth / 2);
+        panY = -s * (screenCenterY - gridHeight / 2);
       }
+
+      setPan({ x: panX, y: panY });
       if (newScale !== undefined && newScale !== null) {
         setScale(newScale);
       }
@@ -70,10 +72,11 @@ export default function CanvasArea({
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // Double rAF ensures layout (fonts, dimensions) is fully settled before measuring
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => {
       centerScreen(activeScreenIndex, 0.8);
-    }, 50);
-    return () => clearTimeout(timer);
+    }));
+    return () => cancelAnimationFrame(id);
   }, [activeScreenIndex, preset]);
   // Keyboard Navigation, Ctrl Zoom Shortcuts & Spacebar / Control Panning Listener
   useEffect(() => {
@@ -386,7 +389,7 @@ export default function CanvasArea({
       >
         <div className={`flex items-center justify-center ${isPanning || isSpacePressed ? 'pointer-events-none' : 'pointer-events-auto'}`}>
           {/* VIEW MODE: OVERVIEW GRID (TODAS AS TELAS NO CANVAS INFINITO) */}
-          <div ref={gridRef} className="flex flex-nowrap items-center justify-start gap-x-10 overflow-x-auto no-scrollbar p-4">
+          <div ref={gridRef} className="flex flex-nowrap items-center justify-start gap-x-10 p-4">
             {screens.map((sc, idx) => {
               const isCurrentActive = activeScreenIndex === idx;
               const scCornerRadius = sc.cornerRadius !== undefined ? sc.cornerRadius : 36;
